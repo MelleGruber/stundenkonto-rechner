@@ -58,7 +58,11 @@
         .controls select, .controls button, .controls input[type="text"], .controls input[type="number"] { padding: 7px 10px; border: 1px solid var(--border-color); border-radius: 5px; font-size: 0.9rem; box-sizing: border-box; background-color: #fff; transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; }
         .controls select:hover, .controls input:hover { border-color: #a0a0a0; }
         .controls select { flex-grow: 1; min-width: 100px;}
-        .controls input#azk_vormonat { min-width: 80px; text-align: center; flex-basis: 80px; flex-grow: 0; }
+        /* Input styling adjusted */
+        .controls input#azk_vormonat {
+             min-width: 80px; text-align: center; flex-basis: 85px; /* Slightly wider for Std:Min */
+             flex-grow: 0;
+         }
         .controls .azk-group { display: flex; align-items: center; gap: 3px; margin-left: 0; }
         .controls .button-group { display: flex; flex-grow: 1; justify-content: flex-start; gap: 8px; width: 100%;}
         .controls .button-group button { flex-grow: 0; width: auto; padding: 7px 12px;}
@@ -182,7 +186,7 @@
              .controls .control-row:first-of-type { flex-grow: 1; flex-wrap: nowrap; justify-content: flex-start; }
              .azk-group { margin-left: auto; gap: 5px;}
              .controls .button-group { justify-content: flex-end; margin-top: 0; width: auto;}
-             .controls input#azk_vormonat { flex-basis: 90px; }
+             .controls input#azk_vormonat { flex-basis: 90px; } /* Adjusted width */
              .controls select, .controls button, .controls input[type="text"], .controls input[type="number"] { font-size: 1rem; padding: 9px 14px;}
              .controls label { font-size: 1rem; }
              .percent-control { gap: 15px; padding: 10px 15px; margin-bottom: 25px; }
@@ -225,7 +229,7 @@
                h2 { font-size: 1.05rem; }
                .controls .control-row { flex-direction: column; align-items: stretch; }
                .controls .azk-group { margin-left: 0; margin-top: 8px; justify-content: center; }
-               .controls input#azk_vormonat { flex-basis: 75px; }
+               .controls input#azk_vormonat { flex-basis: 80px; } /* Adjusted width */
                .controls .button-group { margin-top: 10px; justify-content: center; }
                .percent-control { flex-direction: column; align-items: stretch; gap: 8px; }
                .percent-control input[type="number"] { width: 65px; align-self: center; }
@@ -252,8 +256,8 @@
                 <label for="year">Jahr:</label> <select id="year"></select>
                 <div class="azk-group">
                     <label for="azk_vormonat">AZK Vormonat:</label>
-                    <!-- Placeholder adjusted -->
-                    <input type="text" id="azk_vormonat" placeholder="HH:MM (optional)" inputmode="decimal" pattern="^-?\d{1,}:[0-5]\d$">
+                    <!-- Input type="text" mit inputmode="numeric" und JS-Formatierung -->
+                    <input type="text" id="azk_vormonat" placeholder="Std:Min" inputmode="numeric" pattern="^-?\d{1,}:[0-5]\d$" maxlength="6">
                     <span id="azk_error" class="error-message"></span>
                 </div>
             </div>
@@ -379,7 +383,23 @@
         // --- Helper-Funktionen ---
         function formatDate(date) { const d = new Date(date); const month = ('0' + (d.getMonth() + 1)).slice(-2); const day = ('0' + d.getDate()).slice(-2); const year = d.getFullYear(); return `${year}-${month}-${day}`; }
         function minutesToHHMM(totalMinutes) { if (isNaN(totalMinutes) || totalMinutes === null) { return "--:--"; } const sign = totalMinutes < 0 ? "-" : ""; const absMinutes = Math.abs(totalMinutes); let hours = Math.floor(absMinutes / 60); let minutes = Math.round(absMinutes % 60); if (minutes === 60) { hours += 1; minutes = 0; } const formattedMinutes = String(minutes).padStart(2, '0'); return sign + hours + ":" + formattedMinutes; }
-        function validateAzkFormat(timeString) { if (timeString === null || timeString === undefined) return false; timeString = String(timeString).trim(); if (timeString === "") return true; const regex = /^(-?)(\d{1,})(?::)([0-5]\d)$/; const match = timeString.match(regex); if (!match) { return false; } const hoursPart = match[2]; if (isNaN(parseInt(hoursPart, 10))) { return false; } return true; }
+
+        // --- Validation Function (remains the same, validates final HH:MM format) ---
+        function validateAzkFormat(timeString) {
+            if (timeString === null || timeString === undefined) return false;
+            timeString = String(timeString).trim();
+            if (timeString === "") return true; // Empty is allowed
+            const regex = /^(-?)(\d{1,})(?::)([0-5]\d)$/; // Strict check: hours:minutes(00-59)
+            const match = timeString.match(regex);
+            if (!match) {
+                return false;
+            }
+            // Optional: Check if hours make sense (not strictly necessary for balance)
+            // const hoursPart = match[2];
+            // if (isNaN(parseInt(hoursPart, 10))) { return false; }
+            return true;
+        }
+
         function parseHHMMToMinutes(timeString) { if (!validateAzkFormat(timeString)) { return 0; } timeString = String(timeString).trim(); if (timeString === "") return 0; const sign = timeString.startsWith('-') ? -1 : 1; const timePart = sign === -1 ? timeString.substring(1) : timeString; const parts = timePart.split(':'); if (parts.length !== 2) { return 0; } const hours = parseInt(parts[0], 10); const minutes = parseInt(parts[1], 10); if (isNaN(hours) || isNaN(minutes) || hours < 0 || minutes < 0 || minutes >= 60) { return 0; } return sign * ((hours * 60) + minutes); }
 
         // --- Feiertagsberechnung ---
@@ -389,8 +409,7 @@
         function populateHolidays(years) { holidaysBY.clear(); years.forEach(year => { holidaysBY.add(`${year}-01-01`); holidaysBY.add(`${year}-01-06`); holidaysBY.add(`${year}-05-01`); holidaysBY.add(`${year}-08-15`); holidaysBY.add(`${year}-10-03`); holidaysBY.add(`${year}-11-01`); holidaysBY.add(`${year}-12-25`); holidaysBY.add(`${year}-12-26`); const easterSunday = calculateEasterSunday(year); holidaysBY.add(formatDate(addDays(easterSunday, -2))); holidaysBY.add(formatDate(addDays(easterSunday, 1))); holidaysBY.add(formatDate(addDays(easterSunday, 39))); holidaysBY.add(formatDate(addDays(easterSunday, 50))); holidaysBY.add(formatDate(addDays(easterSunday, 60))); }); }
         populateHolidays([2024, 2025, 2026]); // Initial population
         function isHoliday(dateStr) { return holidaysBY.has(dateStr); }
-        function isHalfDayHoliday(dateStr) { const year = parseInt(dateStr.substring(0, 4), 10); const monthDay = dateStr.substring(5); if (monthDay === '12-24') { return true; } const easterSunday = calculateEasterSunday(year); const shroveTuesday = addDays(easterSunday, -47); // Rosenmontag calculation needs check, assuming Faschingsdienstag is the half day
-              // Correction: Faschingsdienstag is correct based on original logic
+        function isHalfDayHoliday(dateStr) { const year = parseInt(dateStr.substring(0, 4), 10); const monthDay = dateStr.substring(5); if (monthDay === '12-24') { return true; } const easterSunday = calculateEasterSunday(year); const shroveTuesday = addDays(easterSunday, -47); // Faschingsdienstag
               if (dateStr === formatDate(shroveTuesday)) { return true; } return false; }
 
         // --- localStorage Funktionen ---
@@ -413,13 +432,107 @@
         const azkVormonatInput = document.getElementById('azk_vormonat');
         const azkErrorSpan = document.getElementById('azk_error');
 
+        // --- NEUE Funktion zur automatischen Formatierung des AZK Inputs ---
+        function formatAzkInput(event) {
+            const input = event.target;
+            let value = input.value;
+            let originalLength = value.length;
+            let cursorPosition = input.selectionStart;
+
+            // Nur Ziffern und optional ein führendes Minuszeichen zulassen
+            let isNegative = value.startsWith('-');
+            let digits = value.replace(/[^\d]/g, ''); // Alle Nicht-Ziffern entfernen
+
+            // Maximale Ziffernlänge begrenzen (z.B. 4 für HHMM)
+            const maxLength = 4; // Max 2 für Std, 2 für Min
+            if (digits.length > maxLength) {
+                digits = digits.slice(0, maxLength);
+            }
+
+            let formattedValue = "";
+            if (isNegative) {
+                formattedValue = "-";
+            }
+
+            if (digits.length === 0) {
+                // Leer oder nur "-"
+                formattedValue = isNegative ? "-" : "";
+            } else if (digits.length <= 2) {
+                // Nur Stunden oder Teile davon
+                formattedValue += digits;
+                 // Wenn 2 Ziffern und ":" fehlt, ":"" hinzufügen (außer bei negativem Vorzeichen direkt davor)
+                if(digits.length == 2 && !value.includes(':') && !(isNegative && formattedValue.length == 3)) {
+                    formattedValue += ":";
+                }
+            } else {
+                // Stunden und Minuten
+                let hours = digits.slice(0, digits.length - 2);
+                let minutes = digits.slice(digits.length - 2);
+                // Stelle sicher, dass Minuten nicht > 59 sind (einfache Begrenzung)
+                if (parseInt(minutes, 10) > 59) {
+                    minutes = "59"; // Oder alternativ die letzte Ziffer löschen? "59" ist einfacher.
+                }
+                formattedValue += hours + ":" + minutes;
+            }
+
+            // Nur aktualisieren, wenn sich der formatierte Wert geändert hat
+            if (input.value !== formattedValue) {
+               input.value = formattedValue;
+
+               // Cursorposition versuchen wiederherzustellen/anzupassen
+               let lengthDiff = formattedValue.length - originalLength;
+               let newCursorPosition = cursorPosition + lengthDiff;
+
+               // Korrektur, wenn direkt vor dem ':' getippt wurde oder ':' hinzugefügt wurde
+               if (lengthDiff === 1 && originalLength >= (isNegative ? 3 : 2) && formattedValue.charAt(newCursorPosition -1) === ':') {
+                   // If colon was just added, keep cursor after it
+               } else if (lengthDiff === 1 && originalLength >= (isNegative ? 1 : 0) && digits.length === 2) {
+                   // If colon was added after 2 digits, place cursor at end
+                    newCursorPosition = formattedValue.length;
+               } else if (lengthDiff < 0 && value.charAt(cursorPosition) === ':') {
+                   // If colon was removed by backspace, move cursor back one more
+                   newCursorPosition = cursorPosition -1;
+               }
+
+               // Verhindern, dass der Cursor an eine unmögliche Stelle springt
+               if (newCursorPosition < 0) newCursorPosition = 0;
+               if (newCursorPosition > formattedValue.length) newCursorPosition = formattedValue.length;
+
+                try {
+                    // Timeout helps sometimes with mobile cursor positioning issues
+                    setTimeout(() => {
+                        input.setSelectionRange(newCursorPosition, newCursorPosition);
+                    }, 0);
+                } catch (e) {
+                    console.warn("Cursor position could not be set reliably.");
+                }
+            }
+
+            // Validierungsanzeige aktualisieren (ruft validateAzkFormat intern auf)
+            handleAzkInputValidation(); // Separate Funktion für reine Validierungsanzeige
+        }
+
+        // --- Angepasste Funktion nur für die Validierungs-Anzeige ---
+        function handleAzkInputValidation() {
+            const value = azkVormonatInput.value;
+            const isValidFinal = validateAzkFormat(value);
+
+            // Fehlermeldung nur anzeigen, wenn es *final* ungültig ist UND nicht leer/nur minus ist
+            azkErrorSpan.textContent = (!isValidFinal && value !== "" && value !== "-") ? 'Format: Std:Min' : '';
+            // Set custom validity for browser validation, allowing empty string
+            azkVormonatInput.setCustomValidity((isValidFinal || value === "") ? '' : 'Ungültiges Format. Erwartet: HH:MM oder -HH:MM');
+            // Update aria-invalid based on final validity (ignoring empty state for ARIA)
+            azkVormonatInput.setAttribute('aria-invalid', !(isValidFinal || value === ""));
+        }
+
 
         // --- Initialisierung ---
          function init() {
               loadDataFromLocalStorage(); // Load saved state first
               populateYearSelector();     // Populate UI, selects will match loaded state
               populateMonthSelector();
-              handleProzentInput(); // Update display initially
+              handleProzentInput();       // Update % display initially
+              handleAzkInputValidation(); // Check initial AZK value validity display
 
               // Event Listeners
               monthSelect.addEventListener('change', () => { currentMonth = parseInt(monthSelect.value); recalculateIfValid(); });
@@ -430,8 +543,10 @@
                     recalculateIfValid();
               });
 
-              azkVormonatInput.addEventListener('input', handleAzkInput);
-              azkVormonatInput.addEventListener('change', recalculateIfValid);
+              // AZK Input Listener
+              azkVormonatInput.addEventListener('input', formatAzkInput); // Formatieren während der Eingabe
+              azkVormonatInput.addEventListener('change', recalculateIfValid); // Endgültige Prüfung bei Verlassen
+
               prozentInput.addEventListener('input', handleProzentInput); // Update display on input
               prozentInput.addEventListener('change', () => { finalizeProzentInput(); recalculateIfValid(); }); // Finalize and recalc on change
 
@@ -440,7 +555,13 @@
               document.addEventListener('click', (event) => {
                   const calendar = document.getElementById('calendar');
                   const actions = document.getElementById('day-actions');
-                  if (!calendar.contains(event.target) && !actions.contains(event.target) && !event.target.closest('td[data-date]') && !event.target.closest('.azk-group') && !event.target.closest('.percent-control') && !event.target.closest('.controls select') && event.target !== monthSelect && event.target !== yearSelect && event.target.id !== 'exportPdfBtn' ) { // Exclude PDF button too
+                  // Improved condition to avoid deselect on irrelevant clicks
+                   const targetElement = event.target;
+                   const isClickInsideCalendar = calendar.contains(targetElement) || targetElement.closest('td[data-date]');
+                   const isClickInsideActions = actions.contains(targetElement);
+                   const isControlElement = targetElement.closest('.controls') || targetElement.closest('.percent-control') || targetElement.id === 'exportPdfBtn';
+
+                  if (!isClickInsideCalendar && !isClickInsideActions && !isControlElement) {
                      deselectDay();
                   }
               });
@@ -464,16 +585,8 @@
              prozentValueDisplay.textContent = value.toFixed(1) + "%"; // Ensure display matches final value
          }
 
-         function handleAzkInput() {
-            const value = azkVormonatInput.value;
-            const isValid = validateAzkFormat(value);
-            azkErrorSpan.textContent = (isValid || value === "" || value === "-") ? '' : 'Formatfehler';
-            azkVormonatInput.setCustomValidity((isValid || value === "" || value === "-") ? '' : 'Format: HH:MM oder -HH:MM');
-            azkVormonatInput.setAttribute('aria-invalid', !(isValid || value === "" || value === "-"));
-         }
-
          function recalculateIfValid() {
-            handleAzkInput(); // Validate AZK format
+            handleAzkInputValidation(); // Update AZK validation display
             finalizeProzentInput(); // Finalize and validate Prozent value
             const isAzkValid = validateAzkFormat(azkVormonatInput.value);
             // Prozent is now always valid due to finalizeProzentInput
@@ -483,7 +596,8 @@
                 saveDataToLocalStorage(); // Save the valid state
             } else {
                  resultsDiv.style.display = 'none';
-                 calendarBody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 20px; color: var(--danger-color);">Bitte gültiges Format für AZK Vormonat eingeben (HH:MM oder -HH:MM).</td></tr>';
+                 // Keep calendar visible but show error message if AZK is invalid
+                  calendarBody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 20px; color: var(--danger-color);">Bitte gültiges Format für AZK Vormonat eingeben (Std:Min oder -Std:Min).</td></tr>';
                  deselectDay();
             }
          }
@@ -591,7 +705,7 @@
         function calculateMonthlyBalance() {
              const startBalanceMinutes = parseHHMMToMinutes(azkVormonatInput.value); const prozent = parseFloat(prozentInput.value); if (isNaN(prozent)) return;
              const year = parseInt(yearSelect.value); const month = parseInt(monthSelect.value); const tagessoll_minuten_full = Math.round((prozent / 100.0) * (MINUTEN_BASIS_VOLLZEIT_WOCHE / TAGE_PRO_WOCHE)); const tagessoll_minuten_half = Math.round(tagessoll_minuten_full / 2);
-             let monatssoll_minuten = 0; let gutschrift_gesamt_minuten = 0; let gutschrift_urlaub_minuten = 0; let urlaub_tage_anzahl = 0; let werktage_im_monat_fuer_soll_count = 0;
+             let monatssoll_minuten = 0; let gutschrift_gesamt_minuten = 0; let urlaub_tage_anzahl = 0; let werktage_im_monat_fuer_soll_count = 0;
              let gutschrift_wd_f = 0, gutschrift_wd_m1 = 0, gutschrift_wd_s = 0, gutschrift_wd_n = 0; let gutschrift_weft_f = 0, gutschrift_weft_m1 = 0, gutschrift_weft_s = 0, gutschrift_weft_n = 0;
              const daysInMonth = new Date(year, month + 1, 0).getDate();
              for (let day = 1; day <= daysInMonth; day++) {
@@ -611,18 +725,16 @@
                  monatssoll_minuten += dailyTarget_minuten;
 
                  let dailyCredit_minuten = 0;
-                 // Determine if credit counts as Workday (WD) or Weekend/Holiday (WEFT)
-                 let isWorkdayCredit = isPotentialWorkday && !(isHalfHoliday && isWorkday); // True WD = Mo-Fr, not full holiday, not half holiday
-                 let isWEFTHolidayCredit = isWeekend || isFullHoliday || (isHalfHoliday && isWorkday); // WE/FT = Weekend OR Full Holiday OR Half Holiday on a Workday
+                 let isWorkdayCredit = isPotentialWorkday && !(isHalfHoliday && isWorkday);
+                 let isWEFTHolidayCredit = isWeekend || isFullHoliday || (isHalfHoliday && isWorkday);
 
                  if (shift === 'f') { dailyCredit_minuten = MINUTEN_FS_DIENST; if (isWorkdayCredit) gutschrift_wd_f += dailyCredit_minuten; else if (isWEFTHolidayCredit) gutschrift_weft_f += dailyCredit_minuten; }
                  else if (shift === 'm1') { dailyCredit_minuten = MINUTEN_FS_DIENST; if (isWorkdayCredit) gutschrift_wd_m1 += dailyCredit_minuten; else if (isWEFTHolidayCredit) gutschrift_weft_m1 += dailyCredit_minuten; }
                  else if (shift === 's') { dailyCredit_minuten = MINUTEN_FS_DIENST; if (isWorkdayCredit) gutschrift_wd_s += dailyCredit_minuten; else if (isWEFTHolidayCredit) gutschrift_weft_s += dailyCredit_minuten; }
                  else if (shift === 'n') { dailyCredit_minuten = MINUTEN_NACHT_DIENST; if (isWorkdayCredit) gutschrift_wd_n += dailyCredit_minuten; else if (isWEFTHolidayCredit) gutschrift_weft_n += dailyCredit_minuten; }
                  else if (shift === 'urlaub') {
-                      if (isPotentialWorkday) { // Urlaub wird nur an Soll-Tagen gutgeschrieben
-                          dailyCredit_minuten = tagessoll_minuten_full; // Gutschrift entspricht Tagessoll
-                          // gutschrift_urlaub_minuten += dailyCredit_minuten; // Zählung nicht mehr benötigt für Anzeige
+                      if (isPotentialWorkday) {
+                          dailyCredit_minuten = tagessoll_minuten_full;
                           urlaub_tage_anzahl++;
                       }
                  }
@@ -634,7 +746,6 @@
              document.getElementById('res_monatssoll').textContent = minutesToHHMM(monatssoll_minuten); document.getElementById('res_werktage_anzahl').textContent = werktage_im_monat_fuer_soll_count.toFixed(1).replace('.0', ''); document.getElementById('res_gutschrift_gesamt').textContent = minutesToHHMM(gutschrift_gesamt_minuten); const veraenderungElement = document.getElementById('res_veraenderung'); veraenderungElement.textContent = minutesToHHMM(veraenderung_minuten); veraenderungElement.parentElement.className = 'veraenderung ' + (veraenderung_minuten >= 0 ? 'positive' : 'negative'); const endstandElement = document.getElementById('res_endstand'); endstandElement.textContent = minutesToHHMM(endstand_minuten); endstandElement.parentElement.className = 'endstand ' + (endstand_minuten >= 0 ? 'positive' : 'negative');
              // Update Accordion Details
              document.getElementById('res_detail_month_year').textContent = `${monthNames[month]} ${year}`; document.getElementById('res_azk_vormonat_used').textContent = minutesToHHMM(startBalanceMinutes); document.getElementById('res_prozent').textContent = prozent.toFixed(1); document.getElementById('res_tagessoll').textContent = minutesToHHMM(tagessoll_minuten_full);
-             // Update Urlaubstage count only
              document.getElementById('res_urlaub_tage').textContent = urlaub_tage_anzahl;
 
              document.getElementById('res_detail_wd_total').textContent = minutesToHHMM(total_wd_credit); document.getElementById('res_detail_wd_f').textContent = minutesToHHMM(gutschrift_wd_f); document.getElementById('res_detail_wd_m1').textContent = minutesToHHMM(gutschrift_wd_m1); document.getElementById('res_detail_wd_s').textContent = minutesToHHMM(gutschrift_wd_s); document.getElementById('res_detail_wd_n').textContent = minutesToHHMM(gutschrift_wd_n);
@@ -660,8 +771,8 @@
             if (typeof doc.autoTable !== 'function') {
                  alert("jsPDF-AutoTable konnte nicht geladen werden. Bitte Seite neu laden.");
                  console.error("Fehler: doc.autoTable ist keine Funktion. Prüfe, ob das AutoTable Plugin korrekt geladen wurde und nach jsPDF eingebunden ist.");
-                 console.error("jsPDF Instanz:", doc); // For debugging
-                 console.error("window.jspdf Objekt:", window.jspdf); // For debugging
+                 console.error("jsPDF Instanz:", doc);
+                 console.error("window.jspdf Objekt:", window.jspdf);
                  return;
              }
 
@@ -708,10 +819,8 @@
                 doc.setFontSize(fontSize);
                 doc.setFont(undefined, isBold ? 'bold' : 'normal');
                 doc.text(text, x, yPos, { align: align });
-                // Simple approximation for line height increment
-                yPos += (fontSize * 0.45); // Adjust multiplier as needed
+                yPos += (fontSize * 0.45);
             }
-
 
             function addLine(x1 = margin, x2 = pageWidth - margin) {
                 if (yPos + 2 > pageHeight - margin) { doc.addPage(); yPos = margin; addHeaderFooter(); }
@@ -724,35 +833,39 @@
                 const pageNum = doc.internal.getNumberOfPages();
                 doc.setFontSize(8);
                 doc.setTextColor(150);
-                // Footer on all pages
                 doc.text(`Seite ${pageNum}`, pageWidth - margin, pageHeight - 10, { align: 'right' });
-                 // Header only from page 2 onwards or specific logic if needed
                 if (pageNum > 1) {
                    doc.text(`Stundenkonto ${monthNames[month]} ${year} (Fortsetzung)`, margin, 10);
+                } else {
+                   // Optional: Header on first page if desired
+                   doc.text(`Stundenkonto ${monthNames[month]} ${year}`, margin, 10);
                 }
-                doc.setTextColor(0); // Reset text color
+                doc.setTextColor(0);
              }
 
-
             // --- Start PDF Content ---
-            // Main Title (only on first page, handled before header/footer loop)
+            // Add header/footer to the first page
+            addHeaderFooter();
+            // Reset yPos after header if needed, or adjust initial yPos
+            yPos = margin + 5; // Start content slightly below header
+
             doc.setFontSize(16);
             doc.setFont(undefined, 'bold');
             doc.text(`Stundenkonto Übersicht: ${monthNames[month]} ${year}`, pageWidth / 2, yPos, { align: 'center' });
-            yPos += 8;
+            yPos += 10; // Increased space after title
 
             addText("Monatsbilanz", margin, true, 12);
-            yPos += 1; // Reduce space before first item
+            yPos += 2;
             addText(`Monatliches Soll: ${minutesToHHMM(monatssoll_minuten)} (${werktage_im_monat_fuer_soll_count.toFixed(1).replace('.0', '')} Tage)`);
             addText(`Monatliches Haben: ${minutesToHHMM(gutschrift_gesamt_minuten)}`);
             addText(`Veränderung Monat: ${minutesToHHMM(veraenderung_minuten)}`);
-            yPos += 1; // Extra space before bold text
+            yPos += 1;
             addText(`Neuer Kontostand: ${minutesToHHMM(endstand_minuten)}`, margin, true);
             yPos += 6;
             addLine();
 
             addText("Details", margin, true, 12);
-            yPos += 1;
+            yPos += 2;
             addText(`AZK Vormonat: ${minutesToHHMM(startBalanceMinutes)}`);
             addText(`Arbeitspensum: ${prozent.toFixed(1)}%`);
             addText(`Persönliches Tagessoll: ${minutesToHHMM(tagessoll_minuten_full)}`);
@@ -775,7 +888,7 @@
             addLine();
 
             addText("Tagesübersicht", margin, true, 12);
-            yPos += 4; // More space before table
+            yPos += 4;
 
             // --- Generate AutoTable ---
             const tableHeaders = [['Tag', 'Schicht', 'Tagessaldo (Δ)', 'Laufender Saldo (Σ)']];
@@ -793,26 +906,22 @@
                     3: { cellWidth: 'auto', halign: 'right' }
                 },
                 didDrawPage: (data) => {
-                    // Add Header and Footer to subsequent pages drawn by autoTable
                     addHeaderFooter();
-                    // Set yPos for potential content *after* the table on the *new* page
-                    // This yPos might be adjusted further if content is added after the table.
-                    yPos = margin; // Reset yPos for the new page header/content before table
+                     // Reset yPos for the new page to start below header
+                    yPos = margin + 5;
                 },
-                // Ensure yPos is updated after the table is fully drawn
-                // The finalY property gives the y position after the table
-                // We might not need to add content *after* the table, but if we did:
-                // didParseCell / willDrawCell could track final y, but lastAutoTable is easier
             });
 
-            // Update yPos based on where the table finished
-             if (doc.lastAutoTable) { // Check if autotable was actually drawn
-                yPos = doc.lastAutoTable.finalY + 10; // Ready for content after table
+             // Update yPos based on where the table finished
+             if (doc.lastAutoTable) {
+                yPos = doc.lastAutoTable.finalY + 10;
              }
 
              // Add footer to the last page explicitly if autoTable didn't trigger didDrawPage for it
-            addHeaderFooter();
-
+             // Check if we are already near the bottom, if so, footer was likely added by didDrawPage
+             if (yPos < pageHeight - 20) {
+                 addHeaderFooter(); // Needs explicit call only if table finished high on page
+             }
 
             // --- Save PDF ---
             doc.save(`Stundenkonto_${year}_${('0' + (month + 1)).slice(-2)}.pdf`);
