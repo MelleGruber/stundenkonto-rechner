@@ -69,6 +69,8 @@
         .controls button { cursor: pointer; text-align: center; background-color: var(--secondary-color); color: white; border: none;}
         .controls button:hover { filter: brightness(90%); }
         .controls button.toggle-btn { background-color: var(--m1-color); } /* M1 color also used here */
+        /* Style for Clear Month Button */
+        .controls button#clearMonthBtn { background-color: var(--danger-color); }
 
         /* Style for AZK Vormonat error message */
         .error-message { color: var(--danger-color); font-size: 0.8em; margin-left: 5px; white-space: nowrap; }
@@ -185,7 +187,8 @@
              .controls { flex-direction: row; align-items: center; gap: 20px; margin-bottom: 20px; }
              .controls .control-row:first-of-type { flex-grow: 1; flex-wrap: nowrap; justify-content: flex-start; }
              .azk-group { margin-left: auto; gap: 5px;}
-             .controls .button-group { justify-content: flex-end; margin-top: 0; width: auto;}
+             /* Adjusted button group alignment */
+             .controls .button-group { justify-content: flex-end; margin-top: 0; width: auto; flex-wrap: nowrap; align-items: center;}
              .controls input#azk_vormonat { flex-basis: 90px; } /* Adjusted width */
              .controls select, .controls button, .controls input[type="text"], .controls input[type="number"] { font-size: 1rem; padding: 9px 14px;}
              .controls label { font-size: 1rem; }
@@ -230,7 +233,8 @@
                .controls .control-row { flex-direction: column; align-items: stretch; }
                .controls .azk-group { margin-left: 0; margin-top: 8px; justify-content: center; }
                .controls input#azk_vormonat { flex-basis: 80px; } /* Adjusted width */
-               .controls .button-group { margin-top: 10px; justify-content: center; }
+               /* Make buttons wrap nicely on small screens */
+               .controls .button-group { margin-top: 10px; justify-content: center; flex-wrap: wrap;}
                .percent-control { flex-direction: column; align-items: stretch; gap: 8px; }
                .percent-control input[type="number"] { width: 65px; align-self: center; }
                .error-message { font-size: 0.75em; margin-left: 3px;}
@@ -264,6 +268,8 @@
              <div class="control-row">
                  <div class="button-group">
                      <button id="toggleBalanceBtn" class="toggle-btn" onclick="toggleDailyBalanceDisplay()">Saldo Anzeigen</button>
+                     <!-- NEUER Button: Monatseinträge löschen -->
+                     <button id="clearMonthBtn" onclick="clearMonthEntries()">Monat löschen</button>
                  </div>
              </div>
         </div> <!-- Ende von .controls -->
@@ -431,6 +437,7 @@
         const accordionContent = document.querySelector('.accordion-content'); const toggleBalanceBtn = document.getElementById('toggleBalanceBtn');
         const azkVormonatInput = document.getElementById('azk_vormonat');
         const azkErrorSpan = document.getElementById('azk_error');
+        // const clearMonthBtn = document.getElementById('clearMonthBtn'); // Button ref if needed
 
         // --- NEUE Funktion zur automatischen Formatierung des AZK Inputs ---
         function formatAzkInput(event) {
@@ -754,7 +761,7 @@
          }
 
         // --- Accordion Funktion ---
-        function toggleAccordion(toggleElement) { const content = accordionContent; const isOpen = content.style.display === "block"; content.style.display = isOpen ? "none" : "block"; toggleElement.textContent = isOpen ? 'Details verbergen' : 'Details anzeigen'; toggleElement.classList.toggle('open', !isOpen); }
+        function toggleAccordion(toggleElement) { const content = accordionContent; const isOpen = content.style.display === "block"; content.style.display = isOpen ? "none" : "block"; toggleElement.textContent = isOpen ? 'Details verbergen' : 'Details anzeigen'; toggleElement.classList.toggle('open', !isOpen); } // Changed text content
 
         // --- PDF Export Funktion (using jsPDF and jsPDF-AutoTable) ---
         function exportToPDF() {
@@ -928,6 +935,44 @@
         }
         // Helper Function to get shift text
         function getShiftText(shiftType) { switch(shiftType) { case 'f': return 'Früh'; case 'm1': return 'M1'; case 's': return 'Spät'; case 'n': return 'Nacht'; case 'urlaub': return 'Urlaub'; case 'frei': return 'Frei'; default: return '-'; } }
+
+        // --- NEUE Funktion: Monatseinträge löschen ---
+        function clearMonthEntries() {
+             const year = parseInt(yearSelect.value);
+             const month = parseInt(monthSelect.value);
+             const monthName = monthNames[month]; // Für die Bestätigungsnachricht
+
+             // Sicherheitsabfrage
+             if (!confirm(`Sind Sie sicher, dass Sie alle Einträge für ${monthName} ${year} löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.`)) {
+                 return; // Abbrechen, wenn der Benutzer nicht bestätigt
+             }
+
+             const daysInMonth = new Date(year, month + 1, 0).getDate();
+             let entriesCleared = false; // Flag, um zu prüfen, ob überhaupt etwas gelöscht wurde
+
+             // Gehe alle Tage des ausgewählten Monats durch
+             for (let day = 1; day <= daysInMonth; day++) {
+                 const dateStr = formatDate(new Date(year, month, day));
+                 // Prüfen, ob für diesen Tag Daten im dailyData Objekt existieren
+                 if (dailyData.hasOwnProperty(dateStr)) {
+                     delete dailyData[dateStr]; // Eintrag löschen
+                     entriesCleared = true;
+                 }
+             }
+
+             // Nur wenn Einträge gelöscht wurden, die Anzeige aktualisieren
+             if (entriesCleared) {
+                 console.log(`Alle Einträge für ${monthName} ${year} gelöscht.`);
+                 recalculateIfValid(); // Kalender neu laden, Bilanz neu berechnen und speichern
+                 // Optional: Kurze Bestätigungsmeldung für den User
+                 // alert(`Alle Einträge für ${monthName} ${year} wurden gelöscht.`);
+             } else {
+                 console.log(`Keine Einträge für ${monthName} ${year} zum Löschen gefunden.`);
+                 // Optional: Meldung für den User, dass nichts zu löschen war
+                 // alert(`Für ${monthName} ${year} waren keine Einträge vorhanden.`);
+             }
+         }
+
 
         // --- Start ---
         init();
