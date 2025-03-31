@@ -26,6 +26,10 @@
 
         *, *::before, *::after { box-sizing: border-box; }
 
+        html {
+            scroll-behavior: smooth; /* Enables smooth scrolling for scrollIntoView */
+        }
+
         body {
              font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
              line-height: 1.6; margin: 0; padding: 8px;
@@ -138,14 +142,22 @@
             border-radius: 8px; display: none; border: 1px solid var(--border-color);
         }
         #day-actions label { display: block; margin-bottom: 12px; font-weight: 600; text-align: center; color: var(--text-color); font-size: 0.95rem;}
-        .action-buttons { display: grid; justify-items: center; gap: 8px; }
-        .action-buttons .button-row:first-of-type { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; width: 100%; max-width: 380px; }
-        .action-buttons .button-row:nth-of-type(2) { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; width: 100%; max-width: 200px; }
+        .action-buttons { display: grid; justify-items: center; gap: 10px; } /* Increased gap */
+        .action-buttons .button-row { display: grid; gap: 10px; width: 100%; } /* Increased gap, simplified grid def */
+        .action-buttons .button-row:first-of-type { grid-template-columns: repeat(4, 1fr); max-width: 380px; }
+        .action-buttons .button-row:nth-of-type(2) { grid-template-columns: repeat(2, 1fr); max-width: 200px; }
         #day-actions button {
-             padding: 10px 6px; cursor: pointer; border: none; border-radius: 5px;
-             font-size: 0.85rem; color: white; font-weight: 500; width: 100%;
+             /* Base styles - apply universally first */
+             padding: 12px 8px; /* Increased base padding */
+             cursor: pointer; border: none; border-radius: 5px;
+             font-size: 0.9rem; /* Base font size */
+             color: white; font-weight: 500; width: 100%;
              text-align: center; transition: filter 0.2s ease, box-shadow 0.2s ease;
              line-height: 1.3;
+             min-height: 44px; /* Minimum height for touch targets */
+             display: flex; /* Use flexbox for alignment */
+             align-items: center; /* Center content vertically */
+             justify-content: center; /* Center content horizontally */
         }
         #day-actions button:hover { filter: brightness(90%); }
         button.btn-frueh { background-color: var(--frueh-color); }
@@ -207,9 +219,14 @@
              #legend li span { width: 14px; height: 14px; margin-right: 6px;}
              #day-actions { margin-top: 25px; padding: 18px;}
              #day-actions label { font-size: 1rem;}
-             .action-buttons .button-row:first-of-type { max-width: 420px; }
-             .action-buttons .button-row:nth-of-type(2) { max-width: 220px; }
-             #day-actions button { font-size: 0.95rem; padding: 9px 5px;}
+             /* Desktop Action Button Grid */
+             .action-buttons { gap: 12px; } /* Slightly larger gap for desktop */
+             .action-buttons .button-row:first-of-type { max-width: 450px; gap: 12px; } /* Wider layout, more gap */
+             .action-buttons .button-row:nth-of-type(2) { max-width: 240px; gap: 12px; }
+             #day-actions button {
+                font-size: 0.95rem; /* Keep desktop font size */
+                padding: 12px 10px; /* Adjust padding if needed */
+             }
              button.clear { width: 50%; max-width: 180px; }
              #results { margin-top: 25px; }
              .results-summary { padding: 15px 20px; }
@@ -224,8 +241,8 @@
              .accordion-content hr { margin: 12px 0;}
          }
 
-         /* Specific overrides for very small screens */
-         @media (max-width: 420px) {
+         /* Specific overrides for smaller screens (target mobile better) */
+         @media (max-width: 600px) { /* Increased breakpoint for mobile button sizing */
                body { padding: 5px; }
                .container { padding: 10px; }
                h1 { font-size: 1.3rem; }
@@ -238,12 +255,26 @@
                .percent-control { flex-direction: column; align-items: stretch; gap: 8px; }
                .percent-control input[type="number"] { width: 65px; align-self: center; }
                .error-message { font-size: 0.75em; margin-left: 3px;}
-               .action-buttons .button-row:first-of-type { grid-template-columns: repeat(2, 1fr); max-width: 250px; }
-               .action-buttons .button-row:nth-of-type(2) { grid-template-columns: repeat(2, 1fr); max-width: 200px; }
-               #day-actions button { max-width: none; }
+               /* Mobile Action Buttons */
+               .action-buttons { gap: 12px; } /* More gap for mobile */
+               .action-buttons .button-row:first-of-type { grid-template-columns: repeat(2, 1fr); max-width: 280px; gap: 12px; } /* 2 columns */
+               .action-buttons .button-row:nth-of-type(2) { grid-template-columns: repeat(2, 1fr); max-width: 280px; gap: 12px; } /* Also 2 columns */
+               #day-actions button {
+                   padding: 15px 10px; /* More vertical padding for touch */
+                   font-size: 1rem; /* Larger font for mobile */
+                   min-height: 48px; /* Ensure good touch height */
+                   max-width: none; /* Allow full width in grid */
+               }
                button.clear { width: 80%; grid-column: 1 / -1; }
                #legend ul { gap: 5px 10px; }
                #calendar td { height: 70px; }
+         }
+         /* Fine tune smallest screens if needed */
+         @media (max-width: 360px) {
+            .action-buttons .button-row:first-of-type,
+            .action-buttons .button-row:nth-of-type(2) {
+                max-width: 100%; /* Allow full width */
+            }
          }
 
     </style>
@@ -252,15 +283,13 @@
     <div class="container">
         <h1>Stundenkonto Monatsübersicht</h1>
 
-        <!-- Disclaimer removed -->
-
+        <!-- Controls -->
         <div class="controls">
             <div class="control-row">
                 <label for="month">Monat:</label> <select id="month"></select>
                 <label for="year">Jahr:</label> <select id="year"></select>
                 <div class="azk-group">
                     <label for="azk_vormonat">AZK Vormonat:</label>
-                    <!-- Input type="text" mit inputmode="numeric" und JS-Formatierung -->
                     <input type="text" id="azk_vormonat" placeholder="Std:Min" inputmode="numeric" pattern="^-?\d{1,}:[0-5]\d$" maxlength="6">
                     <span id="azk_error" class="error-message"></span>
                 </div>
@@ -268,11 +297,10 @@
              <div class="control-row">
                  <div class="button-group">
                      <button id="toggleBalanceBtn" class="toggle-btn" onclick="toggleDailyBalanceDisplay()">Saldo Anzeigen</button>
-                     <!-- NEUER Button: Monatseinträge löschen -->
                      <button id="clearMonthBtn" onclick="clearMonthEntries()">Monat löschen</button>
                  </div>
              </div>
-        </div> <!-- Ende von .controls -->
+        </div> <!-- Ende .controls -->
 
         <!-- PDF Export Button -->
         <div style="text-align: center; margin-bottom: 20px;">
@@ -281,12 +309,14 @@
             </button>
         </div>
 
+        <!-- Percent Control -->
         <div class="percent-control">
              <label for="prozent">Arbeitszeit:</label>
              <input type="number" id="prozent" min="0" max="100" step="0.5" value="100" inputmode="decimal">
              <span id="prozentValueDisplay">%</span>
         </div>
 
+        <!-- Calendar -->
          <div class="calendar-wrapper">
              <table id="calendar">
                  <thead>
@@ -296,7 +326,7 @@
              </table>
          </div>
 
-        <!-- Aktions-Buttons angepasst -->
+        <!-- Day Actions - Wird per JS ein-/ausgeblendet und gescrollt -->
         <div id="day-actions">
              <label>Aktionen für <span id="selected-day-display">--.--.----</span>:</label>
              <div class="action-buttons">
@@ -309,13 +339,12 @@
                  <div class="button-row"> <!-- Row 2: Frei, Urlaub -->
                      <button data-shift="frei" class="btn-frei" onclick="assignShift('frei')">Frei</button>
                      <button data-shift="urlaub" class="btn-urlaub" onclick="assignShift('urlaub')">Urlaub</button>
-                     <!-- Holiday Toggle Button removed -->
                  </div>
                  <button class="clear" onclick="assignShift(null)">Eintrag löschen</button>
              </div>
          </div>
 
-         <!-- Legende angepasst -->
+         <!-- Legend -->
          <div id="legend">
             <strong>Legende:</strong>
             <ul style="align-items: center;">
@@ -334,7 +363,7 @@
             </ul>
          </div>
 
-         <!-- Ergebnisbereich -->
+         <!-- Results Area -->
          <div id="results">
              <div class="results-summary">
                  <h2>Monatsbilanz</h2>
@@ -345,13 +374,12 @@
                  <p class="endstand">Neuer Kontostand: <span id="res_endstand">--:--</span></p>
              </div>
              <div class="accordion-toggle" onclick="toggleAccordion(this)">Details anzeigen</div>
-             <!-- Detailansicht überarbeitet -->
+             <!-- Accordion Content -->
              <div class="accordion-content">
                  <p><strong class="detail-label">Basisdaten (<span id="res_detail_month_year">--</span>)</strong></p>
                  <p class="detail-item">AZK Vormonat (Eingabe): <span id="res_azk_vormonat_used">--:--</span></p>
                  <p class="detail-item">Arbeitspensum: <span id="res_prozent">--</span>%</p>
                  <p class="detail-item">Persönliches Tagessoll: <span id="res_tagessoll">--:--</span></p>
-                 <!-- Urlaub Gutschrift Info entfernt -->
                  <p class="detail-item">Urlaubstage (an Soll-Tagen): <span id="res_urlaub_tage">--</span></p>
                  <hr>
                  <p><strong class="detail-label">Stundengutschrift Werktage (Mo-Fr, kein FT): <span id="res_detail_wd_total">--:--</span></strong></p>
@@ -400,9 +428,6 @@
             if (!match) {
                 return false;
             }
-            // Optional: Check if hours make sense (not strictly necessary for balance)
-            // const hoursPart = match[2];
-            // if (isNaN(parseInt(hoursPart, 10))) { return false; }
             return true;
         }
 
@@ -413,7 +438,7 @@
         function addDays(date, days) { const result = new Date(date); result.setDate(result.getDate() + days); return result; }
         const holidaysBY = new Set();
         function populateHolidays(years) { holidaysBY.clear(); years.forEach(year => { holidaysBY.add(`${year}-01-01`); holidaysBY.add(`${year}-01-06`); holidaysBY.add(`${year}-05-01`); holidaysBY.add(`${year}-08-15`); holidaysBY.add(`${year}-10-03`); holidaysBY.add(`${year}-11-01`); holidaysBY.add(`${year}-12-25`); holidaysBY.add(`${year}-12-26`); const easterSunday = calculateEasterSunday(year); holidaysBY.add(formatDate(addDays(easterSunday, -2))); holidaysBY.add(formatDate(addDays(easterSunday, 1))); holidaysBY.add(formatDate(addDays(easterSunday, 39))); holidaysBY.add(formatDate(addDays(easterSunday, 50))); holidaysBY.add(formatDate(addDays(easterSunday, 60))); }); }
-        populateHolidays([2024, 2025, 2026]); // Initial population
+        populateHolidays([new Date().getFullYear(), new Date().getFullYear()+1, new Date().getFullYear()+2]); // Use dynamic years
         function isHoliday(dateStr) { return holidaysBY.has(dateStr); }
         function isHalfDayHoliday(dateStr) { const year = parseInt(dateStr.substring(0, 4), 10); const monthDay = dateStr.substring(5); if (monthDay === '12-24') { return true; } const easterSunday = calculateEasterSunday(year); const shroveTuesday = addDays(easterSunday, -47); // Faschingsdienstag
               if (dateStr === formatDate(shroveTuesday)) { return true; } return false; }
@@ -437,137 +462,79 @@
         const accordionContent = document.querySelector('.accordion-content'); const toggleBalanceBtn = document.getElementById('toggleBalanceBtn');
         const azkVormonatInput = document.getElementById('azk_vormonat');
         const azkErrorSpan = document.getElementById('azk_error');
-        // const clearMonthBtn = document.getElementById('clearMonthBtn'); // Button ref if needed
 
-        // --- NEUE Funktion zur automatischen Formatierung des AZK Inputs ---
+        // --- AZK Input Formatierung ---
         function formatAzkInput(event) {
             const input = event.target;
             let value = input.value;
             let originalLength = value.length;
             let cursorPosition = input.selectionStart;
 
-            // Nur Ziffern und optional ein führendes Minuszeichen zulassen
             let isNegative = value.startsWith('-');
-            let digits = value.replace(/[^\d]/g, ''); // Alle Nicht-Ziffern entfernen
+            let digits = value.replace(/[^\d]/g, '');
+            const maxLength = 4;
+            if (digits.length > maxLength) { digits = digits.slice(0, maxLength); }
 
-            // Maximale Ziffernlänge begrenzen (z.B. 4 für HHMM)
-            const maxLength = 4; // Max 2 für Std, 2 für Min
-            if (digits.length > maxLength) {
-                digits = digits.slice(0, maxLength);
-            }
+            let formattedValue = isNegative ? "-" : "";
+            if (digits.length === 0) { formattedValue = isNegative ? "-" : ""; }
+            else if (digits.length <= 2) { formattedValue += digits; if(digits.length == 2 && !value.includes(':') && !(isNegative && formattedValue.length == 3)) { formattedValue += ":"; } }
+            else { let hours = digits.slice(0, digits.length - 2); let minutes = digits.slice(digits.length - 2); if (parseInt(minutes, 10) > 59) { minutes = "59"; } formattedValue += hours + ":" + minutes; }
 
-            let formattedValue = "";
-            if (isNegative) {
-                formattedValue = "-";
-            }
-
-            if (digits.length === 0) {
-                // Leer oder nur "-"
-                formattedValue = isNegative ? "-" : "";
-            } else if (digits.length <= 2) {
-                // Nur Stunden oder Teile davon
-                formattedValue += digits;
-                 // Wenn 2 Ziffern und ":" fehlt, ":"" hinzufügen (außer bei negativem Vorzeichen direkt davor)
-                if(digits.length == 2 && !value.includes(':') && !(isNegative && formattedValue.length == 3)) {
-                    formattedValue += ":";
-                }
-            } else {
-                // Stunden und Minuten
-                let hours = digits.slice(0, digits.length - 2);
-                let minutes = digits.slice(digits.length - 2);
-                // Stelle sicher, dass Minuten nicht > 59 sind (einfache Begrenzung)
-                if (parseInt(minutes, 10) > 59) {
-                    minutes = "59"; // Oder alternativ die letzte Ziffer löschen? "59" ist einfacher.
-                }
-                formattedValue += hours + ":" + minutes;
-            }
-
-            // Nur aktualisieren, wenn sich der formatierte Wert geändert hat
             if (input.value !== formattedValue) {
                input.value = formattedValue;
-
-               // Cursorposition versuchen wiederherzustellen/anzupassen
                let lengthDiff = formattedValue.length - originalLength;
                let newCursorPosition = cursorPosition + lengthDiff;
-
-               // Korrektur, wenn direkt vor dem ':' getippt wurde oder ':' hinzugefügt wurde
-               if (lengthDiff === 1 && originalLength >= (isNegative ? 3 : 2) && formattedValue.charAt(newCursorPosition -1) === ':') {
-                   // If colon was just added, keep cursor after it
-               } else if (lengthDiff === 1 && originalLength >= (isNegative ? 1 : 0) && digits.length === 2) {
-                   // If colon was added after 2 digits, place cursor at end
-                    newCursorPosition = formattedValue.length;
-               } else if (lengthDiff < 0 && value.charAt(cursorPosition) === ':') {
-                   // If colon was removed by backspace, move cursor back one more
-                   newCursorPosition = cursorPosition -1;
-               }
-
-               // Verhindern, dass der Cursor an eine unmögliche Stelle springt
+               if (lengthDiff === 1 && originalLength >= (isNegative ? 3 : 2) && formattedValue.charAt(newCursorPosition -1) === ':') { /* Keep cursor */ }
+               else if (lengthDiff === 1 && originalLength >= (isNegative ? 1 : 0) && digits.length === 2) { newCursorPosition = formattedValue.length; }
+               else if (lengthDiff < 0 && value.charAt(cursorPosition) === ':') { newCursorPosition = cursorPosition -1; }
                if (newCursorPosition < 0) newCursorPosition = 0;
                if (newCursorPosition > formattedValue.length) newCursorPosition = formattedValue.length;
-
-                try {
-                    // Timeout helps sometimes with mobile cursor positioning issues
-                    setTimeout(() => {
-                        input.setSelectionRange(newCursorPosition, newCursorPosition);
-                    }, 0);
-                } catch (e) {
-                    console.warn("Cursor position could not be set reliably.");
-                }
+                try { setTimeout(() => { input.setSelectionRange(newCursorPosition, newCursorPosition); }, 0); }
+                catch (e) { console.warn("Cursor position could not be set reliably."); }
             }
-
-            // Validierungsanzeige aktualisieren (ruft validateAzkFormat intern auf)
-            handleAzkInputValidation(); // Separate Funktion für reine Validierungsanzeige
+            handleAzkInputValidation();
         }
-
-        // --- Angepasste Funktion nur für die Validierungs-Anzeige ---
         function handleAzkInputValidation() {
             const value = azkVormonatInput.value;
             const isValidFinal = validateAzkFormat(value);
-
-            // Fehlermeldung nur anzeigen, wenn es *final* ungültig ist UND nicht leer/nur minus ist
             azkErrorSpan.textContent = (!isValidFinal && value !== "" && value !== "-") ? 'Format: Std:Min' : '';
-            // Set custom validity for browser validation, allowing empty string
             azkVormonatInput.setCustomValidity((isValidFinal || value === "") ? '' : 'Ungültiges Format. Erwartet: HH:MM oder -HH:MM');
-            // Update aria-invalid based on final validity (ignoring empty state for ARIA)
             azkVormonatInput.setAttribute('aria-invalid', !(isValidFinal || value === ""));
         }
 
-
         // --- Initialisierung ---
          function init() {
-              loadDataFromLocalStorage(); // Load saved state first
-              populateYearSelector();     // Populate UI, selects will match loaded state
+              loadDataFromLocalStorage();
+              populateYearSelector();
               populateMonthSelector();
-              handleProzentInput();       // Update % display initially
-              handleAzkInputValidation(); // Check initial AZK value validity display
+              handleProzentInput();
+              handleAzkInputValidation();
 
               // Event Listeners
               monthSelect.addEventListener('change', () => { currentMonth = parseInt(monthSelect.value); recalculateIfValid(); });
               yearSelect.addEventListener('change', () => {
                     currentYear = parseInt(yearSelect.value);
-                    if (currentYear < 2024 || currentYear > 2026) { console.warn(`Holiday data only available for 2024-2026. Year ${currentYear} selected.`); }
-                    else if (!holidaysBY.has(`${currentYear}-01-01`)) { populateHolidays([currentYear]); } // Ensure holidays are loaded for the selected year if within range
+                    // Dynamically check/add holiday years if needed (adjust range as necessary)
+                    const yearsToCheck = [currentYear -1, currentYear, currentYear + 1];
+                    const needsUpdate = yearsToCheck.some(y => !holidaysBY.has(`${y}-01-01`));
+                    if (needsUpdate) { populateHolidays(yearsToCheck); }
                     recalculateIfValid();
               });
-
-              // AZK Input Listener
-              azkVormonatInput.addEventListener('input', formatAzkInput); // Formatieren während der Eingabe
-              azkVormonatInput.addEventListener('change', recalculateIfValid); // Endgültige Prüfung bei Verlassen
-
-              prozentInput.addEventListener('input', handleProzentInput); // Update display on input
-              prozentInput.addEventListener('change', () => { finalizeProzentInput(); recalculateIfValid(); }); // Finalize and recalc on change
+              azkVormonatInput.addEventListener('input', formatAzkInput);
+              azkVormonatInput.addEventListener('change', recalculateIfValid);
+              prozentInput.addEventListener('input', handleProzentInput);
+              prozentInput.addEventListener('change', () => { finalizeProzentInput(); recalculateIfValid(); });
 
               recalculateIfValid(); // Initial calculation & save
 
+              // Click outside to deselect day
               document.addEventListener('click', (event) => {
                   const calendar = document.getElementById('calendar');
                   const actions = document.getElementById('day-actions');
-                  // Improved condition to avoid deselect on irrelevant clicks
                    const targetElement = event.target;
                    const isClickInsideCalendar = calendar.contains(targetElement) || targetElement.closest('td[data-date]');
                    const isClickInsideActions = actions.contains(targetElement);
                    const isControlElement = targetElement.closest('.controls') || targetElement.closest('.percent-control') || targetElement.id === 'exportPdfBtn';
-
                   if (!isClickInsideCalendar && !isClickInsideActions && !isControlElement) {
                      deselectDay();
                   }
@@ -576,104 +543,172 @@
 
          function handleProzentInput() {
             let value = parseFloat(prozentInput.value);
-            if (isNaN(value)) {
-                prozentValueDisplay.textContent = "%"; // Indicate waiting for valid input
-                return;
-            }
+            if (isNaN(value)) { prozentValueDisplay.textContent = "%"; return; }
             value = Math.max(0, Math.min(100, value));
-            prozentValueDisplay.textContent = value.toFixed(1) + "%"; // Update display immediately
+            prozentValueDisplay.textContent = value.toFixed(1) + "%";
          }
-         // Function called on change event to finalize/normalize the value
          function finalizeProzentInput() {
              let value = parseFloat(prozentInput.value);
-             if (isNaN(value)) { value = 100.0; } // Default if invalid on finalize
+             if (isNaN(value)) { value = 100.0; }
              value = Math.max(0, Math.min(100, value));
-             prozentInput.value = value.toFixed(1); // Set normalized value back to input
-             prozentValueDisplay.textContent = value.toFixed(1) + "%"; // Ensure display matches final value
+             prozentInput.value = value.toFixed(1);
+             prozentValueDisplay.textContent = value.toFixed(1) + "%";
          }
 
          function recalculateIfValid() {
-            handleAzkInputValidation(); // Update AZK validation display
-            finalizeProzentInput(); // Finalize and validate Prozent value
+            handleAzkInputValidation();
+            finalizeProzentInput();
             const isAzkValid = validateAzkFormat(azkVormonatInput.value);
-            // Prozent is now always valid due to finalizeProzentInput
 
             if (isAzkValid) {
-                loadCalendar(currentYear, currentMonth); // This calls calculateMonthlyBalance
-                saveDataToLocalStorage(); // Save the valid state
+                loadCalendar(currentYear, currentMonth);
+                saveDataToLocalStorage();
             } else {
                  resultsDiv.style.display = 'none';
-                 // Keep calendar visible but show error message if AZK is invalid
-                  calendarBody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 20px; color: var(--danger-color);">Bitte gültiges Format für AZK Vormonat eingeben (Std:Min oder -Std:Min).</td></tr>';
+                 calendarBody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 20px; color: var(--danger-color);">Bitte gültiges Format für AZK Vormonat eingeben (Std:Min oder -Std:Min).</td></tr>';
                  deselectDay();
             }
          }
-         function populateYearSelector() { const initialYear = new Date().getFullYear(); for (let i = initialYear - 10; i <= initialYear + 5; i++) { const option = document.createElement('option'); option.value = i; option.textContent = i; if (i === currentYear) option.selected = true; yearSelect.appendChild(option); } } // Uses loaded currentYear
-         function populateMonthSelector() { monthNames.forEach((name, index) => { const option = document.createElement('option'); option.value = index; option.textContent = name; if (index === currentMonth) option.selected = true; monthSelect.appendChild(option); }); } // Uses loaded currentMonth
+         function populateYearSelector() { const currentFullYear = new Date().getFullYear(); for (let i = currentFullYear - 10; i <= currentFullYear + 5; i++) { const option = document.createElement('option'); option.value = i; option.textContent = i; if (i === currentYear) option.selected = true; yearSelect.appendChild(option); } }
+         function populateMonthSelector() { monthNames.forEach((name, index) => { const option = document.createElement('option'); option.value = index; option.textContent = name; if (index === currentMonth) option.selected = true; monthSelect.appendChild(option); }); }
 
         // --- Kalender Logik ---
         function loadCalendar(year, month) {
              calendarBody.innerHTML = '';
              resultsDiv.style.display = 'none';
              accordionContent.style.display = 'none'; document.querySelector('.accordion-toggle').textContent = 'Details anzeigen'; document.querySelector('.accordion-toggle').classList.remove('open');
-             deselectDay();
+             deselectDay(); // Ensure actions are hidden initially
 
              const startBalanceMinutes = parseHHMMToMinutes(azkVormonatInput.value);
              const prozent = parseFloat(prozentInput.value);
              const tagessoll_minuten_full = Math.round((prozent / 100.0) * (MINUTEN_BASIS_VOLLZEIT_WOCHE / TAGE_PRO_WOCHE));
-             const tagessoll_minuten_half = Math.round(tagessoll_minuten_full / 2);
              const firstDayOfMonth = new Date(year, month, 1); const lastDayOfMonth = new Date(year, month + 1, 0); const daysInMonth = lastDayOfMonth.getDate(); const startDayOfWeek = (firstDayOfMonth.getDay() + 6) % 7;
              let date = 1;
              const todayStr = formatDate(new Date());
              let runningBalanceMinutes = startBalanceMinutes;
 
-             for (let i = 0; i < 6; i++) {
+             for (let i = 0; i < 6; i++) { // Max 6 rows needed
                  const row = document.createElement('tr');
-                 for (let j = 0; j < 7; j++) {
+                 for (let j = 0; j < 7; j++) { // 7 days a week
                      const cell = document.createElement('td');
-                     if ((i === 0 && j < startDayOfWeek) || date > daysInMonth) { cell.classList.add('other-month'); }
-                     else {
+                     if ((i === 0 && j < startDayOfWeek) || date > daysInMonth) {
+                         cell.classList.add('other-month');
+                     } else {
                          const currentDateObj = new Date(year, month, date); const currentDateStr = formatDate(currentDateObj); const dayOfWeek = currentDateObj.getDay(); const isWeekend = dayOfWeek === 0 || dayOfWeek === 6; const isFullHoliday = isHoliday(currentDateStr); const isHalfHoliday = !isFullHoliday && isHalfDayHoliday(currentDateStr);
-                         cell.dataset.date = currentDateStr; cell.innerHTML = `<span class="day-number">${date}</span><span class="day-shift"></span><div class="day-balance-container"><span class="day-balance"></span><span class="day-running-balance"></span></div>`;
-                         cell.onclick = (event) => { event.stopPropagation(); selectDay(cell, currentDateStr); };
+
+                         cell.dataset.date = currentDateStr;
+                         cell.innerHTML = `<span class="day-number">${date}</span><span class="day-shift"></span><div class="day-balance-container"><span class="day-balance"></span><span class="day-running-balance"></span></div>`;
+                         cell.onclick = (event) => { event.stopPropagation(); selectDay(cell, currentDateStr); }; // Use selectDay function
+
                          if (currentDateStr === todayStr) cell.classList.add('today');
                          if (isWeekend) cell.classList.add('weekend');
                          if (isFullHoliday) cell.classList.add('holiday');
                          if (isHalfHoliday) cell.classList.add('half-holiday');
 
-                         let isWorkdayForSollCalculation = !isWeekend && !isFullHoliday;
-                         let dailyTarget_minuten = 0;
-                         const isWorkday = dayOfWeek >= 1 && dayOfWeek <= 5; // Mo-Fr
+                         const dayInfo = dailyData[currentDateStr];
+                         updateDayDisplay(cell, dayInfo, tagessoll_minuten_full, runningBalanceMinutes, isFullHoliday, isHalfHoliday); // Pass necessary info
 
+                         // Calculate running balance increment for the next day's start
+                         let dailyTarget_minuten = 0;
+                         const isWorkdayForSollCalculation = !isWeekend && !isFullHoliday;
+                         const isWorkday = dayOfWeek >= 1 && dayOfWeek <= 5;
                          if (isWorkdayForSollCalculation) {
-                            dailyTarget_minuten = (isHalfHoliday && isWorkday) ? tagessoll_minuten_half : tagessoll_minuten_full;
+                            dailyTarget_minuten = (isHalfHoliday && isWorkday) ? Math.round(tagessoll_minuten_full / 2) : tagessoll_minuten_full;
                          }
-                         const dayInfo = dailyData[currentDateStr]; const shiftType = dayInfo?.shift; let dailyCredit_minuten = 0;
+                         let dailyCredit_minuten = 0;
+                         const shiftType = dayInfo?.shift;
                          if (shiftType === 'f' || shiftType === 's' || shiftType === 'm1') dailyCredit_minuten = MINUTEN_FS_DIENST;
                          else if (shiftType === 'n') dailyCredit_minuten = MINUTEN_NACHT_DIENST;
-                         else if (shiftType === 'urlaub' && isWorkdayForSollCalculation) { dailyCredit_minuten = tagessoll_minuten_full; } // Urlaubsgutschrift nur an Soll-Tagen
+                         else if (shiftType === 'urlaub' && isWorkdayForSollCalculation) { dailyCredit_minuten = tagessoll_minuten_full; }
                          const dailyBalance_minuten = dailyCredit_minuten - dailyTarget_minuten;
-                         updateDayDisplay(cell, dayInfo, tagessoll_minuten_full, runningBalanceMinutes, isFullHoliday, isHalfHoliday); // Passed tagessoll_minuten_full
-                         runningBalanceMinutes += dailyBalance_minuten; date++;
+                         runningBalanceMinutes += dailyBalance_minuten; // Update for next iteration
+
+                         date++;
                      }
                      row.appendChild(cell);
                  }
                  calendarBody.appendChild(row);
+                 // Optimization: Stop creating rows if all dates are placed
                  if (date > daysInMonth && i >= Math.ceil((startDayOfWeek + daysInMonth) / 7) - 1) break;
              }
-             calculateMonthlyBalance(); // Berechne und zeige Gesamtbilanz
+             calculateMonthlyBalance(); // Calculate and display totals
          }
 
-        function deselectDay() { const prevSelected = document.querySelector('#calendar td.selected'); if (prevSelected) prevSelected.classList.remove('selected'); selectedDate = null; dayActionsDiv.style.display = 'none'; selectedDaySpan.textContent = '--.--.----'; }
-        function selectDay(cell, dateStr) { if (cell.classList.contains('other-month')) return; deselectDay(); cell.classList.add('selected'); selectedDate = dateStr; selectedDaySpan.textContent = new Date(dateStr).toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' }); updateActionButtonsUI(dailyData[selectedDate]); dayActionsDiv.style.display = 'block'; }
-        function updateActionButtonsUI(dayInfo) { const currentShift = dayInfo?.shift; document.querySelectorAll('#day-actions button[data-shift]').forEach(btn => { btn.classList.toggle('active', btn.dataset.shift === currentShift); }); }
+        function deselectDay() {
+            const prevSelected = document.querySelector('#calendar td.selected');
+            if (prevSelected) prevSelected.classList.remove('selected');
+            selectedDate = null;
+            dayActionsDiv.style.display = 'none'; // Hide actions
+            selectedDaySpan.textContent = '--.--.----';
+        }
+
+        function selectDay(cell, dateStr) {
+            if (cell.classList.contains('other-month')) return; // Ignore clicks on other month days
+
+            deselectDay(); // Deselect previous day first
+
+            cell.classList.add('selected'); // Highlight the new day
+            selectedDate = dateStr;
+            selectedDaySpan.textContent = new Date(dateStr).toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
+
+            updateActionButtonsUI(dailyData[selectedDate]); // Update button states
+            dayActionsDiv.style.display = 'block'; // Show the action section
+
+            // --- NEU: Scroll to actions ---
+            // Use timeout to ensure the element is fully rendered and visible before scrolling
+            setTimeout(() => {
+                 dayActionsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 50); // 50ms delay usually sufficient
+        }
+
+        function updateActionButtonsUI(dayInfo) {
+            const currentShift = dayInfo?.shift;
+            document.querySelectorAll('#day-actions button[data-shift]').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.shift === currentShift);
+            });
+        }
 
         function assignShift(shiftType) {
-             if (!selectedDate) return; const originalDateStr = selectedDate;
-             if (shiftType === null) { delete dailyData[originalDateStr]; }
-             else { if (!dailyData[originalDateStr]) { dailyData[originalDateStr] = {}; } dailyData[originalDateStr].shift = shiftType; }
-             recalculateIfValid(); // Neuberechnung & Speichern
-             setTimeout(() => { const originalCell = document.querySelector(`#calendar td[data-date="${originalDateStr}"]`); if (!originalCell || originalCell.closest('tbody') !== calendarBody) return; if (VALID_SHIFT_TYPES_FOR_JUMP.includes(shiftType)) { const currentDate = new Date(originalDateStr); currentDate.setDate(currentDate.getDate() + 1); const nextDateStr = formatDate(currentDate); const nextCell = document.querySelector(`#calendar td[data-date="${nextDateStr}"]`); if (nextCell && !nextCell.classList.contains('other-month')) { selectDay(nextCell, nextDateStr); } else { deselectDay(); } } else { if (originalCell) selectDay(originalCell, originalDateStr); else deselectDay(); } }, 50);
+             if (!selectedDate) return;
+             const originalDateStr = selectedDate; // Store the date before potential auto-advance
+
+             if (shiftType === null) { // Clear entry
+                 delete dailyData[originalDateStr];
+             } else { // Assign or update shift
+                 if (!dailyData[originalDateStr]) { dailyData[originalDateStr] = {}; }
+                 dailyData[originalDateStr].shift = shiftType;
+             }
+
+             recalculateIfValid(); // Recalculate balance, update calendar, save data
+
+             // --- Auto-advance logic ---
+             // Use timeout to allow DOM update from recalculateIfValid() before selecting next day
+             setTimeout(() => {
+                 const originalCell = document.querySelector(`#calendar td[data-date="${originalDateStr}"]`);
+                 // Ensure the original cell still exists in the current calendar view
+                 if (!originalCell || originalCell.closest('tbody') !== calendarBody) {
+                    deselectDay(); // If original cell is gone (e.g., month changed), just deselect
+                    return;
+                 }
+
+                 if (VALID_SHIFT_TYPES_FOR_JUMP.includes(shiftType)) {
+                     // Try to select the next day
+                     const currentDate = new Date(originalDateStr);
+                     currentDate.setDate(currentDate.getDate() + 1);
+                     const nextDateStr = formatDate(currentDate);
+                     const nextCell = document.querySelector(`#calendar td[data-date="${nextDateStr}"]`);
+
+                     // Check if next cell exists and is part of the current month's calendar
+                     if (nextCell && !nextCell.classList.contains('other-month')) {
+                         selectDay(nextCell, nextDateStr); // Select the next day
+                     } else {
+                         deselectDay(); // If next day is not visible/available, deselect
+                     }
+                 } else {
+                     // If shift was cleared or not an auto-advance type, re-select the original day
+                     selectDay(originalCell, originalDateStr);
+                 }
+             }, 50); // Small delay
         }
 
          function updateDayDisplay(cell, dayInfo, tagessoll_minuten_full, runningBalanceStartOfDay_minuten, isFullHoliday, isHalfHoliday) {
@@ -682,6 +717,7 @@
              if (shiftType) { shiftSpan.classList.add(`shift-${shiftType}`); shiftSpan.textContent = getShiftText(shiftType); } // Use helper
              cell.title = ''; if (isFullHoliday) cell.title = 'Feiertag'; if (isHalfHoliday) cell.title = 'Halber Feiertag'; // Simplified title
              balanceSpan.textContent = ''; balanceSpan.className = 'day-balance'; runningBalanceSpan.textContent = ''; runningBalanceSpan.className = 'day-running-balance';
+
              if (showDailyBalance) {
                   const dateStr = cell.dataset.date; const dayOfWeek = new Date(dateStr).getDay(); const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
                   let dailyTarget_minuten = 0; const isWorkdayForSollCalculation = !isWeekend && !isFullHoliday;
@@ -705,8 +741,19 @@
          }
          function toggleDailyBalanceDisplay() {
                showDailyBalance = !showDailyBalance; toggleBalanceBtn.textContent = showDailyBalance ? 'Saldo Verbergen' : 'Saldo Anzeigen';
-               recalculateIfValid(); const previouslySelectedDate = selectedDate;
-                if (previouslySelectedDate) { setTimeout(() => { const cell = document.querySelector(`#calendar td[data-date="${previouslySelectedDate}"]`); if (cell && cell.closest('tbody') === calendarBody) { selectDay(cell, previouslySelectedDate); } else { deselectDay(); } }, 50); }
+               recalculateIfValid(); // Reload calendar to show/hide balances
+               // Re-select day if one was selected, to keep context
+                const previouslySelectedDate = selectedDate;
+                if (previouslySelectedDate) {
+                    setTimeout(() => {
+                        const cell = document.querySelector(`#calendar td[data-date="${previouslySelectedDate}"]`);
+                        if (cell && cell.closest('tbody') === calendarBody) {
+                           selectDay(cell, previouslySelectedDate); // Reselect to potentially scroll actions back into view
+                        } else {
+                           deselectDay();
+                        }
+                    }, 50);
+                }
          }
 
         function calculateMonthlyBalance() {
@@ -721,13 +768,8 @@
                  const isWorkday = dayOfWeek >= 1 && dayOfWeek <= 5; // Mo-Fr
 
                  if(isPotentialWorkday) {
-                     if(isHalfHoliday && isWorkday) {
-                        dailyTarget_minuten = tagessoll_minuten_half;
-                        werktage_im_monat_fuer_soll_count += 0.5;
-                     } else {
-                        dailyTarget_minuten = tagessoll_minuten_full;
-                        werktage_im_monat_fuer_soll_count += 1.0;
-                     }
+                     if(isHalfHoliday && isWorkday) { dailyTarget_minuten = tagessoll_minuten_half; werktage_im_monat_fuer_soll_count += 0.5; }
+                     else { dailyTarget_minuten = tagessoll_minuten_full; werktage_im_monat_fuer_soll_count += 1.0; }
                  }
                  monatssoll_minuten += dailyTarget_minuten;
 
@@ -739,12 +781,7 @@
                  else if (shift === 'm1') { dailyCredit_minuten = MINUTEN_FS_DIENST; if (isWorkdayCredit) gutschrift_wd_m1 += dailyCredit_minuten; else if (isWEFTHolidayCredit) gutschrift_weft_m1 += dailyCredit_minuten; }
                  else if (shift === 's') { dailyCredit_minuten = MINUTEN_FS_DIENST; if (isWorkdayCredit) gutschrift_wd_s += dailyCredit_minuten; else if (isWEFTHolidayCredit) gutschrift_weft_s += dailyCredit_minuten; }
                  else if (shift === 'n') { dailyCredit_minuten = MINUTEN_NACHT_DIENST; if (isWorkdayCredit) gutschrift_wd_n += dailyCredit_minuten; else if (isWEFTHolidayCredit) gutschrift_weft_n += dailyCredit_minuten; }
-                 else if (shift === 'urlaub') {
-                      if (isPotentialWorkday) {
-                          dailyCredit_minuten = tagessoll_minuten_full;
-                          urlaub_tage_anzahl++;
-                      }
-                 }
+                 else if (shift === 'urlaub') { if (isPotentialWorkday) { dailyCredit_minuten = tagessoll_minuten_full; urlaub_tage_anzahl++; } }
                  gutschrift_gesamt_minuten += dailyCredit_minuten;
              }
              const veraenderung_minuten = gutschrift_gesamt_minuten - monatssoll_minuten; const endstand_minuten = startBalanceMinutes + veraenderung_minuten;
@@ -754,47 +791,28 @@
              // Update Accordion Details
              document.getElementById('res_detail_month_year').textContent = `${monthNames[month]} ${year}`; document.getElementById('res_azk_vormonat_used').textContent = minutesToHHMM(startBalanceMinutes); document.getElementById('res_prozent').textContent = prozent.toFixed(1); document.getElementById('res_tagessoll').textContent = minutesToHHMM(tagessoll_minuten_full);
              document.getElementById('res_urlaub_tage').textContent = urlaub_tage_anzahl;
-
              document.getElementById('res_detail_wd_total').textContent = minutesToHHMM(total_wd_credit); document.getElementById('res_detail_wd_f').textContent = minutesToHHMM(gutschrift_wd_f); document.getElementById('res_detail_wd_m1').textContent = minutesToHHMM(gutschrift_wd_m1); document.getElementById('res_detail_wd_s').textContent = minutesToHHMM(gutschrift_wd_s); document.getElementById('res_detail_wd_n').textContent = minutesToHHMM(gutschrift_wd_n);
              document.getElementById('res_detail_weft_total').textContent = minutesToHHMM(total_weft_credit); document.getElementById('res_detail_weft_f').textContent = minutesToHHMM(gutschrift_weft_f); document.getElementById('res_detail_weft_m1').textContent = minutesToHHMM(gutschrift_weft_m1); document.getElementById('res_detail_weft_s').textContent = minutesToHHMM(gutschrift_weft_s); document.getElementById('res_detail_weft_n').textContent = minutesToHHMM(gutschrift_weft_n);
              resultsDiv.style.display = 'block'; // Show results section
          }
 
         // --- Accordion Funktion ---
-        function toggleAccordion(toggleElement) { const content = accordionContent; const isOpen = content.style.display === "block"; content.style.display = isOpen ? "none" : "block"; toggleElement.textContent = isOpen ? 'Details verbergen' : 'Details anzeigen'; toggleElement.classList.toggle('open', !isOpen); } // Changed text content
+        function toggleAccordion(toggleElement) { const content = accordionContent; const isOpen = content.style.display === "block"; content.style.display = isOpen ? "none" : "block"; toggleElement.textContent = isOpen ? 'Details verbergen' : 'Details anzeigen'; toggleElement.classList.toggle('open', !isOpen); }
 
-        // --- PDF Export Funktion (using jsPDF and jsPDF-AutoTable) ---
+        // --- PDF Export Funktion ---
         function exportToPDF() {
-            // Check jsPDF first
-            if (typeof jspdf === 'undefined' || typeof jspdf.jsPDF === 'undefined') {
-                alert("jsPDF konnte nicht geladen werden. Bitte Seite neu laden.");
-                return;
-            }
+            if (typeof jspdf === 'undefined' || typeof jspdf.jsPDF === 'undefined') { alert("jsPDF konnte nicht geladen werden. Bitte Seite neu laden."); return; }
+            const { jsPDF } = jspdf; const doc = new jsPDF();
+            if (typeof doc.autoTable !== 'function') { alert("jsPDF-AutoTable konnte nicht geladen werden. Bitte Seite neu laden."); console.error("Fehler: doc.autoTable ist keine Funktion."); return; }
 
-            const { jsPDF } = jspdf;
-            const doc = new jsPDF(); // Create instance *before* checking AutoTable
-
-            // Check if autoTable method exists on the instance (Corrected Check)
-            if (typeof doc.autoTable !== 'function') {
-                 alert("jsPDF-AutoTable konnte nicht geladen werden. Bitte Seite neu laden.");
-                 console.error("Fehler: doc.autoTable ist keine Funktion. Prüfe, ob das AutoTable Plugin korrekt geladen wurde und nach jsPDF eingebunden ist.");
-                 console.error("jsPDF Instanz:", doc);
-                 console.error("window.jspdf Objekt:", window.jspdf);
-                 return;
-             }
-
-            // --- Proceed with the rest of the PDF generation ---
             const startBalanceMinutes = parseHHMMToMinutes(azkVormonatInput.value); const prozent = parseFloat(prozentInput.value); if (isNaN(prozent)) { alert("Ungültiger Prozentwert."); return; }
             const year = parseInt(yearSelect.value); const month = parseInt(monthSelect.value); const tagessoll_minuten_full = Math.round((prozent / 100.0) * (MINUTEN_BASIS_VOLLZEIT_WOCHE / TAGE_PRO_WOCHE)); const tagessoll_minuten_half = Math.round(tagessoll_minuten_full / 2);
             let monatssoll_minuten = 0; let gutschrift_gesamt_minuten = 0; let urlaub_tage_anzahl = 0; let werktage_im_monat_fuer_soll_count = 0; let gutschrift_wd_f = 0, gutschrift_wd_m1 = 0, gutschrift_wd_s = 0, gutschrift_wd_n = 0; let gutschrift_weft_f = 0, gutschrift_weft_m1 = 0, gutschrift_weft_s = 0, gutschrift_weft_n = 0; const daysInMonth = new Date(year, month + 1, 0).getDate();
-            let dailyDetailsForPDF = []; // Array for AutoTable
-            let runningBalancePDF = startBalanceMinutes; // Initialize running balance for PDF table
+            let dailyDetailsForPDF = []; let runningBalancePDF = startBalanceMinutes;
 
             for (let day = 1; day <= daysInMonth; day++) {
                 const currentDateObj = new Date(year, month, day); const currentDateStr = formatDate(currentDateObj); const dayOfWeek = currentDateObj.getDay(); const isWeekend = dayOfWeek === 0 || dayOfWeek === 6; const isFullHoliday = isHoliday(currentDateStr); const isHalfHoliday = !isFullHoliday && isHalfDayHoliday(currentDateStr); const dayInfo = dailyData[currentDateStr]; const shift = dayInfo?.shift;
-                let dailyTarget_minuten = 0; const isPotentialWorkday = !isWeekend && !isFullHoliday;
-                const isWorkday = dayOfWeek >= 1 && dayOfWeek <= 5; // Mo-Fr
-
+                let dailyTarget_minuten = 0; const isPotentialWorkday = !isWeekend && !isFullHoliday; const isWorkday = dayOfWeek >= 1 && dayOfWeek <= 5;
                 if(isPotentialWorkday) { if(isHalfHoliday && isWorkday) { dailyTarget_minuten = tagessoll_minuten_half; werktage_im_monat_fuer_soll_count += 0.5; } else { dailyTarget_minuten = tagessoll_minuten_full; werktage_im_monat_fuer_soll_count += 1.0; } } monatssoll_minuten += dailyTarget_minuten;
                 let dailyCredit_minuten = 0; let isWorkdayCredit = isPotentialWorkday && !(isHalfHoliday && isWorkday); let isWEFTHolidayCredit = isWeekend || isFullHoliday || (isHalfHoliday && isWorkday); let shiftText = shift ? getShiftText(shift) : "-";
                 if (shift === 'f') { dailyCredit_minuten = MINUTEN_FS_DIENST; if (isWorkdayCredit) gutschrift_wd_f += dailyCredit_minuten; else if (isWEFTHolidayCredit) gutschrift_weft_f += dailyCredit_minuten; }
@@ -803,176 +821,49 @@
                 else if (shift === 'n') { dailyCredit_minuten = MINUTEN_NACHT_DIENST; if (isWorkdayCredit) gutschrift_wd_n += dailyCredit_minuten; else if (isWEFTHolidayCredit) gutschrift_weft_n += dailyCredit_minuten; }
                 else if (shift === 'urlaub') { if (isPotentialWorkday) { dailyCredit_minuten = tagessoll_minuten_full; urlaub_tage_anzahl++; } }
                 gutschrift_gesamt_minuten += dailyCredit_minuten;
-                const dailyBalance_minuten = dailyCredit_minuten - dailyTarget_minuten;
-                runningBalancePDF += dailyBalance_minuten; // Update running balance for this day
-
-                 const dayFormatted = ('0' + day).slice(-2); const dayName = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"][dayOfWeek]; let holidayMarker = ""; if (isFullHoliday) holidayMarker = "(FT)"; else if (isHalfHoliday && isWorkday) holidayMarker = "(HFT)";
-                 dailyDetailsForPDF.push([
-                    `${dayFormatted}. ${dayName} ${holidayMarker}`,
-                    shiftText,
-                    minutesToHHMM(dailyBalance_minuten),
-                    minutesToHHMM(runningBalancePDF)
-                ]);
+                const dailyBalance_minuten = dailyCredit_minuten - dailyTarget_minuten; runningBalancePDF += dailyBalance_minuten;
+                const dayFormatted = ('0' + day).slice(-2); const dayName = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"][dayOfWeek]; let holidayMarker = ""; if (isFullHoliday) holidayMarker = "(FT)"; else if (isHalfHoliday && isWorkday) holidayMarker = "(HFT)";
+                 dailyDetailsForPDF.push([ `${dayFormatted}. ${dayName} ${holidayMarker}`, shiftText, minutesToHHMM(dailyBalance_minuten), minutesToHHMM(runningBalancePDF) ]);
             }
             const veraenderung_minuten = gutschrift_gesamt_minuten - monatssoll_minuten; const endstand_minuten = startBalanceMinutes + veraenderung_minuten; const total_wd_credit = gutschrift_wd_f + gutschrift_wd_m1 + gutschrift_wd_s + gutschrift_wd_n; const total_weft_credit = gutschrift_weft_f + gutschrift_weft_m1 + gutschrift_weft_s + gutschrift_weft_n;
             const pageHeight = doc.internal.pageSize.height; const pageWidth = doc.internal.pageSize.width; const margin = 15; let yPos = margin;
 
-            function addText(text, x = margin, isBold = false, fontSize = 10, align = 'left') {
-                if (yPos + (fontSize * 0.35) > pageHeight - margin) {
-                    doc.addPage();
-                    yPos = margin;
-                    addHeaderFooter();
-                }
-                doc.setFontSize(fontSize);
-                doc.setFont(undefined, isBold ? 'bold' : 'normal');
-                doc.text(text, x, yPos, { align: align });
-                yPos += (fontSize * 0.45);
-            }
+            function addText(text, x = margin, isBold = false, fontSize = 10, align = 'left') { if (yPos + (fontSize * 0.35) > pageHeight - margin) { doc.addPage(); yPos = margin; addHeaderFooter(); } doc.setFontSize(fontSize); doc.setFont(undefined, isBold ? 'bold' : 'normal'); doc.text(text, x, yPos, { align: align }); yPos += (fontSize * 0.45); }
+            function addLine(x1 = margin, x2 = pageWidth - margin) { if (yPos + 2 > pageHeight - margin) { doc.addPage(); yPos = margin; addHeaderFooter(); } doc.setDrawColor(200); doc.line(x1, yPos, x2, yPos); yPos += 3; }
+            function addHeaderFooter() { const pageNum = doc.internal.getNumberOfPages(); doc.setFontSize(8); doc.setTextColor(150); doc.text(`Seite ${pageNum}`, pageWidth - margin, pageHeight - 10, { align: 'right' }); doc.text(`Stundenkonto ${monthNames[month]} ${year}${pageNum > 1 ? ' (Fortsetzung)' : ''}`, margin, 10); doc.setTextColor(0); }
 
-            function addLine(x1 = margin, x2 = pageWidth - margin) {
-                if (yPos + 2 > pageHeight - margin) { doc.addPage(); yPos = margin; addHeaderFooter(); }
-                doc.setDrawColor(200);
-                doc.line(x1, yPos, x2, yPos);
-                yPos += 3;
-            }
+            addHeaderFooter(); yPos = margin + 5;
+            doc.setFontSize(16); doc.setFont(undefined, 'bold'); doc.text(`Stundenkonto Übersicht: ${monthNames[month]} ${year}`, pageWidth / 2, yPos, { align: 'center' }); yPos += 10;
+            addText("Monatsbilanz", margin, true, 12); yPos += 2;
+            addText(`Monatliches Soll: ${minutesToHHMM(monatssoll_minuten)} (${werktage_im_monat_fuer_soll_count.toFixed(1).replace('.0', '')} Tage)`); addText(`Monatliches Haben: ${minutesToHHMM(gutschrift_gesamt_minuten)}`); addText(`Veränderung Monat: ${minutesToHHMM(veraenderung_minuten)}`); yPos += 1; addText(`Neuer Kontostand: ${minutesToHHMM(endstand_minuten)}`, margin, true); yPos += 6; addLine();
+            addText("Details", margin, true, 12); yPos += 2;
+            addText(`AZK Vormonat: ${minutesToHHMM(startBalanceMinutes)}`); addText(`Arbeitspensum: ${prozent.toFixed(1)}%`); addText(`Persönliches Tagessoll: ${minutesToHHMM(tagessoll_minuten_full)}`); addText(`Urlaubstage (an Soll-Tagen): ${urlaub_tage_anzahl}`); yPos += 3;
+            addText(`Stundengutschrift Werktage (Mo-Fr, kein FT): ${minutesToHHMM(total_wd_credit)}`, margin, true); addText(`  Frühdienste: ${minutesToHHMM(gutschrift_wd_f)}`, margin + 5); addText(`  M1-Dienste: ${minutesToHHMM(gutschrift_wd_m1)}`, margin + 5); addText(`  Spätdienste: ${minutesToHHMM(gutschrift_wd_s)}`, margin + 5); addText(`  Nachtdienste: ${minutesToHHMM(gutschrift_wd_n)}`, margin + 5); yPos += 3;
+            addText(`Stundengutschrift Feiertage & Wochenende: ${minutesToHHMM(total_weft_credit)}`, margin, true); addText(`  Frühdienste: ${minutesToHHMM(gutschrift_weft_f)}`, margin + 5); addText(`  M1-Dienste: ${minutesToHHMM(gutschrift_weft_m1)}`, margin + 5); addText(`  Spätdienste: ${minutesToHHMM(gutschrift_weft_s)}`, margin + 5); addText(`  Nachtdienste: ${minutesToHHMM(gutschrift_weft_n)}`, margin + 5); yPos += 8; addLine();
+            addText("Tagesübersicht", margin, true, 12); yPos += 4;
 
-            function addHeaderFooter() {
-                const pageNum = doc.internal.getNumberOfPages();
-                doc.setFontSize(8);
-                doc.setTextColor(150);
-                doc.text(`Seite ${pageNum}`, pageWidth - margin, pageHeight - 10, { align: 'right' });
-                if (pageNum > 1) {
-                   doc.text(`Stundenkonto ${monthNames[month]} ${year} (Fortsetzung)`, margin, 10);
-                } else {
-                   // Optional: Header on first page if desired
-                   doc.text(`Stundenkonto ${monthNames[month]} ${year}`, margin, 10);
-                }
-                doc.setTextColor(0);
-             }
-
-            // --- Start PDF Content ---
-            // Add header/footer to the first page
-            addHeaderFooter();
-            // Reset yPos after header if needed, or adjust initial yPos
-            yPos = margin + 5; // Start content slightly below header
-
-            doc.setFontSize(16);
-            doc.setFont(undefined, 'bold');
-            doc.text(`Stundenkonto Übersicht: ${monthNames[month]} ${year}`, pageWidth / 2, yPos, { align: 'center' });
-            yPos += 10; // Increased space after title
-
-            addText("Monatsbilanz", margin, true, 12);
-            yPos += 2;
-            addText(`Monatliches Soll: ${minutesToHHMM(monatssoll_minuten)} (${werktage_im_monat_fuer_soll_count.toFixed(1).replace('.0', '')} Tage)`);
-            addText(`Monatliches Haben: ${minutesToHHMM(gutschrift_gesamt_minuten)}`);
-            addText(`Veränderung Monat: ${minutesToHHMM(veraenderung_minuten)}`);
-            yPos += 1;
-            addText(`Neuer Kontostand: ${minutesToHHMM(endstand_minuten)}`, margin, true);
-            yPos += 6;
-            addLine();
-
-            addText("Details", margin, true, 12);
-            yPos += 2;
-            addText(`AZK Vormonat: ${minutesToHHMM(startBalanceMinutes)}`);
-            addText(`Arbeitspensum: ${prozent.toFixed(1)}%`);
-            addText(`Persönliches Tagessoll: ${minutesToHHMM(tagessoll_minuten_full)}`);
-            addText(`Urlaubstage (an Soll-Tagen): ${urlaub_tage_anzahl}`);
-            yPos += 3;
-
-            addText(`Stundengutschrift Werktage (Mo-Fr, kein FT): ${minutesToHHMM(total_wd_credit)}`, margin, true);
-            addText(`  Frühdienste: ${minutesToHHMM(gutschrift_wd_f)}`, margin + 5);
-            addText(`  M1-Dienste: ${minutesToHHMM(gutschrift_wd_m1)}`, margin + 5);
-            addText(`  Spätdienste: ${minutesToHHMM(gutschrift_wd_s)}`, margin + 5);
-            addText(`  Nachtdienste: ${minutesToHHMM(gutschrift_wd_n)}`, margin + 5);
-            yPos += 3;
-
-            addText(`Stundengutschrift Feiertage & Wochenende: ${minutesToHHMM(total_weft_credit)}`, margin, true);
-            addText(`  Frühdienste: ${minutesToHHMM(gutschrift_weft_f)}`, margin + 5);
-            addText(`  M1-Dienste: ${minutesToHHMM(gutschrift_weft_m1)}`, margin + 5);
-            addText(`  Spätdienste: ${minutesToHHMM(gutschrift_weft_s)}`, margin + 5);
-            addText(`  Nachtdienste: ${minutesToHHMM(gutschrift_weft_n)}`, margin + 5);
-            yPos += 8;
-            addLine();
-
-            addText("Tagesübersicht", margin, true, 12);
-            yPos += 4;
-
-            // --- Generate AutoTable ---
-            const tableHeaders = [['Tag', 'Schicht', 'Tagessaldo (Δ)', 'Laufender Saldo (Σ)']];
-            doc.autoTable({
-                head: tableHeaders,
-                body: dailyDetailsForPDF,
-                startY: yPos,
-                theme: 'grid',
-                headStyles: { fillColor: [220, 220, 220], textColor: 40, fontStyle: 'bold' },
-                styles: { fontSize: 9, cellPadding: 1.5 },
-                columnStyles: {
-                    0: { cellWidth: 'auto' },
-                    1: { cellWidth: 'auto' },
-                    2: { cellWidth: 'auto', halign: 'right' },
-                    3: { cellWidth: 'auto', halign: 'right' }
-                },
-                didDrawPage: (data) => {
-                    addHeaderFooter();
-                     // Reset yPos for the new page to start below header
-                    yPos = margin + 5;
-                },
-            });
-
-             // Update yPos based on where the table finished
-             if (doc.lastAutoTable) {
-                yPos = doc.lastAutoTable.finalY + 10;
-             }
-
-             // Add footer to the last page explicitly if autoTable didn't trigger didDrawPage for it
-             // Check if we are already near the bottom, if so, footer was likely added by didDrawPage
-             if (yPos < pageHeight - 20) {
-                 addHeaderFooter(); // Needs explicit call only if table finished high on page
-             }
-
-            // --- Save PDF ---
+            doc.autoTable({ head: [['Tag', 'Schicht', 'Tagessaldo (Δ)', 'Laufender Saldo (Σ)']], body: dailyDetailsForPDF, startY: yPos, theme: 'grid', headStyles: { fillColor: [220, 220, 220], textColor: 40, fontStyle: 'bold' }, styles: { fontSize: 9, cellPadding: 1.5 }, columnStyles: { 0: { cellWidth: 'auto' }, 1: { cellWidth: 'auto' }, 2: { cellWidth: 'auto', halign: 'right' }, 3: { cellWidth: 'auto', halign: 'right' } }, didDrawPage: (data) => { addHeaderFooter(); yPos = margin + 5; } });
+            if (doc.lastAutoTable) { yPos = doc.lastAutoTable.finalY + 10; }
+            if (yPos < pageHeight - 20) { addHeaderFooter(); }
             doc.save(`Stundenkonto_${year}_${('0' + (month + 1)).slice(-2)}.pdf`);
         }
         // Helper Function to get shift text
         function getShiftText(shiftType) { switch(shiftType) { case 'f': return 'Früh'; case 'm1': return 'M1'; case 's': return 'Spät'; case 'n': return 'Nacht'; case 'urlaub': return 'Urlaub'; case 'frei': return 'Frei'; default: return '-'; } }
 
-        // --- NEUE Funktion: Monatseinträge löschen ---
+        // --- Monatseinträge löschen ---
         function clearMonthEntries() {
              const year = parseInt(yearSelect.value);
              const month = parseInt(monthSelect.value);
-             const monthName = monthNames[month]; // Für die Bestätigungsnachricht
-
-             // Sicherheitsabfrage
-             if (!confirm(`Sind Sie sicher, dass Sie alle Einträge für ${monthName} ${year} löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.`)) {
-                 return; // Abbrechen, wenn der Benutzer nicht bestätigt
-             }
-
-             const daysInMonth = new Date(year, month + 1, 0).getDate();
-             let entriesCleared = false; // Flag, um zu prüfen, ob überhaupt etwas gelöscht wurde
-
-             // Gehe alle Tage des ausgewählten Monats durch
+             const monthName = monthNames[month];
+             if (!confirm(`Sind Sie sicher, dass Sie alle Einträge für ${monthName} ${year} löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.`)) { return; }
+             const daysInMonth = new Date(year, month + 1, 0).getDate(); let entriesCleared = false;
              for (let day = 1; day <= daysInMonth; day++) {
                  const dateStr = formatDate(new Date(year, month, day));
-                 // Prüfen, ob für diesen Tag Daten im dailyData Objekt existieren
-                 if (dailyData.hasOwnProperty(dateStr)) {
-                     delete dailyData[dateStr]; // Eintrag löschen
-                     entriesCleared = true;
-                 }
+                 if (dailyData.hasOwnProperty(dateStr)) { delete dailyData[dateStr]; entriesCleared = true; }
              }
-
-             // Nur wenn Einträge gelöscht wurden, die Anzeige aktualisieren
-             if (entriesCleared) {
-                 console.log(`Alle Einträge für ${monthName} ${year} gelöscht.`);
-                 recalculateIfValid(); // Kalender neu laden, Bilanz neu berechnen und speichern
-                 // Optional: Kurze Bestätigungsmeldung für den User
-                 // alert(`Alle Einträge für ${monthName} ${year} wurden gelöscht.`);
-             } else {
-                 console.log(`Keine Einträge für ${monthName} ${year} zum Löschen gefunden.`);
-                 // Optional: Meldung für den User, dass nichts zu löschen war
-                 // alert(`Für ${monthName} ${year} waren keine Einträge vorhanden.`);
-             }
+             if (entriesCleared) { console.log(`Alle Einträge für ${monthName} ${year} gelöscht.`); recalculateIfValid(); }
+             else { console.log(`Keine Einträge für ${monthName} ${year} zum Löschen gefunden.`); }
          }
-
 
         // --- Start ---
         init();
