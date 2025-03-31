@@ -18,161 +18,228 @@
 
         *, *::before, *::after { box-sizing: border-box; }
 
-        body { /* ... bleibt gleich ... */
+        body {
              font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
-             line-height: 1.6; margin: 0; padding: 10px; background-color: var(--light-gray); color: var(--text-color); font-size: 15px;
+             line-height: 1.6; margin: 0; padding: 8px; /* Reduced padding for mobile */
+             background-color: var(--light-gray); color: var(--text-color); font-size: 14px; /* Slightly smaller base font for mobile */
              -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
          }
-        .container { /* ... bleibt gleich ... */
-             max-width: 950px; margin: 15px auto; padding: 20px; background-color: #ffffff;
-             border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        .container {
+             max-width: 950px; margin: 10px auto; padding: 15px; /* Reduced padding for mobile */
+             background-color: #ffffff;
+             border-radius: 8px; /* Slightly smaller radius */
+             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
          }
-        h1 { /* ... bleibt gleich ... */
-             color: #343a40; text-align: center; margin-top: 0; margin-bottom: 15px; font-size: 1.7rem; font-weight: 600;
+        h1 {
+             color: #343a40; text-align: center; margin-top: 0; margin-bottom: 15px; font-size: 1.5rem; /* Reduced for mobile */
+             font-weight: 600;
          }
-        h2 { /* ... bleibt gleich ... */
-             color: #495057; text-align: center; margin-bottom: 20px; font-size: 1.25rem; font-weight: 500; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;
+        h2 {
+             color: #495057; text-align: center; margin-bottom: 15px; font-size: 1.15rem; /* Reduced for mobile */
+             font-weight: 500; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;
          }
-        *:focus-visible { /* ... bleibt gleich ... */
+        *:focus-visible {
              outline: 2px solid var(--link-color); outline-offset: 2px; box-shadow: 0 0 0 3px var(--focus-ring-color); border-radius: 4px;
          }
-        *:focus:not(:focus-visible) { /* ... bleibt gleich ... */ outline: none; box-shadow: none; }
+        *:focus:not(:focus-visible) { outline: none; box-shadow: none; }
 
-        .disclaimer { /* ... bleibt gleich ... */
+        .disclaimer {
              background-color: var(--disclaimer-bg); color: var(--disclaimer-text); border: 1px solid var(--disclaimer-border);
-             padding: 12px 18px; border-radius: 6px; margin-bottom: 20px; font-size: 0.9rem; text-align: center;
+             padding: 10px 15px; border-radius: 6px; margin-bottom: 15px; font-size: 0.85rem; text-align: center;
         }
 
         /* Controls Layout */
-        .controls { /* ... bleibt gleich ... */ display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }
-        .controls .control-row { /* ... bleibt gleich ... */ display: flex; align-items: center; flex-wrap: wrap; gap: 10px 15px; }
-        .controls label { /* ... bleibt gleich ... */ margin-right: 5px; font-weight: 500; color: var(--text-muted); white-space: nowrap;}
-        .controls select, .controls button, .controls input[type="text"] { /* ... bleibt gleich ... */ padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.95rem; box-sizing: border-box; background-color: #fff; transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; }
-        .controls select:hover, .controls input:hover { /* ... bleibt gleich ... */ border-color: #a0a0a0; }
-        .controls select { /* ... bleibt gleich ... */ flex-grow: 1; min-width: 120px;}
-        .controls input#azk_vormonat { /* ... bleibt gleich ... */ min-width: 90px; text-align: center; flex-basis: 100px; flex-grow: 0; }
-        .controls .azk-group { /* ... bleibt gleich ... */ display: flex; align-items: center; gap: 5px; margin-left: auto; }
-        .controls .button-group { /* ... bleibt gleich ... */ display: flex; flex-grow: 1; justify-content: flex-end; gap: 10px;}
-        .controls .button-group button { /* ... bleibt gleich ... */ flex-grow: 0; width: auto; padding: 8px 15px;}
-        .controls button { /* ... bleibt gleich ... */ cursor: pointer; text-align: center; background-color: var(--secondary-color); color: white; border: none;}
-        .controls button:hover { /* ... bleibt gleich ... */ filter: brightness(90%); }
-        .controls button.toggle-btn { /* ... bleibt gleich ... */ background-color: #17a2b8; }
+        .controls { display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px; }
+        .controls .control-row { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 12px; }
+        .controls label { margin-right: 4px; font-weight: 500; color: var(--text-muted); white-space: nowrap; font-size: 0.9rem;}
+        .controls select, .controls button, .controls input[type="text"] { padding: 7px 10px; border: 1px solid var(--border-color); border-radius: 5px; font-size: 0.9rem; box-sizing: border-box; background-color: #fff; transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; }
+        .controls select:hover, .controls input:hover { border-color: #a0a0a0; }
+        .controls select { flex-grow: 1; min-width: 100px;}
+        .controls input#azk_vormonat { min-width: 80px; text-align: center; flex-basis: 90px; flex-grow: 0; }
+        .controls .azk-group { display: flex; align-items: center; gap: 5px; margin-left: 0; } /* Removed margin-left: auto for mobile */
+        .controls .button-group { display: flex; flex-grow: 1; justify-content: flex-start; gap: 8px; width: 100%;} /* Start align buttons on mobile */
+        .controls .button-group button { flex-grow: 0; width: auto; padding: 7px 12px;}
+        .controls button { cursor: pointer; text-align: center; background-color: var(--secondary-color); color: white; border: none;}
+        .controls button:hover { filter: brightness(90%); }
+        .controls button.toggle-btn { background-color: #17a2b8; }
 
         /* Prozent Slider */
-        .percent-control { /* ... bleibt gleich ... */ display: flex; align-items: center; padding: 10px 15px; background-color: var(--medium-gray); border-radius: 6px; gap: 15px; flex-wrap: nowrap; margin-bottom: 25px; }
-        .percent-control label { /* ... bleibt gleich ... */ white-space: nowrap; color: var(--text-muted); font-weight: 500;}
-        .percent-control input[type="range"] { /* ... bleibt gleich ... */ flex-grow: 1; margin: 0; cursor: pointer; height: 6px; appearance: none; background: #ddd; border-radius: 3px; }
-        .percent-control input[type=range]::-webkit-slider-thumb { /* ... bleibt gleich ... */ appearance: none; width: 18px; height: 18px; background: var(--primary-color); border-radius: 50%; cursor: pointer; transition: background-color 0.2s; }
-        .percent-control input[type=range]::-moz-range-thumb { /* ... bleibt gleich ... */ width: 18px; height: 18px; background: var(--primary-color); border-radius: 50%; cursor: pointer; border: none; transition: background-color 0.2s;}
-        .percent-control input[type=range]:hover::-webkit-slider-thumb { /* ... bleibt gleich ... */ background: #004494; }
-        .percent-control input[type=range]:hover::-moz-range-thumb { /* ... bleibt gleich ... */ background: #004494; }
-        .percent-control span { /* ... bleibt gleich ... */ font-weight: 600; color: var(--primary-color); min-width: 45px; text-align: right; font-size: 1rem;}
+        .percent-control { display: flex; align-items: center; padding: 8px 12px; background-color: var(--medium-gray); border-radius: 6px; gap: 10px; flex-wrap: nowrap; margin-bottom: 20px; }
+        .percent-control label { white-space: nowrap; color: var(--text-muted); font-weight: 500; font-size: 0.9rem;}
+        .percent-control input[type="range"] { flex-grow: 1; margin: 0; cursor: pointer; height: 5px; appearance: none; background: #ddd; border-radius: 3px; }
+        .percent-control input[type=range]::-webkit-slider-thumb { appearance: none; width: 16px; height: 16px; background: var(--primary-color); border-radius: 50%; cursor: pointer; transition: background-color 0.2s; }
+        .percent-control input[type=range]::-moz-range-thumb { width: 16px; height: 16px; background: var(--primary-color); border-radius: 50%; cursor: pointer; border: none; transition: background-color 0.2s;}
+        .percent-control input[type=range]:hover::-webkit-slider-thumb { background: #004494; }
+        .percent-control input[type=range]:hover::-moz-range-thumb { background: #004494; }
+        .percent-control span { font-weight: 600; color: var(--primary-color); min-width: 40px; text-align: right; font-size: 0.95rem;}
 
         /* Kalender */
-        .calendar-wrapper { /* ... bleibt gleich ... */ overflow-x: auto; margin-bottom: 20px; padding-bottom: 5px; border: 1px solid var(--border-color); border-radius: 8px; }
-        #calendar { /* ... bleibt gleich ... */ width: 100%; min-width: 600px; border-collapse: separate; border-spacing: 0; table-layout: fixed; }
-        #calendar th { /* ... bleibt gleich ... */ text-align: center; padding: 10px 5px; background-color: var(--medium-gray); color: #495057; font-size: 0.9rem; font-weight: 600; border-bottom: 1px solid var(--border-color); }
-        #calendar th:first-child { /* ... bleibt gleich ... */ border-top-left-radius: 7px; }
-        #calendar th:last-child { /* ... bleibt gleich ... */ border-top-right-radius: 7px; }
-        #calendar td { /* ... bleibt gleich ... */ border: none; border-top: 1px solid var(--border-color); border-left: 1px solid var(--border-color); height: 100px; vertical-align: top; padding: 5px; position: relative; font-size: 0.85rem; cursor: pointer; transition: background-color 0.2s ease; }
-        #calendar tr td:first-child { /* ... bleibt gleich ... */ border-left: none; }
-        #calendar td:hover { /* ... bleibt gleich ... */ background-color: #f1f1f1; }
-        #calendar td.today .day-number { /* ... bleibt gleich ... */ background-color: #ffecb3; border-radius: 50%; display: inline-block; width: 1.8em; height: 1.8em; line-height: 1.8em; text-align: center; }
-        #calendar td.weekend { /* ... bleibt gleich ... */ background-color: var(--weekend-bg); }
-        #calendar td.holiday { /* ... bleibt gleich ... */ outline: var(--holiday-border); outline-offset: -2px; }
-        #calendar td.other-month { /* ... bleibt gleich ... */ background-color: #f8f9fa; color: var(--dark-gray); cursor: default; }
-        #calendar td.other-month .day-number { /* ... bleibt gleich ... */ opacity: 0.6; }
-        #calendar td.selected { /* ... bleibt gleich ... */ background-color: #e0efff; outline: var(--selected-outline); outline-offset: -2px; z-index: 1; }
-        .day-number { /* ... bleibt gleich ... */ font-weight: 500; display: inline-block; margin-bottom: 3px; font-size: 0.9em; color: var(--text-muted); }
-        .day-shift { /* ... bleibt gleich ... */ font-size: 0.75em; padding: 2px 5px; border-radius: 4px; color: white; display: block; margin-top: 4px; text-align: center; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-weight: 500; }
-        .shift-f { /* ... bleibt gleich ... */ background-color: var(--frueh-color); } .shift-s { background-color: var(--primary-color); } .shift-n { background-color: var(--secondary-color); } .shift-urlaub { background-color: var(--warning-color); color: #333; } .shift-frei { background-color: var(--success-color); }
-        .day-balance-container { /* ... bleibt gleich ... */ position: absolute; bottom: 5px; right: 5px; text-align: right; line-height: 1.2; }
-        .day-balance, .day-running-balance { /* ... bleibt gleich ... */ display: block; font-size: 0.75em; font-weight: 600; padding: 0px 2px; border-radius: 2px; }
-        .day-balance { /* ... bleibt gleich ... */ margin-bottom: 1px; }
-        .balance-positive { /* ... bleibt gleich ... */ color: var(--positive-color); } .balance-negative { color: var(--danger-color); }
+        .calendar-wrapper { overflow-x: auto; margin-bottom: 15px; padding-bottom: 5px; border: 1px solid var(--border-color); border-radius: 8px; }
+        #calendar { width: 100%; min-width: 300px; /* Reduced min-width */ border-collapse: separate; border-spacing: 0; table-layout: fixed; }
+        #calendar th { text-align: center; padding: 6px 3px; /* Reduced padding */ background-color: var(--medium-gray); color: #495057; font-size: 0.8rem; /* Reduced font size */ font-weight: 600; border-bottom: 1px solid var(--border-color); }
+        #calendar th:first-child { border-top-left-radius: 7px; }
+        #calendar th:last-child { border-top-right-radius: 7px; }
+        #calendar td {
+            border: none; border-top: 1px solid var(--border-color); border-left: 1px solid var(--border-color);
+            height: 75px; /* Reduced height */ vertical-align: top; padding: 3px; /* Reduced padding */ position: relative;
+            font-size: 0.75rem; /* Reduced font size */ cursor: pointer; transition: background-color 0.2s ease;
+        }
+        #calendar tr td:first-child { border-left: none; }
+        #calendar td:hover { background-color: #f1f1f1; }
+        #calendar td.today .day-number { background-color: #ffecb3; border-radius: 50%; display: inline-block; width: 1.7em; height: 1.7em; line-height: 1.7em; text-align: center; font-weight: bold; }
+        #calendar td.weekend { background-color: var(--weekend-bg); }
+        #calendar td.holiday { outline: var(--holiday-border); outline-offset: -1px; } /* Adjusted offset */
+        #calendar td.other-month { background-color: #f8f9fa; color: var(--dark-gray); cursor: default; }
+        #calendar td.other-month .day-number { opacity: 0.5; } /* Slightly more faded */
+        #calendar td.selected { background-color: #e0efff; outline: var(--selected-outline); outline-offset: -1px; z-index: 1; } /* Adjusted offset */
+        .day-number { font-weight: 500; display: block; /* Block for better spacing */ margin-bottom: 2px; font-size: 0.8em; /* Reduced font size */ color: var(--text-muted); text-align: left; padding-left: 1px;}
+        .day-shift { font-size: 0.7em; /* Reduced font size */ padding: 2px 3px; border-radius: 3px; color: white; display: block; margin-top: 2px; text-align: center; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-weight: 500; }
+        .shift-f { background-color: var(--frueh-color); } .shift-s { background-color: var(--primary-color); } .shift-n { background-color: var(--secondary-color); } .shift-urlaub { background-color: var(--warning-color); color: #333; } .shift-frei { background-color: var(--success-color); }
+        .day-balance-container { position: absolute; bottom: 2px; right: 3px; /* Adjusted position */ text-align: right; line-height: 1.1; }
+        .day-balance, .day-running-balance { display: block; font-size: 0.7em; /* Reduced font size */ font-weight: 600; padding: 0px 2px; border-radius: 2px; }
+        .day-balance { margin-bottom: 0px; }
+        .balance-positive { color: var(--positive-color); } .balance-negative { color: var(--danger-color); }
 
         /* Legende */
-        #legend { /* ... bleibt gleich ... */ font-size: 0.85rem; padding: 12px 18px; background-color: var(--medium-gray); border-radius: 6px; margin-bottom: 25px; color: var(--text-muted); }
-        #legend ul { /* ... bleibt gleich ... */ list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px 20px; }
-        #legend li { /* ... bleibt gleich ... */ display: flex; align-items: center; }
-        #legend li span { /* ... bleibt gleich ... */ display: inline-block; width: 14px; height: 14px; margin-right: 6px; border-radius: 3px; border: 1px solid #ccc; }
-        #legend li span.border-example { /* ... bleibt gleich ... */ border: 2px solid var(--danger-color); background-color: transparent; }
-        #legend li span.positive-text, #legend li span.negative-text { /* ... bleibt gleich ... */ font-weight: bold; border: none; width: auto; height: auto; background-color: transparent !important; }
-        #legend li span.positive-text { /* ... bleibt gleich ... */ color: var(--positive-color); }
-        #legend li span.negative-text { /* ... bleibt gleich ... */ color: var(--danger-color); }
+        #legend { font-size: 0.8rem; padding: 10px 15px; background-color: var(--medium-gray); border-radius: 6px; margin-bottom: 20px; color: var(--text-muted); }
+        #legend ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 6px 15px; }
+        #legend li { display: flex; align-items: center; }
+        #legend li span { display: inline-block; width: 12px; height: 12px; margin-right: 5px; border-radius: 3px; border: 1px solid #ccc; }
+        #legend li span.border-example { border: 2px solid var(--danger-color); background-color: transparent; }
+        #legend li span.positive-text, #legend li span.negative-text { font-weight: bold; border: none; width: auto; height: auto; background-color: transparent !important; }
+        #legend li span.positive-text { color: var(--positive-color); }
+        #legend li span.negative-text { color: var(--danger-color); }
 
         /* Aktionen für Tag */
-        #day-actions { margin-top: 25px; padding: 18px; background-color: var(--medium-gray); border-radius: 8px; display: none; border: 1px solid var(--border-color); }
-        #day-actions label { display: block; margin-bottom: 15px; font-weight: 600; text-align: center; color: var(--text-color);}
+        #day-actions {
+            margin-top: 15px; padding: 15px; background-color: var(--medium-gray);
+            border-radius: 8px; display: none; /* Initially hidden */
+            border: 1px solid var(--border-color);
+        }
+        #day-actions label { display: block; margin-bottom: 12px; font-weight: 600; text-align: center; color: var(--text-color); font-size: 0.95rem;}
         .action-buttons {
             display: grid;
-            justify-items: center; /* Zentriert die Reihen und den Clear-Button */
-            gap: 8px; /* Reduzierter Abstand zwischen Reihen */
+            justify-items: center;
+            gap: 8px;
         }
         .action-buttons .button-row {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3 Spalten gleicher Breite */
-            gap: 8px; /* Reduzierter Abstand zwischen Buttons */
-            width: 100%; /* Nimmt verfügbare Breite im Container ein */
-            max-width: 350px; /* Maximale Breite der Reihe begrenzen */
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            width: 100%;
+            max-width: 350px;
         }
         #day-actions button {
-             padding: 9px 5px; /* Vertikales Padding leicht erhöht, horizontal reduziert */
+             padding: 10px 6px; /* More vertical padding for touch */
              cursor: pointer; border: none; border-radius: 5px;
-             font-size: 0.9rem; color: white; font-weight: 500;
-             width: 100%; /* Füllt die Grid-Zelle aus */
+             font-size: 0.85rem; /* Slightly smaller font */
+             color: white; font-weight: 500;
+             width: 100%;
              text-align: center;
              transition: filter 0.2s ease, box-shadow 0.2s ease;
-             line-height: 1.3; /* Bessere Zeilenhöhe für Text */
+             line-height: 1.3;
         }
         #day-actions button:hover { filter: brightness(90%); }
         button.btn-frueh { background-color: var(--frueh-color); } button.btn-spaet { background-color: var(--primary-color); } button.btn-nacht { background-color: var(--secondary-color); } button.btn-frei { background-color: var(--success-color); } button.btn-urlaub { background-color: var(--warning-color); color: #333; } button.holiday-toggle { background-color: #adb5bd; color: #333; }
         button.clear {
             background-color: #343a40; color: white;
-            margin-top: 8px; /* Kleiner Abstand nach oben */
-            grid-column: 1 / -1; /* Nimmt volle Breite im Grid ein */
-            justify-self: center; /* Zentriert sich selbst */
-            width: 50%; /* Macht ihn schmaler als die Reihen */
-            max-width: 180px;
+            margin-top: 8px;
+            grid-column: 1 / -1;
+            justify-self: center;
+            width: 60%; /* Wider clear button on mobile */
+            max-width: 200px;
         }
         #day-actions button.active { box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.7); filter: brightness(100%); }
         #day-actions button.holiday-toggle.is-holiday { background-color: var(--danger-color); color: white; box-shadow: none; }
 
         /* Ergebnisse & Accordion */
-        #results { /* ... bleibt gleich ... */ margin-top: 0; padding: 0; background-color: #fff; border: 1px solid var(--border-color); border-radius: 8px; display: none; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .results-summary { /* ... bleibt gleich ... */ padding: 15px 20px; }
-        #results h2 { /* ... bleibt gleich ... */ text-align: left; font-size: 1.2rem; margin-top: 0; margin-bottom: 12px; border-bottom: none; font-weight: 600; }
-        #results p { /* ... bleibt gleich ... */ margin: 5px 0; font-size: 1rem; }
-        #results span { /* ... bleibt gleich ... */ font-weight: 600; color: #343a40; }
-        #results .veraenderung, #results .endstand { /* ... bleibt gleich ... */ font-size: 1.15rem; font-weight: 700;}
-        #results .veraenderung span, #results .endstand span { /* ... bleibt gleich ... */ font-weight: 700; }
-        #results .veraenderung.positive span, #results .endstand.positive span { /* ... bleibt gleich ... */ color: var(--positive-color); }
-        #results .veraenderung.negative span, #results .endstand.negative span { /* ... bleibt gleich ... */ color: var(--danger-color); }
-        .accordion-toggle { /* ... bleibt gleich ... */ display: block; padding: 10px 20px; background-color: var(--medium-gray); cursor: pointer; text-align: left; font-size: 0.95rem; font-weight: 500; border-top: 1px solid var(--border-color); color: var(--link-color); position: relative; }
-        .accordion-toggle:hover { /* ... bleibt gleich ... */ background-color: #dde2e6; }
-        .accordion-toggle::after { /* ... bleibt gleich ... */ content: '▼'; position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 0.8em; transition: transform 0.2s ease; }
-        .accordion-toggle.open::after { /* ... bleibt gleich ... */ transform: translateY(-50%) rotate(180deg); }
-        .accordion-content { /* ... bleibt gleich ... */ padding: 15px 20px; border-top: 1px solid var(--border-color); background-color: #fdfdff; display: none; }
-        .accordion-content p { /* ... bleibt gleich ... */ font-size: 0.9rem; }
-        .accordion-content hr { /* ... bleibt gleich ... */ border:0; border-top: 1px solid #eee; margin: 10px 0; }
+        #results { margin-top: 20px; padding: 0; background-color: #fff; border: 1px solid var(--border-color); border-radius: 8px; display: none; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .results-summary { padding: 15px; }
+        #results h2 { text-align: left; font-size: 1.1rem; margin-top: 0; margin-bottom: 10px; border-bottom: none; font-weight: 600; }
+        #results p { margin: 4px 0; font-size: 0.95rem; }
+        #results span { font-weight: 600; color: #343a40; }
+        #results .veraenderung, #results .endstand { font-size: 1.1rem; font-weight: 700;}
+        #results .veraenderung span, #results .endstand span { font-weight: 700; }
+        #results .veraenderung.positive span, #results .endstand.positive span { color: var(--positive-color); }
+        #results .veraenderung.negative span, #results .endstand.negative span { color: var(--danger-color); }
+        .accordion-toggle { display: block; padding: 10px 15px; background-color: var(--medium-gray); cursor: pointer; text-align: left; font-size: 0.9rem; font-weight: 500; border-top: 1px solid var(--border-color); color: var(--link-color); position: relative; }
+        .accordion-toggle:hover { background-color: #dde2e6; }
+        .accordion-toggle::after { content: '▼'; position: absolute; right: 15px; top: 50%; transform: translateY(-50%); font-size: 0.8em; transition: transform 0.2s ease; }
+        .accordion-toggle.open::after { transform: translateY(-50%) rotate(180deg); }
+        .accordion-content { padding: 12px 15px; border-top: 1px solid var(--border-color); background-color: #fdfdff; display: none; }
+        .accordion-content p { font-size: 0.85rem; margin: 4px 0;}
+        .accordion-content hr { border:0; border-top: 1px solid #eee; margin: 8px 0; }
 
-        /* Media Queries */
-        @media (min-width: 768px) { /* ... bleibt weitgehend gleich, evtl. Anpassungen an Buttonbreiten */
-             body { font-size: 16px; padding: 25px; } .container { padding: 30px 35px; } h1 { font-size: 2rem; margin-bottom: 25px;} h2 { font-size: 1.4rem; margin-bottom: 25px;}
-             .controls { flex-direction: row; align-items: center; gap: 20px; } .controls .control-row:first-of-type { flex-grow: 1; flex-wrap: nowrap; justify-content: flex-start; } .azk-group { margin-left: auto; } .controls .button-group { justify-content: flex-end; margin-top: 0; } .controls input#azk_vormonat { flex-basis: 110px; }
+        /* Media Queries for Desktop */
+        @media (min-width: 768px) {
+             body { font-size: 16px; padding: 25px; }
+             .container { padding: 30px 35px; border-radius: 10px; }
+             h1 { font-size: 2rem; margin-bottom: 25px;}
+             h2 { font-size: 1.4rem; margin-bottom: 25px; padding-bottom: 10px;}
+             .controls { flex-direction: row; align-items: center; gap: 20px; margin-bottom: 20px; }
+             .controls .control-row:first-of-type { flex-grow: 1; flex-wrap: nowrap; justify-content: flex-start; }
+             .azk-group { margin-left: auto; } /* Restore auto margin */
+             .controls .button-group { justify-content: flex-end; margin-top: 0; width: auto;} /* Restore alignment */
+             .controls input#azk_vormonat { flex-basis: 110px; }
              .controls select, .controls button { font-size: 1rem; padding: 9px 14px;}
-             #calendar td { height: 100px; font-size: 0.9rem; padding: 6px;}
-             .day-shift { font-size: 0.8em; } .day-balance-container { bottom: 6px; right: 6px; } .day-balance, .day-running-balance { font-size: 0.8em; }
-             .action-buttons .button-row { max-width: 380px; } /* Etwas breiter auf Desktop */
-             #day-actions button { font-size: 0.95rem; }
-             button.clear { max-width: 180px; }
-             #legend { font-size: 0.9rem; margin-bottom: 30px; } #results p { font-size: 1.05rem; } #results .veraenderung, #results .endstand { font-size: 1.25rem; }
+             .controls label { font-size: 1rem; }
+             .percent-control { gap: 15px; padding: 10px 15px; margin-bottom: 25px; }
+             .percent-control label { font-size: 1rem;}
+             .percent-control input[type="range"] { height: 6px;}
+             .percent-control input[type=range]::-webkit-slider-thumb { width: 18px; height: 18px; }
+             .percent-control input[type=range]::-moz-range-thumb { width: 18px; height: 18px; }
+             .percent-control span { min-width: 45px; font-size: 1rem;}
+             #calendar { min-width: 600px; }
+             #calendar th { padding: 10px 5px; font-size: 0.9rem;}
+             #calendar td { height: 90px; /* Keep slightly reduced height or restore to 100px if preferred */ font-size: 0.9rem; padding: 6px;}
+             .day-number { font-size: 0.9em; margin-bottom: 3px;}
+             .day-shift { font-size: 0.8em; padding: 2px 5px; margin-top: 4px;}
+             .day-balance-container { bottom: 6px; right: 6px; }
+             .day-balance, .day-running-balance { font-size: 0.8em; }
+             #legend { font-size: 0.9rem; padding: 12px 18px; margin-bottom: 30px; }
+             #legend li span { width: 14px; height: 14px; margin-right: 6px;}
+             #day-actions { margin-top: 25px; padding: 18px;}
+             #day-actions label { font-size: 1rem;}
+             .action-buttons .button-row { max-width: 380px; }
+             #day-actions button { font-size: 0.95rem; padding: 9px 5px;} /* Restore original desktop padding */
+             button.clear { width: 50%; max-width: 180px; } /* Restore desktop clear button size */
+             #results { margin-top: 25px; }
+             .results-summary { padding: 15px 20px; }
+             #results h2 { font-size: 1.2rem; margin-bottom: 12px;}
+             #results p { font-size: 1.05rem; margin: 5px 0;}
+             #results .veraenderung, #results .endstand { font-size: 1.25rem; }
+             .accordion-toggle { padding: 10px 20px; font-size: 0.95rem;}
+             .accordion-toggle::after { right: 20px;}
+             .accordion-content { padding: 15px 20px;}
+             .accordion-content p { font-size: 0.9rem; margin: 5px 0;}
+             .accordion-content hr { margin: 10px 0;}
          }
-         @media (max-width: 420px) { /* ... bleibt gleich ... */
-               .controls .control-row { flex-direction: column; align-items: stretch; } .azk-group { margin-left: 0; margin-top: 8px; } .controls .button-group { margin-top: 10px; }
+
+         /* Specific overrides for very small screens */
+         @media (max-width: 420px) {
+               body { padding: 5px; }
+               .container { padding: 10px; }
+               h1 { font-size: 1.3rem; }
+               h2 { font-size: 1.05rem; }
+               .controls .control-row { flex-direction: column; align-items: stretch; }
+               .controls .azk-group { margin-left: 0; margin-top: 8px; justify-content: center; }
+               .controls .button-group { margin-top: 10px; justify-content: center; }
                .percent-control { flex-direction: column; align-items: stretch; gap: 8px; }
-               .action-buttons .button-row { grid-template-columns: 1fr 1fr; } #day-actions button { max-width: none; } #day-actions button.btn-nacht, #day-actions button.holiday-toggle { grid-column: 1 / -1; }
-               button.clear { width: 80%; } #legend ul { gap: 5px 10px; }
+               /* Action buttons: 2 columns, Nacht/Feiertag full width */
+               .action-buttons .button-row { grid-template-columns: 1fr 1fr; }
+               #day-actions .button-row button[data-shift="n"],
+               #day-actions .button-row button.holiday-toggle {
+                   grid-column: 1 / -1; /* Span full width */
+               }
+               /* Ensure other buttons in first row fill space */
+               #day-actions .button-row:first-of-type button[data-shift="f"],
+               #day-actions .button-row:first-of-type button[data-shift="s"] {
+                  grid-column: auto; /* Reset span if needed */
+               }
+               #day-actions button { max-width: none; }
+               button.clear { width: 80%; }
+               #legend ul { gap: 5px 10px; }
+               #calendar td { height: 70px; } /* Further reduce height */
          }
 
     </style>
@@ -191,7 +258,7 @@
                 <label for="year">Jahr:</label> <select id="year"></select>
                 <div class="azk-group">
                     <label for="azk_vormonat">AZK Vormonat:</label>
-                    <input type="text" id="azk_vormonat" placeholder="HH:MM">
+                    <input type="text" id="azk_vormonat" placeholder="HH:MM" inputmode="text"> <!-- inputmode helps mobile keyboards -->
                 </div>
             </div>
              <div class="control-row">
@@ -213,9 +280,18 @@
             <option value="90"></option> <option value="100"></option>
         </datalist>
 
-        <!-- Aktions-Buttons jetzt mit Grid -->
+         <div class="calendar-wrapper">
+             <table id="calendar">
+                 <thead>
+                     <tr><th>Mo</th><th>Di</th><th>Mi</th><th>Do</th><th>Fr</th><th>Sa</th><th>So</th></tr>
+                 </thead>
+                 <tbody id="calendar-body"></tbody>
+             </table>
+         </div>
+
+        <!-- Aktions-Buttons jetzt mit Grid, initial versteckt -->
         <div id="day-actions">
-             <label>Aktionen für <span id="selected-day-display"></span>:</label>
+             <label>Aktionen für <span id="selected-day-display">--.--.----</span>:</label>
              <div class="action-buttons">
                  <div class="button-row">
                      <button data-shift="f" class="btn-frueh" onclick="assignShift('f')">Früh</button>
@@ -231,23 +307,58 @@
              </div>
          </div>
 
-        <!-- Rest HTML (Kalender, Legende, Results) bleibt gleich -->
-         <div class="calendar-wrapper"> <table id="calendar"> <thead> <tr><th>Mo</th><th>Di</th><th>Mi</th><th>Do</th><th>Fr</th><th>Sa</th><th>So</th></tr> </thead> <tbody id="calendar-body"></tbody> </table> </div>
-         <div id="legend"> <strong>Legende (im Kalender):</strong> <ul> <li>Δ: Tägliche +/- Bilanz</li> <li>Σ: Laufender Kontostand</li> <li><span class="positive-text">+x:xx</span>: Positiver Saldo</li> <li><span class="negative-text">-x:xx</span>: Negativer Saldo</li> <li><span class="border-example"></span>: Als Feiertag markiert</li> </ul> </div>
-         <div id="results"> <div class="results-summary"> <h2>Monatsbilanz</h2> <p>Monatliches Soll: <span id="res_monatssoll">--:--</span></p> <p>Monatliches Haben: <span id="res_gutschrift_gesamt">--:--</span></p> <p class="veraenderung">Veränderung Monat: <span id="res_veraenderung">--:--</span></p> <hr style="border:0; border-top: 1px dashed #ccc; margin: 8px 0;"> <p class="endstand">Neuer Kontostand: <span id="res_endstand">--:--</span></p> </div> <div class="accordion-toggle" onclick="toggleAccordion(this)">Details anzeigen</div> <div class="accordion-content"> <p>AZK Vormonat (Eingabe): <span id="res_azk_vormonat_used">--:--</span></p> <p>Arbeitspensum: <span id="res_prozent">--</span>%</p> <p>Persönliches Tagessoll: <span id="res_tagessoll">--:--</span></p> <p>Anzahl Soll-Tage (Mo-Fr, kein Feiertag): <span id="res_werktage_anzahl">--</span></p> <hr style="border:0; border-top: 1px solid #eee; margin: 10px 0;"> <p>Gutschrift Dienste (Mo-Fr, kein Feiertag): <span id="res_gutschrift_dienste_mofr">--:--</span></p> <p>Gutschrift Dienste (WE / Feiertag): <span id="res_gutschrift_dienste_weft">--:--</span></p> <p>Gutschrift Urlaubstage (an Soll-Tagen): <span id="res_gutschrift_urlaub">--:--</span> (<span id="res_urlaub_tage">--</span> Tage à <span id="res_urlaub_tagessoll_hhmm">--:--</span> h)</p> </div> </div>
+         <div id="legend">
+            <strong>Legende:</strong> <!-- Shortened title -->
+            <ul>
+                <li><span style="background-color: var(--frueh-color);"></span> Früh</li>
+                <li><span style="background-color: var(--primary-color);"></span> Spät</li>
+                <li><span style="background-color: var(--secondary-color);"></span> Nacht</li>
+                <li><span style="background-color: var(--success-color);"></span> Frei</li>
+                <li><span style="background-color: var(--warning-color);"></span> Urlaub</li>
+                <li><span class="border-example"></span> Feiertag</li>
+                <li style="margin-left: auto;"> <!-- Push balance info to right if space allows -->
+                    <small>Δ Tgl. Saldo / Σ Lfd. Saldo</small> <!-- Smaller text for explanation -->
+                    <span class="positive-text" style="margin-left: 5px;">+</span>/<span class="negative-text">-</span>
+                </li>
+            </ul>
+         </div>
+
+         <div id="results">
+             <div class="results-summary">
+                 <h2>Monatsbilanz</h2>
+                 <p>Monatliches Soll: <span id="res_monatssoll">--:--</span></p>
+                 <p>Monatliches Haben: <span id="res_gutschrift_gesamt">--:--</span></p>
+                 <p class="veraenderung">Veränderung Monat: <span id="res_veraenderung">--:--</span></p>
+                 <hr style="border:0; border-top: 1px dashed #ccc; margin: 8px 0;">
+                 <p class="endstand">Neuer Kontostand: <span id="res_endstand">--:--</span></p>
+             </div>
+             <div class="accordion-toggle" onclick="toggleAccordion(this)">Details anzeigen</div>
+             <div class="accordion-content">
+                 <p>AZK Vormonat (Eingabe): <span id="res_azk_vormonat_used">--:--</span></p>
+                 <p>Arbeitspensum: <span id="res_prozent">--</span>%</p>
+                 <p>Persönliches Tagessoll: <span id="res_tagessoll">--:--</span></p>
+                 <p>Anzahl Soll-Tage (Mo-Fr, kein Feiertag): <span id="res_werktage_anzahl">--</span></p>
+                 <hr>
+                 <p>Gutschrift Dienste (Mo-Fr, kein Feiertag): <span id="res_gutschrift_dienste_mofr">--:--</span></p>
+                 <p>Gutschrift Dienste (WE / Feiertag): <span id="res_gutschrift_dienste_weft">--:--</span></p>
+                 <p>Gutschrift Urlaubstage (an Soll-Tagen): <span id="res_gutschrift_urlaub">--:--</span> (<span id="res_urlaub_tage">--</span> Tage à <span id="res_urlaub_tagessoll_hhmm">--:--</span> h)</p>
+             </div>
+         </div>
 
     </div>
 
     <script>
         // --- Konstanten (Minuten) ---
-        const MINUTEN_FS_DIENST = 450; const MINUTEN_NACHT_DIENST = 573;
-        const MINUTEN_BASIS_VOLLZEIT_WOCHE = 2310; const TAGE_PRO_WOCHE = 5.0;
+        const MINUTEN_FS_DIENST = 450; // 7h 30m
+        const MINUTEN_NACHT_DIENST = 573; // 9h 33m
+        const MINUTEN_BASIS_VOLLZEIT_WOCHE = 2310; // 38.5 * 60
+        const TAGE_PRO_WOCHE = 5.0;
         const monthNames = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
         const VALID_SHIFT_TYPES_FOR_JUMP = ['f', 's', 'n', 'frei', 'urlaub'];
 
         // --- Helper-Funktionen ---
         function formatDate(date) { const d = new Date(date); const month = ('0' + (d.getMonth() + 1)).slice(-2); const day = ('0' + d.getDate()).slice(-2); const year = d.getFullYear(); return `${year}-${month}-${day}`; }
-        function minutesToHHMM(totalMinutes) { if (isNaN(totalMinutes) || totalMinutes === null) { return "--:--"; } const sign = totalMinutes < 0 ? "-" : ""; const absMinutes = Math.abs(totalMinutes); const hours = Math.floor(absMinutes / 60); const minutes = Math.round(absMinutes % 60); if (minutes === 60) { return sign + (hours + 1) + ":00"; } const formattedMinutes = String(minutes).padStart(2, '0'); return sign + hours + ":" + formattedMinutes; }
+        function minutesToHHMM(totalMinutes) { if (isNaN(totalMinutes) || totalMinutes === null) { return "--:--"; } const sign = totalMinutes < 0 ? "-" : ""; const absMinutes = Math.abs(totalMinutes); let hours = Math.floor(absMinutes / 60); let minutes = Math.round(absMinutes % 60); if (minutes === 60) { hours += 1; minutes = 0; } const formattedMinutes = String(minutes).padStart(2, '0'); return sign + hours + ":" + formattedMinutes; }
         function parseHHMMToMinutes(timeString) { if (!timeString || typeof timeString !== 'string') { return 0; } timeString = timeString.trim(); const sign = timeString.startsWith('-') ? -1 : 1; const timePart = sign === -1 ? timeString.substring(1) : timeString; const parts = timePart.split(':'); if (parts.length !== 2) { return 0; } const hours = parseInt(parts[0], 10); const minutes = parseInt(parts[1], 10); if (isNaN(hours) || isNaN(minutes) || hours < 0 || minutes < 0 || minutes >= 60) { return 0; } return sign * ((hours * 60) + minutes); }
 
         // --- Globale Variablen ---
@@ -268,130 +379,410 @@
               loadCalendar(currentYear, currentMonth);
               monthSelect.addEventListener('change', () => { currentMonth = parseInt(monthSelect.value); loadCalendar(currentYear, currentMonth); });
               yearSelect.addEventListener('change', () => { currentYear = parseInt(yearSelect.value); loadCalendar(currentYear, currentMonth); });
-              azkVormonatInput.addEventListener('input', () => { loadCalendar(currentYear, currentMonth); });
-              // Slider Events: 'input' für Live-Anzeige, 'change' für Neuberechnung
+              azkVormonatInput.addEventListener('input', handleAzkInput); // Validate input
+              azkVormonatInput.addEventListener('change', () => { loadCalendar(currentYear, currentMonth); }); // Recalculate on change
               prozentSlider.addEventListener('input', updateProzentDisplay);
-              prozentSlider.addEventListener('change', () => { loadCalendar(currentYear, currentMonth); }); // Kein Snap mehr
+              prozentSlider.addEventListener('change', () => { loadCalendar(currentYear, currentMonth); });
+              // Close actions if user clicks outside calendar/actions
+              document.addEventListener('click', (event) => {
+                  const calendar = document.getElementById('calendar');
+                  const actions = document.getElementById('day-actions');
+                  if (!calendar.contains(event.target) && !actions.contains(event.target) && !event.target.closest('td[data-date]')) {
+                     deselectDay();
+                  }
+              });
          }
 
-         // Nur die Textanzeige live aktualisieren
+         function handleAzkInput() {
+            // Basic validation to allow only numbers, colon, and minus sign
+            let value = azkVormonatInput.value;
+            value = value.replace(/[^\d:\-]/g, ''); // Remove invalid chars
+            // Prevent multiple minus signs or colons etc. (simple check)
+            if ((value.match(/-/g) || []).length > 1) value = value.replace(/-/g, ''); // Remove all minus if more than one
+            if (value.length > 0 && !value.startsWith('-')) value = value.replace(/-/g, ''); // Remove minus if not at start
+             if ((value.match(/:/g) || []).length > 1) value = value.substring(0, value.lastIndexOf(':')); // Keep only first colon
+
+            azkVormonatInput.value = value;
+            // Optional: Recalculate live on input if desired, but 'change' event is usually better
+            // loadCalendar(currentYear, currentMonth);
+         }
+
          function updateProzentDisplay() { prozentValueSpan.textContent = parseFloat(prozentSlider.value).toFixed(1); }
 
-         // Snap-Funktion entfernt
-
-        function populateYearSelector() { const year = new Date().getFullYear(); for (let i = year - 10; i <= year + 5; i++) { const option = document.createElement('option'); option.value = i; option.textContent = i; if (i === currentYear) option.selected = true; yearSelect.appendChild(option); } }
-        function populateMonthSelector() { monthNames.forEach((name, index) => { const option = document.createElement('option'); option.value = index; option.textContent = name; if (index === currentMonth) option.selected = true; monthSelect.appendChild(option); }); }
-
+         function populateYearSelector() { const year = new Date().getFullYear(); for (let i = year - 10; i <= year + 5; i++) { const option = document.createElement('option'); option.value = i; option.textContent = i; if (i === currentYear) option.selected = true; yearSelect.appendChild(option); } }
+         function populateMonthSelector() { monthNames.forEach((name, index) => { const option = document.createElement('option'); option.value = index; option.textContent = name; if (index === currentMonth) option.selected = true; monthSelect.appendChild(option); }); }
 
         // --- Kalender Logik ---
-        function loadCalendar(year, month) { /* ... bleibt gleich ... */
-             calendarBody.innerHTML = ''; accordionContent.style.display = 'none'; document.querySelector('.accordion-toggle').textContent = 'Details anzeigen';
-             dayActionsDiv.style.display = 'none'; selectedDate = null; let runningBalanceMinutes = parseHHMMToMinutes(azkVormonatInput.value);
+        function loadCalendar(year, month) {
+             calendarBody.innerHTML = '';
+             resultsDiv.style.display = 'none'; // Hide results until calculated
+             accordionContent.style.display = 'none'; document.querySelector('.accordion-toggle').textContent = 'Details anzeigen'; document.querySelector('.accordion-toggle').classList.remove('open');
+             deselectDay(); // Deselect day and hide actions
+             let runningBalanceMinutes = parseHHMMToMinutes(azkVormonatInput.value);
              const prozent = parseFloat(prozentSlider.value); const tagessoll_minuten = Math.round((prozent / 100.0) * (MINUTEN_BASIS_VOLLZEIT_WOCHE / TAGE_PRO_WOCHE));
-             const firstDayOfMonth = new Date(year, month, 1); const lastDayOfMonth = new Date(year, month + 1, 0); const daysInMonth = lastDayOfMonth.getDate(); const startDayOfWeek = (firstDayOfMonth.getDay() + 6) % 7;
+             const firstDayOfMonth = new Date(year, month, 1); const lastDayOfMonth = new Date(year, month + 1, 0); const daysInMonth = lastDayOfMonth.getDate(); const startDayOfWeek = (firstDayOfMonth.getDay() + 6) % 7; // 0 = Monday, 6 = Sunday
              let date = 1;
-             for (let i = 0; i < 6; i++) {
+             const todayStr = formatDate(new Date());
+
+             for (let i = 0; i < 6; i++) { // Max 6 rows
                  const row = document.createElement('tr');
-                 for (let j = 0; j < 7; j++) {
+                 for (let j = 0; j < 7; j++) { // 7 days a week
                      const cell = document.createElement('td');
-                     if (i === 0 && j < startDayOfWeek || date > daysInMonth) { cell.classList.add('other-month'); }
-                     else {
-                         const currentDateObj = new Date(year, month, date); const currentDateStr = formatDate(currentDateObj); const todayStr = formatDate(new Date()); cell.dataset.date = currentDateStr;
+                     if ((i === 0 && j < startDayOfWeek) || date > daysInMonth) {
+                         cell.classList.add('other-month');
+                     } else {
+                         const currentDateObj = new Date(year, month, date);
+                         const currentDateStr = formatDate(currentDateObj);
+                         cell.dataset.date = currentDateStr; // Store date for easy access
+
+                         // Basic cell structure
                          cell.innerHTML = `<span class="day-number">${date}</span><span class="day-shift"></span><div class="day-balance-container"><span class="day-balance"></span><span class="day-running-balance"></span></div>`;
-                         cell.onclick = () => selectDay(cell, currentDateStr); if (currentDateStr === todayStr) cell.classList.add('today');
-                         const dayOfWeek = currentDateObj.getDay(); if (dayOfWeek === 0 || dayOfWeek === 6) cell.classList.add('weekend');
-                         const dayInfo = dailyData[currentDateStr]; const shiftType = dayInfo?.shift; const isHoliday = dayInfo?.isHoliday || false;
-                         const isWeekend = dayOfWeek === 0 || dayOfWeek === 6; const isWorkdayForSoll = !isWeekend && !isHoliday;
-                         let dailyCredit_minuten = 0; let dailyTarget_minuten = isWorkdayForSoll ? tagessoll_minuten : 0;
-                         if (shiftType === 'f' || shiftType === 's') dailyCredit_minuten = MINUTEN_FS_DIENST; else if (shiftType === 'n') dailyCredit_minuten = MINUTEN_NACHT_DIENST; else if (shiftType === 'urlaub' && isWorkdayForSoll) dailyCredit_minuten = tagessoll_minuten;
+
+                         // Click listener
+                         cell.onclick = (event) => {
+                             event.stopPropagation(); // Prevent triggering document click listener
+                             selectDay(cell, currentDateStr);
+                         };
+
+                         // Highlight today
+                         if (currentDateStr === todayStr) {
+                             cell.classList.add('today');
+                         }
+
+                         // Weekend styling
+                         const dayOfWeek = currentDateObj.getDay(); // 0 = Sunday, 6 = Saturday
+                         if (dayOfWeek === 0 || dayOfWeek === 6) {
+                             cell.classList.add('weekend');
+                         }
+
+                         // Calculate daily balance and update running balance
+                         const dayInfo = dailyData[currentDateStr];
+                         const isHoliday = dayInfo?.isHoliday || false;
+                         const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+                         const isWorkdayForSoll = !isWeekend && !isHoliday;
+                         let dailyCredit_minuten = 0;
+                         const shiftType = dayInfo?.shift;
+
+                         if (shiftType === 'f' || shiftType === 's') dailyCredit_minuten = MINUTEN_FS_DIENST;
+                         else if (shiftType === 'n') dailyCredit_minuten = MINUTEN_NACHT_DIENST;
+                         else if (shiftType === 'urlaub' && isWorkdayForSoll) dailyCredit_minuten = tagessoll_minuten;
+
+                         const dailyTarget_minuten = isWorkdayForSoll ? tagessoll_minuten : 0;
                          const dailyBalance_minuten = dailyCredit_minuten - dailyTarget_minuten;
-                         updateDayDisplay(cell, dayInfo, tagessoll_minuten, runningBalanceMinutes); runningBalanceMinutes += dailyBalance_minuten; date++;
+
+                         // Update the cell display (shift, holiday, balance)
+                         updateDayDisplay(cell, dayInfo, tagessoll_minuten, runningBalanceMinutes);
+
+                         // Update running balance for next day
+                         runningBalanceMinutes += dailyBalance_minuten;
+
+                         date++;
                      }
                      row.appendChild(cell);
                  }
-                 calendarBody.appendChild(row); if (date > daysInMonth && i < 5) break;
+                 calendarBody.appendChild(row);
+                 // Stop if we've added all days and are in the 5th row or later (avoid extra empty row)
+                 if (date > daysInMonth && i >= Math.ceil((startDayOfWeek + daysInMonth) / 7) - 1) {
+                     break;
+                 }
              }
-             calculateMonthlyBalance();
+             calculateMonthlyBalance(); // Calculate and display the totals
          }
 
-        function selectDay(cell, dateStr) { /* ... bleibt gleich ... */
-               if (cell.classList.contains('other-month')) return; const prevSelected = document.querySelector('#calendar td.selected'); if (prevSelected) prevSelected.classList.remove('selected'); cell.classList.add('selected'); selectedDate = dateStr; selectedDaySpan.textContent = new Date(dateStr).toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' }); dayActionsDiv.style.display = 'block'; updateActionButtonsUI(dailyData[selectedDate]);
-         }
-        function updateActionButtonsUI(dayInfo) { /* ... bleibt gleich ... */
-               const currentShift = dayInfo?.shift; const isHoliday = dayInfo?.isHoliday || false; document.querySelectorAll('#day-actions button[data-shift]').forEach(btn => { btn.classList.remove('active'); if (btn.dataset.shift === currentShift) { btn.classList.add('active'); } }); const holidayBtn = document.querySelector('#day-actions button.holiday-toggle'); holidayBtn.classList.toggle('is-holiday', isHoliday);
+        function deselectDay() {
+            const prevSelected = document.querySelector('#calendar td.selected');
+            if (prevSelected) {
+                prevSelected.classList.remove('selected');
+            }
+            selectedDate = null;
+            dayActionsDiv.style.display = 'none'; // Hide actions
+            selectedDaySpan.textContent = '--.--.----'; // Reset label
+        }
+
+        function selectDay(cell, dateStr) {
+               if (cell.classList.contains('other-month')) return;
+               // Deselect previous
+               const prevSelected = document.querySelector('#calendar td.selected');
+               if (prevSelected) prevSelected.classList.remove('selected');
+
+               // Select current
+               cell.classList.add('selected');
+               selectedDate = dateStr;
+               selectedDaySpan.textContent = new Date(dateStr).toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
+
+               // Update and show action buttons
+               updateActionButtonsUI(dailyData[selectedDate]);
+               dayActionsDiv.style.display = 'block';
+               // Optional: Scroll actions into view on mobile if needed
+               // dayActionsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
          }
 
-        function assignShift(shiftType) { /* ... bleibt gleich ... */
-             if (!selectedDate) return; const originalDateStr = selectedDate;
-             if (!dailyData[selectedDate]) { dailyData[selectedDate] = { shift: null, isHoliday: false }; } dailyData[selectedDate].shift = shiftType;
-             if (dailyData[selectedDate].shift === null && !dailyData[selectedDate].isHoliday) { delete dailyData[selectedDate]; }
-             loadCalendar(currentYear, currentMonth);
-             const cell = document.querySelector(`#calendar td[data-date="${originalDateStr}"]`);
-             if (cell) { cell.classList.add('selected'); selectedDate = originalDateStr; updateActionButtonsUI(dailyData[selectedDate]); }
+        function updateActionButtonsUI(dayInfo) {
+               const currentShift = dayInfo?.shift;
+               const isHoliday = dayInfo?.isHoliday || false;
+               // Update shift buttons active state
+               document.querySelectorAll('#day-actions button[data-shift]').forEach(btn => {
+                   btn.classList.remove('active');
+                   if (btn.dataset.shift === currentShift) {
+                       btn.classList.add('active');
+                   }
+               });
+               // Update holiday toggle button state
+               const holidayBtn = document.querySelector('#day-actions button.holiday-toggle');
+               holidayBtn.classList.toggle('is-holiday', isHoliday);
+               holidayBtn.textContent = isHoliday ? 'Feiertag (Aktiv)' : 'Feiertag An/Aus';
+         }
+
+        function assignShift(shiftType) {
+             if (!selectedDate) return;
+             const originalDateStr = selectedDate; // Keep track of the day we modified
+
+             // Update data model
+             if (!dailyData[originalDateStr]) {
+                 dailyData[originalDateStr] = { shift: null, isHoliday: false };
+             }
+             const previousShift = dailyData[originalDateStr].shift;
+             dailyData[originalDateStr].shift = shiftType;
+
+             // Clean up if entry is now empty
+             if (dailyData[originalDateStr].shift === null && !dailyData[originalDateStr].isHoliday) {
+                 delete dailyData[originalDateStr];
+             }
+
+             // Reload calendar to reflect changes and recalculate balances
+             loadCalendar(currentYear, currentMonth); // This will also hide actions initially
+
+             // --- Auto-advance or re-select logic ---
              if (VALID_SHIFT_TYPES_FOR_JUMP.includes(shiftType)) {
-                 const currentDate = new Date(originalDateStr); currentDate.setDate(currentDate.getDate() + 1); const nextDateStr = formatDate(currentDate);
+                 // Try to select the next day
+                 const currentDate = new Date(originalDateStr);
+                 currentDate.setDate(currentDate.getDate() + 1);
+                 const nextDateStr = formatDate(currentDate);
                  const nextCell = document.querySelector(`#calendar td[data-date="${nextDateStr}"]`);
-                 if (nextCell && !nextCell.classList.contains('other-month')) { setTimeout(() => { selectDay(nextCell, nextDateStr); }, 50); }
+
+                 if (nextCell && !nextCell.classList.contains('other-month')) {
+                    // Use timeout to ensure DOM is updated after loadCalendar
+                    setTimeout(() => {
+                         selectDay(nextCell, nextDateStr);
+                    }, 50); // 50ms delay might need adjustment
+                 } else {
+                     // If no next day (end of month etc.), deselect (already done by loadCalendar)
+                     // Optional: could re-select original day here if preferred
+                     // setTimeout(() => {
+                     //    const originalCell = document.querySelector(`#calendar td[data-date="${originalDateStr}"]`);
+                     //    if (originalCell) selectDay(originalCell, originalDateStr);
+                     // }, 50);
+                 }
+             } else {
+                 // If shift was cleared (shiftType === null) or another action without jump, re-select the original day
+                 setTimeout(() => {
+                    const originalCell = document.querySelector(`#calendar td[data-date="${originalDateStr}"]`);
+                    if (originalCell) {
+                        selectDay(originalCell, originalDateStr);
+                    } else {
+                        deselectDay(); // Fallback if cell somehow not found
+                    }
+                 }, 50);
              }
         }
-        function toggleHoliday() { /* ... bleibt gleich ... */
-             if (!selectedDate) return; const originalDateStr = selectedDate;
-             if (!dailyData[selectedDate]) { dailyData[selectedDate] = { shift: null, isHoliday: false }; } dailyData[selectedDate].isHoliday = !dailyData[selectedDate].isHoliday;
-             if (dailyData[selectedDate].shift === null && !dailyData[selectedDate].isHoliday) { delete dailyData[selectedDate]; }
+
+        function toggleHoliday() {
+             if (!selectedDate) return;
+             const originalDateStr = selectedDate; // Keep track of the day we modified
+
+             // Update data model
+             if (!dailyData[originalDateStr]) {
+                 dailyData[originalDateStr] = { shift: null, isHoliday: false };
+             }
+             dailyData[originalDateStr].isHoliday = !dailyData[originalDateStr].isHoliday;
+
+             // Clean up if entry is now empty
+             if (dailyData[originalDateStr].shift === null && !dailyData[originalDateStr].isHoliday) {
+                 delete dailyData[originalDateStr];
+             }
+
+             // Reload calendar
              loadCalendar(currentYear, currentMonth);
-             const cell = document.querySelector(`#calendar td[data-date="${originalDateStr}"]`); if (cell) { selectDay(cell, originalDateStr); }
+
+             // Re-select the same day to show the updated holiday status and keep actions open
+             setTimeout(() => {
+                 const cell = document.querySelector(`#calendar td[data-date="${originalDateStr}"]`);
+                 if (cell) {
+                     selectDay(cell, originalDateStr); // Re-select the modified day
+                 } else {
+                     deselectDay(); // Fallback
+                 }
+             }, 50); // Use timeout to ensure DOM is updated
         }
 
         // --- Anzeige in der Zelle aktualisieren ---
-        function updateDayDisplay(cell, dayInfo, tagessoll_minuten, runningBalanceStartOfDay_minuten) { /* ... bleibt gleich ... */
-             const shiftSpan = cell.querySelector('.day-shift'); const balanceSpan = cell.querySelector('.day-balance'); const runningBalanceSpan = cell.querySelector('.day-running-balance');
-             if (!shiftSpan || !balanceSpan || !runningBalanceSpan) return; const shiftType = dayInfo?.shift; const isHoliday = dayInfo?.isHoliday || false; const dateStr = cell.dataset.date; const dayOfWeek = new Date(dateStr).getDay(); const isWeekend = dayOfWeek === 0 || dayOfWeek === 6; const isWorkdayForSoll = !isWeekend && !isHoliday;
-             shiftSpan.className = 'day-shift'; shiftSpan.textContent = ''; if (shiftType) { shiftSpan.classList.add(`shift-${shiftType}`); let shiftText = ''; switch(shiftType) { case 'f': shiftText = 'Früh'; break; case 's': shiftText = 'Spät'; break; case 'n': shiftText = 'Nacht'; break; case 'urlaub': shiftText = 'Urlaub'; break; case 'frei': shiftText = 'Frei'; break; } shiftSpan.textContent = shiftText; }
-             cell.classList.toggle('holiday', isHoliday); cell.title = isHoliday ? 'Als Feiertag markiert' : '';
-             balanceSpan.textContent = ''; balanceSpan.className = 'day-balance'; runningBalanceSpan.textContent = ''; runningBalanceSpan.className = 'day-running-balance';
+        function updateDayDisplay(cell, dayInfo, tagessoll_minuten, runningBalanceStartOfDay_minuten) {
+             const shiftSpan = cell.querySelector('.day-shift');
+             const balanceSpan = cell.querySelector('.day-balance');
+             const runningBalanceSpan = cell.querySelector('.day-running-balance');
+             if (!shiftSpan || !balanceSpan || !runningBalanceSpan) return;
+
+             const shiftType = dayInfo?.shift;
+             const isHoliday = dayInfo?.isHoliday || false;
+             const dateStr = cell.dataset.date;
+             const dayOfWeek = new Date(dateStr).getDay();
+             const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+             const isWorkdayForSoll = !isWeekend && !isHoliday;
+
+             // Update Shift Display
+             shiftSpan.className = 'day-shift'; // Reset classes
+             shiftSpan.textContent = '';
+             if (shiftType) {
+                 shiftSpan.classList.add(`shift-${shiftType}`);
+                 let shiftText = '';
+                 switch(shiftType) {
+                     case 'f': shiftText = 'Früh'; break;
+                     case 's': shiftText = 'Spät'; break;
+                     case 'n': shiftText = 'Nacht'; break;
+                     case 'urlaub': shiftText = 'Urlaub'; break;
+                     case 'frei': shiftText = 'Frei'; break;
+                 }
+                 shiftSpan.textContent = shiftText;
+             }
+
+             // Update Holiday Display
+             cell.classList.toggle('holiday', isHoliday);
+             cell.title = isHoliday ? 'Als Feiertag markiert' : ''; // Tooltip for holiday
+
+             // Update Balance Display (if enabled)
+             balanceSpan.textContent = '';
+             balanceSpan.className = 'day-balance'; // Reset classes
+             runningBalanceSpan.textContent = '';
+             runningBalanceSpan.className = 'day-running-balance'; // Reset classes
+
              if (showDailyBalance) {
-                  let dailyCredit_minuten = 0; let dailyTarget_minuten = isWorkdayForSoll ? tagessoll_minuten : 0;
-                  if (shiftType === 'f' || shiftType === 's') dailyCredit_minuten = MINUTEN_FS_DIENST; else if (shiftType === 'n') dailyCredit_minuten = MINUTEN_NACHT_DIENST; else if (shiftType === 'urlaub' && isWorkdayForSoll) dailyCredit_minuten = tagessoll_minuten;
+                  let dailyCredit_minuten = 0;
+                  if (shiftType === 'f' || shiftType === 's') dailyCredit_minuten = MINUTEN_FS_DIENST;
+                  else if (shiftType === 'n') dailyCredit_minuten = MINUTEN_NACHT_DIENST;
+                  else if (shiftType === 'urlaub' && isWorkdayForSoll) dailyCredit_minuten = tagessoll_minuten;
+
+                  const dailyTarget_minuten = isWorkdayForSoll ? tagessoll_minuten : 0;
                   const dailyBalance_minuten = dailyCredit_minuten - dailyTarget_minuten;
-                  if (Math.abs(dailyBalance_minuten) > 0) { balanceSpan.textContent = "Δ " + minutesToHHMM(dailyBalance_minuten); balanceSpan.classList.add(dailyBalance_minuten >= 0 ? 'balance-positive' : 'balance-negative'); }
+
+                  if (dailyBalance_minuten !== 0) { // Only show if non-zero
+                     balanceSpan.textContent = "Δ " + minutesToHHMM(dailyBalance_minuten);
+                     balanceSpan.classList.add(dailyBalance_minuten >= 0 ? 'balance-positive' : 'balance-negative');
+                  }
+
                   const runningBalanceEndOfDay_minuten = runningBalanceStartOfDay_minuten + dailyBalance_minuten;
-                  runningBalanceSpan.textContent = "Σ " + minutesToHHMM(runningBalanceEndOfDay_minuten); runningBalanceSpan.classList.add(runningBalanceEndOfDay_minuten >= 0 ? 'balance-positive' : 'balance-negative');
+                  runningBalanceSpan.textContent = "Σ " + minutesToHHMM(runningBalanceEndOfDay_minuten);
+                  runningBalanceSpan.classList.add(runningBalanceEndOfDay_minuten >= 0 ? 'balance-positive' : 'balance-negative');
              }
          }
 
          // --- Saldo-Anzeige umschalten ---
-         function toggleDailyBalanceDisplay() { /* ... bleibt gleich ... */
-               showDailyBalance = !showDailyBalance; toggleBalanceBtn.textContent = showDailyBalance ? 'Saldo Verbergen' : 'Saldo Anzeigen'; loadCalendar(currentYear, currentMonth);
+         function toggleDailyBalanceDisplay() {
+               showDailyBalance = !showDailyBalance;
+               toggleBalanceBtn.textContent = showDailyBalance ? 'Saldo Verbergen' : 'Saldo Anzeigen';
+               // Just reload the calendar display, keep selection if any
+               const previouslySelectedDate = selectedDate;
+               loadCalendar(currentYear, currentMonth);
+               if (previouslySelectedDate) {
+                   const cell = document.querySelector(`#calendar td[data-date="${previouslySelectedDate}"]`);
+                   if (cell) {
+                       selectDay(cell, previouslySelectedDate); // Re-select after reload
+                   }
+               }
          }
 
         // --- Berechnungslogik (Gesamtbilanz in Minuten) ---
-        function calculateMonthlyBalance() { /* ... bleibt gleich ... */
-             accordionContent.style.display = 'none'; document.querySelector('.accordion-toggle').textContent = 'Details anzeigen';
+        function calculateMonthlyBalance() {
              const startBalanceMinutes = parseHHMMToMinutes(azkVormonatInput.value);
-             const prozent = parseFloat(prozentSlider.value); const year = parseInt(yearSelect.value); const month = parseInt(monthSelect.value);
+             const prozent = parseFloat(prozentSlider.value);
+             const year = parseInt(yearSelect.value);
+             const month = parseInt(monthSelect.value);
              const tagessoll_minuten = Math.round((prozent / 100.0) * (MINUTEN_BASIS_VOLLZEIT_WOCHE / TAGE_PRO_WOCHE));
-             let monatssoll_minuten = 0; let gutschrift_gesamt_minuten = 0; let gutschrift_dienste_mofr_minuten = 0;
-             let gutschrift_dienste_weft_minuten = 0; let gutschrift_urlaub_minuten = 0; let urlaub_tage_anzahl = 0; let werktage_im_monat_fuer_soll = 0;
+
+             let monatssoll_minuten = 0;
+             let gutschrift_gesamt_minuten = 0;
+             let gutschrift_dienste_mofr_minuten = 0;
+             let gutschrift_dienste_weft_minuten = 0;
+             let gutschrift_urlaub_minuten = 0;
+             let urlaub_tage_anzahl = 0;
+             let werktage_im_monat_fuer_soll = 0;
+
              const daysInMonth = new Date(year, month + 1, 0).getDate();
+
              for (let day = 1; day <= daysInMonth; day++) {
-                 const currentDateObj = new Date(year, month, day); const currentDateStr = formatDate(currentDateObj); const dayOfWeek = currentDateObj.getDay(); const isWeekend = dayOfWeek === 0 || dayOfWeek === 6; const dayInfo = dailyData[currentDateStr]; const shift = dayInfo?.shift; const isHoliday = dayInfo?.isHoliday || false; const isWorkdayForSoll = !isWeekend && !isHoliday;
-                 if (isWorkdayForSoll) { monatssoll_minuten += tagessoll_minuten; werktage_im_monat_fuer_soll++; }
+                 const currentDateObj = new Date(year, month, day);
+                 const currentDateStr = formatDate(currentDateObj);
+                 const dayOfWeek = currentDateObj.getDay(); // 0 = Sunday, 6 = Saturday
+                 const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+                 const dayInfo = dailyData[currentDateStr];
+                 const shift = dayInfo?.shift;
+                 const isHoliday = dayInfo?.isHoliday || false;
+                 const isWorkdayForSoll = !isWeekend && !isHoliday;
+
+                 // Calculate Soll for the month
+                 if (isWorkdayForSoll) {
+                     monatssoll_minuten += tagessoll_minuten;
+                     werktage_im_monat_fuer_soll++;
+                 }
+
+                 // Calculate Haben (Credits)
                  let dailyCredit_minuten = 0;
-                 if (shift === 'f' || shift === 's') { dailyCredit_minuten = MINUTEN_FS_DIENST; if (isWorkdayForSoll) { gutschrift_dienste_mofr_minuten += MINUTEN_FS_DIENST; } else { gutschrift_dienste_weft_minuten += MINUTEN_FS_DIENST; } }
-                 else if (shift === 'n') { dailyCredit_minuten = MINUTEN_NACHT_DIENST; if (isWorkdayForSoll) { gutschrift_dienste_mofr_minuten += MINUTEN_NACHT_DIENST; } else { gutschrift_dienste_weft_minuten += MINUTEN_NACHT_DIENST; } }
-                 else if (shift === 'urlaub') { if (isWorkdayForSoll) { dailyCredit_minuten = tagessoll_minuten; gutschrift_urlaub_minuten += tagessoll_minuten; urlaub_tage_anzahl++; } }
-                 gutschrift_gesamt_minuten += dailyCredit_minuten;
+                 if (shift === 'f' || shift === 's') {
+                     dailyCredit_minuten = MINUTEN_FS_DIENST;
+                     if (isWorkdayForSoll) { gutschrift_dienste_mofr_minuten += MINUTEN_FS_DIENST; }
+                     else { gutschrift_dienste_weft_minuten += MINUTEN_FS_DIENST; }
+                 } else if (shift === 'n') {
+                     dailyCredit_minuten = MINUTEN_NACHT_DIENST;
+                     if (isWorkdayForSoll) { gutschrift_dienste_mofr_minuten += MINUTEN_NACHT_DIENST; }
+                     else { gutschrift_dienste_weft_minuten += MINUTEN_NACHT_DIENST; }
+                 } else if (shift === 'urlaub') {
+                     if (isWorkdayForSoll) { // Urlaub only counts on days where work was expected
+                         dailyCredit_minuten = tagessoll_minuten;
+                         gutschrift_urlaub_minuten += tagessoll_minuten;
+                         urlaub_tage_anzahl++;
+                     }
+                 }
+                 // Frei gives 0 credit towards hours, just marks the day
+
+                 gutschrift_gesamt_minuten += dailyCredit_minuten; // Total credit from shifts/holidays
              }
-             const veraenderung_minuten = gutschrift_gesamt_minuten - monatssoll_minuten; const endstand_minuten = startBalanceMinutes + veraenderung_minuten;
-             document.getElementById('res_azk_vormonat_used').textContent = minutesToHHMM(startBalanceMinutes); document.getElementById('res_prozent').textContent = prozent.toFixed(1); document.getElementById('res_tagessoll').textContent = minutesToHHMM(tagessoll_minuten); document.getElementById('res_werktage_anzahl').textContent = werktage_im_monat_fuer_soll; document.getElementById('res_gutschrift_dienste_mofr').textContent = minutesToHHMM(gutschrift_dienste_mofr_minuten); document.getElementById('res_gutschrift_dienste_weft').textContent = minutesToHHMM(gutschrift_dienste_weft_minuten); document.getElementById('res_gutschrift_urlaub').textContent = minutesToHHMM(gutschrift_urlaub_minuten); document.getElementById('res_urlaub_tage').textContent = urlaub_tage_anzahl; document.getElementById('res_urlaub_tagessoll_hhmm').textContent = minutesToHHMM(tagessoll_minuten);
-             document.getElementById('res_monatssoll').textContent = minutesToHHMM(monatssoll_minuten); document.getElementById('res_gutschrift_gesamt').textContent = minutesToHHMM(gutschrift_gesamt_minuten); const veraenderungElement = document.getElementById('res_veraenderung'); veraenderungElement.textContent = minutesToHHMM(veraenderung_minuten); veraenderungElement.parentElement.className = 'veraenderung ' + (veraenderung_minuten >= 0 ? 'positive' : 'negative');
-             const endstandElement = document.getElementById('res_endstand'); endstandElement.textContent = minutesToHHMM(endstand_minuten); endstandElement.parentElement.className = 'endstand ' + (endstand_minuten >= 0 ? 'positive' : 'negative');
+
+             const veraenderung_minuten = gutschrift_gesamt_minuten - monatssoll_minuten;
+             const endstand_minuten = startBalanceMinutes + veraenderung_minuten;
+
+             // --- Update Results Display ---
+             // Summary Part
+             document.getElementById('res_monatssoll').textContent = minutesToHHMM(monatssoll_minuten);
+             document.getElementById('res_gutschrift_gesamt').textContent = minutesToHHMM(gutschrift_gesamt_minuten);
+             const veraenderungElement = document.getElementById('res_veraenderung');
+             veraenderungElement.textContent = minutesToHHMM(veraenderung_minuten);
+             veraenderungElement.parentElement.className = 'veraenderung ' + (veraenderung_minuten >= 0 ? 'positive' : 'negative');
+
+             const endstandElement = document.getElementById('res_endstand');
+             endstandElement.textContent = minutesToHHMM(endstand_minuten);
+             endstandElement.parentElement.className = 'endstand ' + (endstand_minuten >= 0 ? 'positive' : 'negative');
+
+             // Accordion Details Part
+             document.getElementById('res_azk_vormonat_used').textContent = minutesToHHMM(startBalanceMinutes);
+             document.getElementById('res_prozent').textContent = prozent.toFixed(1);
+             document.getElementById('res_tagessoll').textContent = minutesToHHMM(tagessoll_minuten);
+             document.getElementById('res_werktage_anzahl').textContent = werktage_im_monat_fuer_soll;
+             document.getElementById('res_gutschrift_dienste_mofr').textContent = minutesToHHMM(gutschrift_dienste_mofr_minuten);
+             document.getElementById('res_gutschrift_dienste_weft').textContent = minutesToHHMM(gutschrift_dienste_weft_minuten);
+             document.getElementById('res_gutschrift_urlaub').textContent = minutesToHHMM(gutschrift_urlaub_minuten);
+             document.getElementById('res_urlaub_tage').textContent = urlaub_tage_anzahl;
+             document.getElementById('res_urlaub_tagessoll_hhmm').textContent = minutesToHHMM(tagessoll_minuten); // Show what a single day credit is
+
+             // Show the results section
              resultsDiv.style.display = 'block';
          }
 
         // --- Accordion Funktion ---
-        function toggleAccordion(toggleElement) { /* ... bleibt gleich ... */
-               const content = accordionContent; const isOpen = content.style.display === "block"; content.style.display = isOpen ? "none" : "block"; toggleElement.textContent = isOpen ? 'Details anzeigen' : 'Details verbergen'; toggleElement.classList.toggle('open', !isOpen);
+        function toggleAccordion(toggleElement) {
+               const content = accordionContent; // Already defined globally
+               const isOpen = content.style.display === "block";
+               content.style.display = isOpen ? "none" : "block";
+               toggleElement.textContent = isOpen ? 'Details anzeigen' : 'Details verbergen';
+               toggleElement.classList.toggle('open', !isOpen);
          }
 
         // --- Start ---
