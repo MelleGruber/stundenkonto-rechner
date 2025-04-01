@@ -12,23 +12,20 @@
         :root {
              --primary-color: #0056b3; --secondary-color: #6c757d; --success-color: #28a745;
              --warning-color: #fd7e14; --danger-color: #dc3545; --frueh-color: #800020;
-             /* Color for M1 changed to turquoise */
              --m1-color: #17a2b8; /* Turquoise */
+             --krank-color: #6f42c1; /* Violett for Krank */
              --positive-color: var(--success-color); --light-gray: #f8f9fa; --medium-gray: #e9ecef;
              --dark-gray: #adb5bd; --border-color: #dee2e6; --text-color: #212529;
              --text-muted: #6c757d; --link-color: #007bff; --focus-ring-color: rgba(0, 123, 255, 0.25);
              --weekend-bg: #f1f3f5;
              --holiday-border: 2px solid var(--danger-color);
-             --half-holiday-border: 2px dashed var(--warning-color); /* Style for half holidays */
+             --half-holiday-border: 2px dashed var(--warning-color);
              --selected-outline: 2px solid var(--link-color);
-             /* Removed disclaimer variables */
          }
 
         *, *::before, *::after { box-sizing: border-box; }
 
-        html {
-            scroll-behavior: smooth; /* Enables smooth scrolling for scrollIntoView */
-        }
+        html { scroll-behavior: smooth; }
 
         body {
              font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
@@ -38,8 +35,7 @@
          }
         .container {
              max-width: 950px; margin: 10px auto; padding: 15px;
-             background-color: #ffffff;
-             border-radius: 8px;
+             background-color: #ffffff; border-radius: 8px;
              box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
          }
         h1 {
@@ -62,35 +58,25 @@
         .controls select, .controls button, .controls input[type="text"], .controls input[type="number"] { padding: 7px 10px; border: 1px solid var(--border-color); border-radius: 5px; font-size: 0.9rem; box-sizing: border-box; background-color: #fff; transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; }
         .controls select:hover, .controls input:hover { border-color: #a0a0a0; }
         .controls select { flex-grow: 1; min-width: 100px;}
-        /* Input styling adjusted */
-        .controls input#azk_vormonat {
-             min-width: 80px; text-align: center; flex-basis: 85px; /* Slightly wider for Std:Min */
-             flex-grow: 0;
-         }
+        .controls input#azk_vormonat { min-width: 80px; text-align: center; flex-basis: 85px; flex-grow: 0; }
         .controls .azk-group { display: flex; align-items: center; gap: 3px; margin-left: 0; }
         .controls .button-group { display: flex; flex-grow: 1; justify-content: flex-start; gap: 8px; width: 100%;}
         .controls .button-group button { flex-grow: 0; width: auto; padding: 7px 12px;}
         .controls button { cursor: pointer; text-align: center; background-color: var(--secondary-color); color: white; border: none;}
         .controls button:hover { filter: brightness(90%); }
-        .controls button.toggle-btn { background-color: var(--m1-color); } /* M1 color also used here */
-        /* Style for Clear Month Button */
+        .controls button.toggle-btn { background-color: var(--m1-color); }
         .controls button#clearMonthBtn { background-color: var(--danger-color); }
 
-        /* Style for AZK Vormonat error message */
+        /* AZK Error */
         .error-message { color: var(--danger-color); font-size: 0.8em; margin-left: 5px; white-space: nowrap; }
         #azk_vormonat:invalid { border-color: var(--danger-color); }
 
-        /* Prozent Input Control */
+        /* Percent Control */
         .percent-control { display: flex; align-items: center; padding: 8px 12px; background-color: var(--medium-gray); border-radius: 6px; gap: 10px; flex-wrap: nowrap; margin-bottom: 20px; }
         .percent-control label { white-space: nowrap; color: var(--text-muted); font-weight: 500; font-size: 0.9rem;}
-        .percent-control input[type="number"] {
-             padding: 7px 10px; border: 1px solid var(--border-color); border-radius: 5px;
-             font-size: 0.9rem; background-color: #fff; transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-             width: 70px; text-align: right; flex-grow: 0;
-        }
+        .percent-control input[type="number"] { padding: 7px 10px; border: 1px solid var(--border-color); border-radius: 5px; font-size: 0.9rem; background-color: #fff; transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; width: 70px; text-align: right; flex-grow: 0; }
         .percent-control input[type="number"]:hover { border-color: #a0a0a0; }
-        .percent-control input[type=number]::-webkit-outer-spin-button,
-        .percent-control input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        .percent-control input[type=number]::-webkit-outer-spin-button, .percent-control input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         .percent-control input[type=number] { -moz-appearance: textfield; }
         .percent-control span#prozentValueDisplay { font-weight: 600; color: var(--primary-color); min-width: 10px; text-align: left; font-size: 0.95rem;}
 
@@ -100,11 +86,7 @@
         #calendar th { text-align: center; padding: 6px 3px; background-color: var(--medium-gray); color: #495057; font-size: 0.8rem; font-weight: 600; border-bottom: 1px solid var(--border-color); }
         #calendar th:first-child { border-top-left-radius: 7px; }
         #calendar th:last-child { border-top-right-radius: 7px; }
-        #calendar td {
-            border: none; border-top: 1px solid var(--border-color); border-left: 1px solid var(--border-color);
-            height: 75px; vertical-align: top; padding: 3px; position: relative;
-            font-size: 0.75rem; cursor: pointer; transition: background-color 0.2s ease;
-        }
+        #calendar td { border: none; border-top: 1px solid var(--border-color); border-left: 1px solid var(--border-color); height: 75px; vertical-align: top; padding: 3px; position: relative; font-size: 0.75rem; cursor: pointer; transition: background-color 0.2s ease; }
         #calendar tr td:first-child { border-left: none; }
         #calendar td:hover { background-color: #f1f1f1; }
         #calendar td.today .day-number { background-color: #ffecb3; border-radius: 50%; display: inline-block; width: 1.7em; height: 1.7em; line-height: 1.7em; text-align: center; font-weight: bold; }
@@ -117,9 +99,12 @@
         .day-number { font-weight: 500; display: block; margin-bottom: 2px; font-size: 0.8em; color: var(--text-muted); text-align: left; padding-left: 1px;}
         .day-shift { font-size: 0.7em; padding: 2px 3px; border-radius: 3px; color: white; display: block; margin-top: 2px; text-align: center; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-weight: 500; }
         .shift-f { background-color: var(--frueh-color); }
-        /* Use M1 color variable */
         .shift-m1 { background-color: var(--m1-color); }
-        .shift-s { background-color: var(--primary-color); } .shift-n { background-color: var(--secondary-color); } .shift-urlaub { background-color: var(--warning-color); color: #333; } .shift-frei { background-color: var(--success-color); }
+        .shift-s { background-color: var(--primary-color); }
+        .shift-n { background-color: var(--secondary-color); }
+        .shift-urlaub { background-color: var(--warning-color); color: #333; }
+        .shift-frei { background-color: var(--success-color); }
+        .shift-krank { background-color: var(--krank-color); } /* Krank Shift Style */
         .day-balance-container { position: absolute; bottom: 2px; right: 3px; text-align: right; line-height: 1.1; }
         .day-balance, .day-running-balance { display: block; font-size: 0.7em; font-weight: 600; padding: 0px 2px; border-radius: 2px; }
         .day-balance { margin-bottom: 0px; }
@@ -127,7 +112,7 @@
 
         /* Legende */
         #legend { font-size: 0.8rem; padding: 10px 15px; background-color: var(--medium-gray); border-radius: 6px; margin-bottom: 20px; color: var(--text-muted); }
-        #legend ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 6px 15px; align-items: center; } /* Added align-items */
+        #legend ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 6px 15px; align-items: center; }
         #legend li { display: flex; align-items: center; }
         #legend li span { display: inline-block; width: 12px; height: 12px; margin-right: 5px; border-radius: 3px; border: 1px solid #ccc; }
         #legend li span.border-example { border: var(--holiday-border); background-color: transparent; }
@@ -137,37 +122,23 @@
         #legend li span.negative-text { color: var(--danger-color); }
 
         /* Aktionen für Tag */
-        #day-actions {
-            margin-top: 15px; padding: 15px; background-color: var(--medium-gray);
-            border-radius: 8px; display: none; border: 1px solid var(--border-color);
-        }
+        #day-actions { margin-top: 15px; padding: 15px; background-color: var(--medium-gray); border-radius: 8px; display: none; border: 1px solid var(--border-color); }
         #day-actions label { display: block; margin-bottom: 12px; font-weight: 600; text-align: center; color: var(--text-color); font-size: 0.95rem;}
-        .action-buttons { display: grid; justify-items: center; gap: 10px; } /* Increased gap */
-        .action-buttons .button-row { display: grid; gap: 10px; width: 100%; } /* Increased gap, simplified grid def */
+        .action-buttons { display: grid; justify-items: center; gap: 10px; }
+        .action-buttons .button-row { display: grid; gap: 10px; width: 100%; }
         .action-buttons .button-row:first-of-type { grid-template-columns: repeat(4, 1fr); max-width: 380px; }
-        .action-buttons .button-row:nth-of-type(2) { grid-template-columns: repeat(2, 1fr); max-width: 200px; }
-        #day-actions button {
-             /* Base styles - apply universally first */
-             padding: 12px 8px; /* Increased base padding */
-             cursor: pointer; border: none; border-radius: 5px;
-             font-size: 0.9rem; /* Base font size */
-             color: white; font-weight: 500; width: 100%;
-             text-align: center; transition: filter 0.2s ease, box-shadow 0.2s ease;
-             line-height: 1.3;
-             min-height: 44px; /* Minimum height for touch targets */
-             display: flex; /* Use flexbox for alignment */
-             align-items: center; /* Center content vertically */
-             justify-content: center; /* Center content horizontally */
-        }
+        /* Adjusted second row for 3 buttons */
+        .action-buttons .button-row:nth-of-type(2) { grid-template-columns: repeat(3, 1fr); max-width: 300px; }
+        #day-actions button { padding: 12px 8px; cursor: pointer; border: none; border-radius: 5px; font-size: 0.9rem; color: white; font-weight: 500; width: 100%; text-align: center; transition: filter 0.2s ease, box-shadow 0.2s ease; line-height: 1.3; min-height: 44px; display: flex; align-items: center; justify-content: center; }
         #day-actions button:hover { filter: brightness(90%); }
         button.btn-frueh { background-color: var(--frueh-color); }
-        /* Use M1 color variable */
         button.btn-m1 { background-color: var(--m1-color); }
-        button.btn-spaet { background-color: var(--primary-color); } button.btn-nacht { background-color: var(--secondary-color); } button.btn-frei { background-color: var(--success-color); } button.btn-urlaub { background-color: var(--warning-color); color: #333; }
-        button.clear {
-            background-color: #343a40; color: white; margin-top: 8px;
-            grid-column: 1 / -1; justify-self: center; width: 60%; max-width: 200px;
-        }
+        button.btn-spaet { background-color: var(--primary-color); }
+        button.btn-nacht { background-color: var(--secondary-color); }
+        button.btn-frei { background-color: var(--success-color); }
+        button.btn-urlaub { background-color: var(--warning-color); color: #333; }
+        button.btn-krank { background-color: var(--krank-color); } /* Krank Button Style */
+        button.clear { background-color: #343a40; color: white; margin-top: 8px; grid-column: 1 / -1; justify-self: center; width: 60%; max-width: 200px; }
         #day-actions button.active { box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.7); filter: brightness(100%); }
 
         /* Ergebnisse & Accordion */
@@ -199,9 +170,8 @@
              .controls { flex-direction: row; align-items: center; gap: 20px; margin-bottom: 20px; }
              .controls .control-row:first-of-type { flex-grow: 1; flex-wrap: nowrap; justify-content: flex-start; }
              .azk-group { margin-left: auto; gap: 5px;}
-             /* Adjusted button group alignment */
              .controls .button-group { justify-content: flex-end; margin-top: 0; width: auto; flex-wrap: nowrap; align-items: center;}
-             .controls input#azk_vormonat { flex-basis: 90px; } /* Adjusted width */
+             .controls input#azk_vormonat { flex-basis: 90px; }
              .controls select, .controls button, .controls input[type="text"], .controls input[type="number"] { font-size: 1rem; padding: 9px 14px;}
              .controls label { font-size: 1rem; }
              .percent-control { gap: 15px; padding: 10px 15px; margin-bottom: 25px; }
@@ -219,14 +189,11 @@
              #legend li span { width: 14px; height: 14px; margin-right: 6px;}
              #day-actions { margin-top: 25px; padding: 18px;}
              #day-actions label { font-size: 1rem;}
-             /* Desktop Action Button Grid */
-             .action-buttons { gap: 12px; } /* Slightly larger gap for desktop */
-             .action-buttons .button-row:first-of-type { max-width: 450px; gap: 12px; } /* Wider layout, more gap */
-             .action-buttons .button-row:nth-of-type(2) { max-width: 240px; gap: 12px; }
-             #day-actions button {
-                font-size: 0.95rem; /* Keep desktop font size */
-                padding: 12px 10px; /* Adjust padding if needed */
-             }
+             .action-buttons { gap: 12px; }
+             .action-buttons .button-row:first-of-type { max-width: 450px; gap: 12px; }
+             /* Adjusted second row for 3 buttons on desktop */
+             .action-buttons .button-row:nth-of-type(2) { grid-template-columns: repeat(3, 1fr); max-width: 340px; gap: 12px; }
+             #day-actions button { font-size: 0.95rem; padding: 12px 10px; }
              button.clear { width: 50%; max-width: 180px; }
              #results { margin-top: 25px; }
              .results-summary { padding: 15px 20px; }
@@ -241,40 +208,31 @@
              .accordion-content hr { margin: 12px 0;}
          }
 
-         /* Specific overrides for smaller screens (target mobile better) */
-         @media (max-width: 600px) { /* Increased breakpoint for mobile button sizing */
+         /* Specific overrides for smaller screens */
+         @media (max-width: 600px) {
                body { padding: 5px; }
                .container { padding: 10px; }
                h1 { font-size: 1.3rem; }
                h2 { font-size: 1.05rem; }
                .controls .control-row { flex-direction: column; align-items: stretch; }
                .controls .azk-group { margin-left: 0; margin-top: 8px; justify-content: center; }
-               .controls input#azk_vormonat { flex-basis: 80px; } /* Adjusted width */
-               /* Make buttons wrap nicely on small screens */
+               .controls input#azk_vormonat { flex-basis: 80px; }
                .controls .button-group { margin-top: 10px; justify-content: center; flex-wrap: wrap;}
                .percent-control { flex-direction: column; align-items: stretch; gap: 8px; }
                .percent-control input[type="number"] { width: 65px; align-self: center; }
                .error-message { font-size: 0.75em; margin-left: 3px;}
-               /* Mobile Action Buttons */
-               .action-buttons { gap: 12px; } /* More gap for mobile */
-               .action-buttons .button-row:first-of-type { grid-template-columns: repeat(2, 1fr); max-width: 280px; gap: 12px; } /* 2 columns */
-               .action-buttons .button-row:nth-of-type(2) { grid-template-columns: repeat(2, 1fr); max-width: 280px; gap: 12px; } /* Also 2 columns */
-               #day-actions button {
-                   padding: 15px 10px; /* More vertical padding for touch */
-                   font-size: 1rem; /* Larger font for mobile */
-                   min-height: 48px; /* Ensure good touch height */
-                   max-width: none; /* Allow full width in grid */
-               }
+               .action-buttons { gap: 12px; }
+               .action-buttons .button-row:first-of-type { grid-template-columns: repeat(2, 1fr); max-width: 280px; gap: 12px; }
+               /* Adjusted second row for 3 buttons on mobile */
+               .action-buttons .button-row:nth-of-type(2) { grid-template-columns: repeat(3, 1fr); max-width: 320px; gap: 12px; }
+               #day-actions button { padding: 15px 10px; font-size: 1rem; min-height: 48px; max-width: none; }
                button.clear { width: 80%; grid-column: 1 / -1; }
                #legend ul { gap: 5px 10px; }
                #calendar td { height: 70px; }
          }
-         /* Fine tune smallest screens if needed */
          @media (max-width: 360px) {
             .action-buttons .button-row:first-of-type,
-            .action-buttons .button-row:nth-of-type(2) {
-                max-width: 100%; /* Allow full width */
-            }
+            .action-buttons .button-row:nth-of-type(2) { max-width: 100%; }
          }
 
     </style>
@@ -326,19 +284,20 @@
              </table>
          </div>
 
-        <!-- Day Actions - Wird per JS ein-/ausgeblendet und gescrollt -->
+        <!-- Day Actions -->
         <div id="day-actions">
              <label>Aktionen für <span id="selected-day-display">--.--.----</span>:</label>
              <div class="action-buttons">
                  <div class="button-row"> <!-- Row 1: Früh, M1, Spät, Nacht -->
                      <button data-shift="f" class="btn-frueh" onclick="assignShift('f')">Früh</button>
-                     <button data-shift="m1" class="btn-m1" onclick="assignShift('m1')">M1</button> <!-- M1 Button -->
+                     <button data-shift="m1" class="btn-m1" onclick="assignShift('m1')">M1</button>
                      <button data-shift="s" class="btn-spaet" onclick="assignShift('s')">Spät</button>
                      <button data-shift="n" class="btn-nacht" onclick="assignShift('n')">Nacht</button>
                  </div>
-                 <div class="button-row"> <!-- Row 2: Frei, Urlaub -->
+                 <div class="button-row"> <!-- Row 2: Frei, Urlaub, Krank -->
                      <button data-shift="frei" class="btn-frei" onclick="assignShift('frei')">Frei</button>
                      <button data-shift="urlaub" class="btn-urlaub" onclick="assignShift('urlaub')">Urlaub</button>
+                     <button data-shift="krank" class="btn-krank" onclick="assignShift('krank')">Krank</button> <!-- NEUER Button -->
                  </div>
                  <button class="clear" onclick="assignShift(null)">Eintrag löschen</button>
              </div>
@@ -349,11 +308,12 @@
             <strong>Legende:</strong>
             <ul style="align-items: center;">
                 <li><span style="background-color: var(--frueh-color);"></span> Früh</li>
-                <li><span style="background-color: var(--m1-color);"></span> M1</li> <!-- M1 Legend Item -->
+                <li><span style="background-color: var(--m1-color);"></span> M1</li>
                 <li><span style="background-color: var(--primary-color);"></span> Spät</li>
                 <li><span style="background-color: var(--secondary-color);"></span> Nacht</li>
                 <li><span style="background-color: var(--success-color);"></span> Frei</li>
                 <li><span style="background-color: var(--warning-color);"></span> Urlaub</li>
+                <li><span style="background-color: var(--krank-color);"></span> Krank</li> <!-- NEUER Eintrag -->
                 <li><span class="border-example"></span> Feiertag</li>
                 <li><span class="half-border-example"></span> Halber FT</li>
                 <li style="margin-left: auto;">
@@ -381,16 +341,17 @@
                  <p class="detail-item">Arbeitspensum: <span id="res_prozent">--</span>%</p>
                  <p class="detail-item">Persönliches Tagessoll: <span id="res_tagessoll">--:--</span></p>
                  <p class="detail-item">Urlaubstage (an Soll-Tagen): <span id="res_urlaub_tage">--</span></p>
+                 <p class="detail-item">Krankheitstage (an Soll-Tagen): <span id="res_krank_tage">--</span></p> <!-- NEUE Zeile -->
                  <hr>
                  <p><strong class="detail-label">Stundengutschrift Werktage (Mo-Fr, kein FT): <span id="res_detail_wd_total">--:--</span></strong></p>
                  <p class="detail-item">Frühdienste: <span id="res_detail_wd_f">--:--</span></p>
-                 <p class="detail-item">M1-Dienste: <span id="res_detail_wd_m1">--:--</span></p> <!-- M1 Detail -->
+                 <p class="detail-item">M1-Dienste: <span id="res_detail_wd_m1">--:--</span></p>
                  <p class="detail-item">Spätdienste: <span id="res_detail_wd_s">--:--</span></p>
                  <p class="detail-item">Nachtdienste: <span id="res_detail_wd_n">--:--</span></p>
                  <hr>
                  <p><strong class="detail-label">Stundengutschrift Feiertage & Wochenende: <span id="res_detail_weft_total">--:--</span></strong></p>
                  <p class="detail-item">Frühdienste: <span id="res_detail_weft_f">--:--</span></p>
-                 <p class="detail-item">M1-Dienste: <span id="res_detail_weft_m1">--:--</span></p> <!-- M1 Detail -->
+                 <p class="detail-item">M1-Dienste: <span id="res_detail_weft_m1">--:--</span></p>
                  <p class="detail-item">Spätdienste: <span id="res_detail_weft_s">--:--</span></p>
                  <p class="detail-item">Nachtdienste: <span id="res_detail_weft_n">--:--</span></p>
              </div>
@@ -405,411 +366,165 @@
         const MINUTEN_BASIS_VOLLZEIT_WOCHE = 2310; // 38.5 * 60
         const TAGE_PRO_WOCHE = 5.0;
         const monthNames = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
-        const VALID_SHIFT_TYPES_FOR_JUMP = ['f', 'm1', 's', 'n', 'frei', 'urlaub']; // Added 'm1'
-        const LS_KEYS = { // Keys for localStorage
-            DATA: 'stundenkonto_dailyData',
-            MONTH: 'stundenkonto_currentMonth',
-            YEAR: 'stundenkonto_currentYear',
-            AZK: 'stundenkonto_azkVormonat',
-            PERCENT: 'stundenkonto_prozent'
-        };
+        // Added 'krank' to jump types
+        const VALID_SHIFT_TYPES_FOR_JUMP = ['f', 'm1', 's', 'n', 'frei', 'urlaub', 'krank'];
+        const LS_KEYS = { DATA: 'stundenkonto_dailyData', MONTH: 'stundenkonto_currentMonth', YEAR: 'stundenkonto_currentYear', AZK: 'stundenkonto_azkVormonat', PERCENT: 'stundenkonto_prozent' };
 
         // --- Helper-Funktionen ---
         function formatDate(date) { const d = new Date(date); const month = ('0' + (d.getMonth() + 1)).slice(-2); const day = ('0' + d.getDate()).slice(-2); const year = d.getFullYear(); return `${year}-${month}-${day}`; }
         function minutesToHHMM(totalMinutes) { if (isNaN(totalMinutes) || totalMinutes === null) { return "--:--"; } const sign = totalMinutes < 0 ? "-" : ""; const absMinutes = Math.abs(totalMinutes); let hours = Math.floor(absMinutes / 60); let minutes = Math.round(absMinutes % 60); if (minutes === 60) { hours += 1; minutes = 0; } const formattedMinutes = String(minutes).padStart(2, '0'); return sign + hours + ":" + formattedMinutes; }
 
-        // --- Validation Function (remains the same, validates final HH:MM format) ---
-        function validateAzkFormat(timeString) {
-            if (timeString === null || timeString === undefined) return false;
-            timeString = String(timeString).trim();
-            if (timeString === "") return true; // Empty is allowed
-            const regex = /^(-?)(\d{1,})(?::)([0-5]\d)$/; // Strict check: hours:minutes(00-59)
-            const match = timeString.match(regex);
-            if (!match) {
-                return false;
-            }
-            return true;
-        }
-
+        // --- Validation ---
+        function validateAzkFormat(timeString) { if (timeString === null || timeString === undefined) return false; timeString = String(timeString).trim(); if (timeString === "") return true; const regex = /^(-?)(\d{1,})(?::)([0-5]\d)$/; const match = timeString.match(regex); return !!match; }
         function parseHHMMToMinutes(timeString) { if (!validateAzkFormat(timeString)) { return 0; } timeString = String(timeString).trim(); if (timeString === "") return 0; const sign = timeString.startsWith('-') ? -1 : 1; const timePart = sign === -1 ? timeString.substring(1) : timeString; const parts = timePart.split(':'); if (parts.length !== 2) { return 0; } const hours = parseInt(parts[0], 10); const minutes = parseInt(parts[1], 10); if (isNaN(hours) || isNaN(minutes) || hours < 0 || minutes < 0 || minutes >= 60) { return 0; } return sign * ((hours * 60) + minutes); }
 
-        // --- Feiertagsberechnung ---
+        // --- Feiertage ---
         function calculateEasterSunday(year) { const a = year % 19; const b = Math.floor(year / 100); const c = year % 100; const d = Math.floor(b / 4); const e = b % 4; const f = Math.floor((b + 8) / 25); const g = Math.floor((b - f + 1) / 3); const h = (19 * a + b - d - g + 15) % 30; const i = Math.floor(c / 4); const k = c % 4; const l = (32 + 2 * e + 2 * i - h - k) % 7; const m = Math.floor((a + 11 * h + 22 * l) / 451); const month = Math.floor((h + l - 7 * m + 114) / 31); const day = ((h + l - 7 * m + 114) % 31) + 1; return new Date(year, month - 1, day); }
         function addDays(date, days) { const result = new Date(date); result.setDate(result.getDate() + days); return result; }
         const holidaysBY = new Set();
         function populateHolidays(years) { holidaysBY.clear(); years.forEach(year => { holidaysBY.add(`${year}-01-01`); holidaysBY.add(`${year}-01-06`); holidaysBY.add(`${year}-05-01`); holidaysBY.add(`${year}-08-15`); holidaysBY.add(`${year}-10-03`); holidaysBY.add(`${year}-11-01`); holidaysBY.add(`${year}-12-25`); holidaysBY.add(`${year}-12-26`); const easterSunday = calculateEasterSunday(year); holidaysBY.add(formatDate(addDays(easterSunday, -2))); holidaysBY.add(formatDate(addDays(easterSunday, 1))); holidaysBY.add(formatDate(addDays(easterSunday, 39))); holidaysBY.add(formatDate(addDays(easterSunday, 50))); holidaysBY.add(formatDate(addDays(easterSunday, 60))); }); }
-        populateHolidays([new Date().getFullYear(), new Date().getFullYear()+1, new Date().getFullYear()+2]); // Use dynamic years
+        populateHolidays([new Date().getFullYear() -1, new Date().getFullYear(), new Date().getFullYear() + 1]); // Initial years
         function isHoliday(dateStr) { return holidaysBY.has(dateStr); }
-        function isHalfDayHoliday(dateStr) { const year = parseInt(dateStr.substring(0, 4), 10); const monthDay = dateStr.substring(5); if (monthDay === '12-24') { return true; } const easterSunday = calculateEasterSunday(year); const shroveTuesday = addDays(easterSunday, -47); // Faschingsdienstag
-              if (dateStr === formatDate(shroveTuesday)) { return true; } return false; }
+        function isHalfDayHoliday(dateStr) { const year = parseInt(dateStr.substring(0, 4), 10); const monthDay = dateStr.substring(5); if (monthDay === '12-24') { return true; } const easterSunday = calculateEasterSunday(year); const shroveTuesday = addDays(easterSunday, -47); if (dateStr === formatDate(shroveTuesday)) { return true; } return false; }
 
-        // --- localStorage Funktionen ---
+        // --- Local Storage ---
         function saveDataToLocalStorage() { try { localStorage.setItem(LS_KEYS.DATA, JSON.stringify(dailyData)); localStorage.setItem(LS_KEYS.MONTH, currentMonth.toString()); localStorage.setItem(LS_KEYS.YEAR, currentYear.toString()); localStorage.setItem(LS_KEYS.AZK, azkVormonatInput.value); localStorage.setItem(LS_KEYS.PERCENT, prozentInput.value); } catch (e) { console.error("Fehler beim Speichern im localStorage:", e); } }
         function loadDataFromLocalStorage() { try { const storedData = localStorage.getItem(LS_KEYS.DATA); const storedMonth = localStorage.getItem(LS_KEYS.MONTH); const storedYear = localStorage.getItem(LS_KEYS.YEAR); const storedAzk = localStorage.getItem(LS_KEYS.AZK); const storedPercent = localStorage.getItem(LS_KEYS.PERCENT); if (storedData) { dailyData = JSON.parse(storedData); } currentMonth = storedMonth !== null ? parseInt(storedMonth, 10) : new Date().getMonth(); currentYear = storedYear !== null ? parseInt(storedYear, 10) : new Date().getFullYear(); if (isNaN(currentMonth) || currentMonth < 0 || currentMonth > 11) currentMonth = new Date().getMonth(); if (isNaN(currentYear) ) currentYear = new Date().getFullYear(); azkVormonatInput.value = storedAzk || ""; prozentInput.value = storedPercent || "100.0"; } catch (e) { console.error("Fehler beim Laden aus dem localStorage:", e); dailyData = {}; currentMonth = new Date().getMonth(); currentYear = new Date().getFullYear(); azkVormonatInput.value = ""; prozentInput.value = "100.0"; } }
 
-        // --- Globale Variablen ---
-        let currentYear, currentMonth; // Will be set by loadDataFromLocalStorage
-        let dailyData = {}; // Structure: { "YYYY-MM-DD": { shift: "type" } }
+        // --- Globals ---
+        let currentYear, currentMonth;
+        let dailyData = {};
         let selectedDate = null; let showDailyBalance = false;
 
-        // --- DOM Elemente ---
+        // --- DOM Elements ---
         const monthSelect = document.getElementById('month'); const yearSelect = document.getElementById('year');
         const calendarBody = document.getElementById('calendar-body');
-        const prozentInput = document.getElementById('prozent');
-        const prozentValueDisplay = document.getElementById('prozentValueDisplay');
-        const dayActionsDiv = document.getElementById('day-actions');
-        const selectedDaySpan = document.getElementById('selected-day-display'); const resultsDiv = document.getElementById('results');
-        const accordionContent = document.querySelector('.accordion-content'); const toggleBalanceBtn = document.getElementById('toggleBalanceBtn');
-        const azkVormonatInput = document.getElementById('azk_vormonat');
+        const prozentInput = document.getElementById('prozent'); const prozentValueDisplay = document.getElementById('prozentValueDisplay');
+        const dayActionsDiv = document.getElementById('day-actions'); const selectedDaySpan = document.getElementById('selected-day-display');
+        const resultsDiv = document.getElementById('results'); const accordionContent = document.querySelector('.accordion-content');
+        const toggleBalanceBtn = document.getElementById('toggleBalanceBtn'); const azkVormonatInput = document.getElementById('azk_vormonat');
         const azkErrorSpan = document.getElementById('azk_error');
 
-        // --- AZK Input Formatierung ---
-        function formatAzkInput(event) {
-            const input = event.target;
-            let value = input.value;
-            let originalLength = value.length;
-            let cursorPosition = input.selectionStart;
+        // --- Input Formatting ---
+        function formatAzkInput(event) { const input = event.target; let value = input.value; let originalLength = value.length; let cursorPosition = input.selectionStart; let isNegative = value.startsWith('-'); let digits = value.replace(/[^\d]/g, ''); const maxLength = 4; if (digits.length > maxLength) { digits = digits.slice(0, maxLength); } let formattedValue = isNegative ? "-" : ""; if (digits.length === 0) { formattedValue = isNegative ? "-" : ""; } else if (digits.length <= 2) { formattedValue += digits; if(digits.length == 2 && !value.includes(':') && !(isNegative && formattedValue.length == 3)) { formattedValue += ":"; } } else { let hours = digits.slice(0, digits.length - 2); let minutes = digits.slice(digits.length - 2); if (parseInt(minutes, 10) > 59) { minutes = "59"; } formattedValue += hours + ":" + minutes; } if (input.value !== formattedValue) { input.value = formattedValue; let lengthDiff = formattedValue.length - originalLength; let newCursorPosition = cursorPosition + lengthDiff; if (lengthDiff === 1 && originalLength >= (isNegative ? 3 : 2) && formattedValue.charAt(newCursorPosition -1) === ':') {} else if (lengthDiff === 1 && originalLength >= (isNegative ? 1 : 0) && digits.length === 2) { newCursorPosition = formattedValue.length; } else if (lengthDiff < 0 && value.charAt(cursorPosition) === ':') { newCursorPosition = cursorPosition -1; } if (newCursorPosition < 0) newCursorPosition = 0; if (newCursorPosition > formattedValue.length) newCursorPosition = formattedValue.length; try { setTimeout(() => { input.setSelectionRange(newCursorPosition, newCursorPosition); }, 0); } catch (e) { console.warn("Cursor position could not be set reliably."); } } handleAzkInputValidation(); }
+        function handleAzkInputValidation() { const value = azkVormonatInput.value; const isValidFinal = validateAzkFormat(value); azkErrorSpan.textContent = (!isValidFinal && value !== "" && value !== "-") ? 'Format: Std:Min' : ''; azkVormonatInput.setCustomValidity((isValidFinal || value === "") ? '' : 'Ungültiges Format. Erwartet: HH:MM oder -HH:MM'); azkVormonatInput.setAttribute('aria-invalid', !(isValidFinal || value === "")); }
+        function handleProzentInput() { let value = parseFloat(prozentInput.value); if (isNaN(value)) { prozentValueDisplay.textContent = "%"; return; } value = Math.max(0, Math.min(100, value)); prozentValueDisplay.textContent = value.toFixed(1) + "%"; }
+        function finalizeProzentInput() { let value = parseFloat(prozentInput.value); if (isNaN(value)) { value = 100.0; } value = Math.max(0, Math.min(100, value)); prozentInput.value = value.toFixed(1); prozentValueDisplay.textContent = value.toFixed(1) + "%"; }
 
-            let isNegative = value.startsWith('-');
-            let digits = value.replace(/[^\d]/g, '');
-            const maxLength = 4;
-            if (digits.length > maxLength) { digits = digits.slice(0, maxLength); }
-
-            let formattedValue = isNegative ? "-" : "";
-            if (digits.length === 0) { formattedValue = isNegative ? "-" : ""; }
-            else if (digits.length <= 2) { formattedValue += digits; if(digits.length == 2 && !value.includes(':') && !(isNegative && formattedValue.length == 3)) { formattedValue += ":"; } }
-            else { let hours = digits.slice(0, digits.length - 2); let minutes = digits.slice(digits.length - 2); if (parseInt(minutes, 10) > 59) { minutes = "59"; } formattedValue += hours + ":" + minutes; }
-
-            if (input.value !== formattedValue) {
-               input.value = formattedValue;
-               let lengthDiff = formattedValue.length - originalLength;
-               let newCursorPosition = cursorPosition + lengthDiff;
-               if (lengthDiff === 1 && originalLength >= (isNegative ? 3 : 2) && formattedValue.charAt(newCursorPosition -1) === ':') { /* Keep cursor */ }
-               else if (lengthDiff === 1 && originalLength >= (isNegative ? 1 : 0) && digits.length === 2) { newCursorPosition = formattedValue.length; }
-               else if (lengthDiff < 0 && value.charAt(cursorPosition) === ':') { newCursorPosition = cursorPosition -1; }
-               if (newCursorPosition < 0) newCursorPosition = 0;
-               if (newCursorPosition > formattedValue.length) newCursorPosition = formattedValue.length;
-                try { setTimeout(() => { input.setSelectionRange(newCursorPosition, newCursorPosition); }, 0); }
-                catch (e) { console.warn("Cursor position could not be set reliably."); }
-            }
-            handleAzkInputValidation();
-        }
-        function handleAzkInputValidation() {
-            const value = azkVormonatInput.value;
-            const isValidFinal = validateAzkFormat(value);
-            azkErrorSpan.textContent = (!isValidFinal && value !== "" && value !== "-") ? 'Format: Std:Min' : '';
-            azkVormonatInput.setCustomValidity((isValidFinal || value === "") ? '' : 'Ungültiges Format. Erwartet: HH:MM oder -HH:MM');
-            azkVormonatInput.setAttribute('aria-invalid', !(isValidFinal || value === ""));
-        }
-
-        // --- Initialisierung ---
+        // --- Init & Core Logic ---
          function init() {
-              loadDataFromLocalStorage();
-              populateYearSelector();
-              populateMonthSelector();
-              handleProzentInput();
-              handleAzkInputValidation();
-
-              // Event Listeners
+              loadDataFromLocalStorage(); populateYearSelector(); populateMonthSelector();
+              handleProzentInput(); handleAzkInputValidation();
               monthSelect.addEventListener('change', () => { currentMonth = parseInt(monthSelect.value); recalculateIfValid(); });
-              yearSelect.addEventListener('change', () => {
-                    currentYear = parseInt(yearSelect.value);
-                    // Dynamically check/add holiday years if needed (adjust range as necessary)
-                    const yearsToCheck = [currentYear -1, currentYear, currentYear + 1];
-                    const needsUpdate = yearsToCheck.some(y => !holidaysBY.has(`${y}-01-01`));
-                    if (needsUpdate) { populateHolidays(yearsToCheck); }
-                    recalculateIfValid();
-              });
-              azkVormonatInput.addEventListener('input', formatAzkInput);
-              azkVormonatInput.addEventListener('change', recalculateIfValid);
-              prozentInput.addEventListener('input', handleProzentInput);
-              prozentInput.addEventListener('change', () => { finalizeProzentInput(); recalculateIfValid(); });
-
-              recalculateIfValid(); // Initial calculation & save
-
-              // Click outside to deselect day
-              document.addEventListener('click', (event) => {
-                  const calendar = document.getElementById('calendar');
-                  const actions = document.getElementById('day-actions');
-                   const targetElement = event.target;
-                   const isClickInsideCalendar = calendar.contains(targetElement) || targetElement.closest('td[data-date]');
-                   const isClickInsideActions = actions.contains(targetElement);
-                   const isControlElement = targetElement.closest('.controls') || targetElement.closest('.percent-control') || targetElement.id === 'exportPdfBtn';
-                  if (!isClickInsideCalendar && !isClickInsideActions && !isControlElement) {
-                     deselectDay();
-                  }
-              });
+              yearSelect.addEventListener('change', () => { currentYear = parseInt(yearSelect.value); const yearsToCheck = [currentYear -1, currentYear, currentYear + 1]; const needsUpdate = yearsToCheck.some(y => !holidaysBY.has(`${y}-01-01`)); if (needsUpdate) { populateHolidays(yearsToCheck); } recalculateIfValid(); });
+              azkVormonatInput.addEventListener('input', formatAzkInput); azkVormonatInput.addEventListener('change', recalculateIfValid);
+              prozentInput.addEventListener('input', handleProzentInput); prozentInput.addEventListener('change', () => { finalizeProzentInput(); recalculateIfValid(); });
+              recalculateIfValid();
+              document.addEventListener('click', (event) => { const calendar = document.getElementById('calendar'); const actions = document.getElementById('day-actions'); const targetElement = event.target; const isClickInsideCalendar = calendar.contains(targetElement) || targetElement.closest('td[data-date]'); const isClickInsideActions = actions.contains(targetElement); const isControlElement = targetElement.closest('.controls') || targetElement.closest('.percent-control') || targetElement.id === 'exportPdfBtn'; if (!isClickInsideCalendar && !isClickInsideActions && !isControlElement) { deselectDay(); } });
          }
-
-         function handleProzentInput() {
-            let value = parseFloat(prozentInput.value);
-            if (isNaN(value)) { prozentValueDisplay.textContent = "%"; return; }
-            value = Math.max(0, Math.min(100, value));
-            prozentValueDisplay.textContent = value.toFixed(1) + "%";
-         }
-         function finalizeProzentInput() {
-             let value = parseFloat(prozentInput.value);
-             if (isNaN(value)) { value = 100.0; }
-             value = Math.max(0, Math.min(100, value));
-             prozentInput.value = value.toFixed(1);
-             prozentValueDisplay.textContent = value.toFixed(1) + "%";
-         }
-
-         function recalculateIfValid() {
-            handleAzkInputValidation();
-            finalizeProzentInput();
-            const isAzkValid = validateAzkFormat(azkVormonatInput.value);
-
-            if (isAzkValid) {
-                loadCalendar(currentYear, currentMonth);
-                saveDataToLocalStorage();
-            } else {
-                 resultsDiv.style.display = 'none';
-                 calendarBody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 20px; color: var(--danger-color);">Bitte gültiges Format für AZK Vormonat eingeben (Std:Min oder -Std:Min).</td></tr>';
-                 deselectDay();
-            }
-         }
+         function recalculateIfValid() { handleAzkInputValidation(); finalizeProzentInput(); const isAzkValid = validateAzkFormat(azkVormonatInput.value); if (isAzkValid) { loadCalendar(currentYear, currentMonth); saveDataToLocalStorage(); } else { resultsDiv.style.display = 'none'; calendarBody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 20px; color: var(--danger-color);">Bitte gültiges Format für AZK Vormonat eingeben (Std:Min oder -Std:Min).</td></tr>'; deselectDay(); } }
          function populateYearSelector() { const currentFullYear = new Date().getFullYear(); for (let i = currentFullYear - 10; i <= currentFullYear + 5; i++) { const option = document.createElement('option'); option.value = i; option.textContent = i; if (i === currentYear) option.selected = true; yearSelect.appendChild(option); } }
          function populateMonthSelector() { monthNames.forEach((name, index) => { const option = document.createElement('option'); option.value = index; option.textContent = name; if (index === currentMonth) option.selected = true; monthSelect.appendChild(option); }); }
 
-        // --- Kalender Logik ---
+        // --- Calendar Logic ---
         function loadCalendar(year, month) {
-             calendarBody.innerHTML = '';
-             resultsDiv.style.display = 'none';
-             accordionContent.style.display = 'none'; document.querySelector('.accordion-toggle').textContent = 'Details anzeigen'; document.querySelector('.accordion-toggle').classList.remove('open');
-             deselectDay(); // Ensure actions are hidden initially
-
-             const startBalanceMinutes = parseHHMMToMinutes(azkVormonatInput.value);
-             const prozent = parseFloat(prozentInput.value);
-             const tagessoll_minuten_full = Math.round((prozent / 100.0) * (MINUTEN_BASIS_VOLLZEIT_WOCHE / TAGE_PRO_WOCHE));
+             calendarBody.innerHTML = ''; resultsDiv.style.display = 'none'; accordionContent.style.display = 'none'; document.querySelector('.accordion-toggle').textContent = 'Details anzeigen'; document.querySelector('.accordion-toggle').classList.remove('open'); deselectDay();
+             const startBalanceMinutes = parseHHMMToMinutes(azkVormonatInput.value); const prozent = parseFloat(prozentInput.value); const tagessoll_minuten_full = Math.round((prozent / 100.0) * (MINUTEN_BASIS_VOLLZEIT_WOCHE / TAGE_PRO_WOCHE));
              const firstDayOfMonth = new Date(year, month, 1); const lastDayOfMonth = new Date(year, month + 1, 0); const daysInMonth = lastDayOfMonth.getDate(); const startDayOfWeek = (firstDayOfMonth.getDay() + 6) % 7;
-             let date = 1;
-             const todayStr = formatDate(new Date());
-             let runningBalanceMinutes = startBalanceMinutes;
-
-             for (let i = 0; i < 6; i++) { // Max 6 rows needed
+             let date = 1; const todayStr = formatDate(new Date()); let runningBalanceMinutes = startBalanceMinutes;
+             for (let i = 0; i < 6; i++) {
                  const row = document.createElement('tr');
-                 for (let j = 0; j < 7; j++) { // 7 days a week
+                 for (let j = 0; j < 7; j++) {
                      const cell = document.createElement('td');
-                     if ((i === 0 && j < startDayOfWeek) || date > daysInMonth) {
-                         cell.classList.add('other-month');
-                     } else {
+                     if ((i === 0 && j < startDayOfWeek) || date > daysInMonth) { cell.classList.add('other-month'); }
+                     else {
                          const currentDateObj = new Date(year, month, date); const currentDateStr = formatDate(currentDateObj); const dayOfWeek = currentDateObj.getDay(); const isWeekend = dayOfWeek === 0 || dayOfWeek === 6; const isFullHoliday = isHoliday(currentDateStr); const isHalfHoliday = !isFullHoliday && isHalfDayHoliday(currentDateStr);
-
-                         cell.dataset.date = currentDateStr;
-                         cell.innerHTML = `<span class="day-number">${date}</span><span class="day-shift"></span><div class="day-balance-container"><span class="day-balance"></span><span class="day-running-balance"></span></div>`;
-                         cell.onclick = (event) => { event.stopPropagation(); selectDay(cell, currentDateStr); }; // Use selectDay function
-
-                         if (currentDateStr === todayStr) cell.classList.add('today');
-                         if (isWeekend) cell.classList.add('weekend');
-                         if (isFullHoliday) cell.classList.add('holiday');
-                         if (isHalfHoliday) cell.classList.add('half-holiday');
-
-                         const dayInfo = dailyData[currentDateStr];
-                         updateDayDisplay(cell, dayInfo, tagessoll_minuten_full, runningBalanceMinutes, isFullHoliday, isHalfHoliday); // Pass necessary info
-
-                         // Calculate running balance increment for the next day's start
-                         let dailyTarget_minuten = 0;
-                         const isWorkdayForSollCalculation = !isWeekend && !isFullHoliday;
-                         const isWorkday = dayOfWeek >= 1 && dayOfWeek <= 5;
-                         if (isWorkdayForSollCalculation) {
-                            dailyTarget_minuten = (isHalfHoliday && isWorkday) ? Math.round(tagessoll_minuten_full / 2) : tagessoll_minuten_full;
-                         }
-                         let dailyCredit_minuten = 0;
-                         const shiftType = dayInfo?.shift;
+                         cell.dataset.date = currentDateStr; cell.innerHTML = `<span class="day-number">${date}</span><span class="day-shift"></span><div class="day-balance-container"><span class="day-balance"></span><span class="day-running-balance"></span></div>`;
+                         cell.onclick = (event) => { event.stopPropagation(); selectDay(cell, currentDateStr); };
+                         if (currentDateStr === todayStr) cell.classList.add('today'); if (isWeekend) cell.classList.add('weekend'); if (isFullHoliday) cell.classList.add('holiday'); if (isHalfHoliday) cell.classList.add('half-holiday');
+                         const dayInfo = dailyData[currentDateStr]; updateDayDisplay(cell, dayInfo, tagessoll_minuten_full, runningBalanceMinutes, isFullHoliday, isHalfHoliday);
+                         let dailyTarget_minuten = 0; const isWorkdayForSollCalculation = !isWeekend && !isFullHoliday; const isWorkday = dayOfWeek >= 1 && dayOfWeek <= 5;
+                         if (isWorkdayForSollCalculation) { dailyTarget_minuten = (isHalfHoliday && isWorkday) ? Math.round(tagessoll_minuten_full / 2) : tagessoll_minuten_full; }
+                         let dailyCredit_minuten = 0; const shiftType = dayInfo?.shift;
                          if (shiftType === 'f' || shiftType === 's' || shiftType === 'm1') dailyCredit_minuten = MINUTEN_FS_DIENST;
                          else if (shiftType === 'n') dailyCredit_minuten = MINUTEN_NACHT_DIENST;
                          else if (shiftType === 'urlaub' && isWorkdayForSollCalculation) { dailyCredit_minuten = tagessoll_minuten_full; }
-                         const dailyBalance_minuten = dailyCredit_minuten - dailyTarget_minuten;
-                         runningBalanceMinutes += dailyBalance_minuten; // Update for next iteration
-
+                         else if (shiftType === 'krank' && isWorkdayForSollCalculation) { dailyCredit_minuten = tagessoll_minuten_full; } // Krank Credit
+                         const dailyBalance_minuten = dailyCredit_minuten - dailyTarget_minuten; runningBalanceMinutes += dailyBalance_minuten;
                          date++;
                      }
                      row.appendChild(cell);
                  }
-                 calendarBody.appendChild(row);
-                 // Optimization: Stop creating rows if all dates are placed
-                 if (date > daysInMonth && i >= Math.ceil((startDayOfWeek + daysInMonth) / 7) - 1) break;
+                 calendarBody.appendChild(row); if (date > daysInMonth && i >= Math.ceil((startDayOfWeek + daysInMonth) / 7) - 1) break;
              }
-             calculateMonthlyBalance(); // Calculate and display totals
+             calculateMonthlyBalance();
          }
-
-        function deselectDay() {
-            const prevSelected = document.querySelector('#calendar td.selected');
-            if (prevSelected) prevSelected.classList.remove('selected');
-            selectedDate = null;
-            dayActionsDiv.style.display = 'none'; // Hide actions
-            selectedDaySpan.textContent = '--.--.----';
-        }
-
-        function selectDay(cell, dateStr) {
-            if (cell.classList.contains('other-month')) return; // Ignore clicks on other month days
-
-            deselectDay(); // Deselect previous day first
-
-            cell.classList.add('selected'); // Highlight the new day
-            selectedDate = dateStr;
-            selectedDaySpan.textContent = new Date(dateStr).toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
-
-            updateActionButtonsUI(dailyData[selectedDate]); // Update button states
-            dayActionsDiv.style.display = 'block'; // Show the action section
-
-            // --- NEU: Scroll to actions ---
-            // Use timeout to ensure the element is fully rendered and visible before scrolling
-            setTimeout(() => {
-                 dayActionsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }, 50); // 50ms delay usually sufficient
-        }
-
-        function updateActionButtonsUI(dayInfo) {
-            const currentShift = dayInfo?.shift;
-            document.querySelectorAll('#day-actions button[data-shift]').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.shift === currentShift);
-            });
-        }
-
-        function assignShift(shiftType) {
-             if (!selectedDate) return;
-             const originalDateStr = selectedDate; // Store the date before potential auto-advance
-
-             if (shiftType === null) { // Clear entry
-                 delete dailyData[originalDateStr];
-             } else { // Assign or update shift
-                 if (!dailyData[originalDateStr]) { dailyData[originalDateStr] = {}; }
-                 dailyData[originalDateStr].shift = shiftType;
-             }
-
-             recalculateIfValid(); // Recalculate balance, update calendar, save data
-
-             // --- Auto-advance logic ---
-             // Use timeout to allow DOM update from recalculateIfValid() before selecting next day
-             setTimeout(() => {
-                 const originalCell = document.querySelector(`#calendar td[data-date="${originalDateStr}"]`);
-                 // Ensure the original cell still exists in the current calendar view
-                 if (!originalCell || originalCell.closest('tbody') !== calendarBody) {
-                    deselectDay(); // If original cell is gone (e.g., month changed), just deselect
-                    return;
-                 }
-
-                 if (VALID_SHIFT_TYPES_FOR_JUMP.includes(shiftType)) {
-                     // Try to select the next day
-                     const currentDate = new Date(originalDateStr);
-                     currentDate.setDate(currentDate.getDate() + 1);
-                     const nextDateStr = formatDate(currentDate);
-                     const nextCell = document.querySelector(`#calendar td[data-date="${nextDateStr}"]`);
-
-                     // Check if next cell exists and is part of the current month's calendar
-                     if (nextCell && !nextCell.classList.contains('other-month')) {
-                         selectDay(nextCell, nextDateStr); // Select the next day
-                     } else {
-                         deselectDay(); // If next day is not visible/available, deselect
-                     }
-                 } else {
-                     // If shift was cleared or not an auto-advance type, re-select the original day
-                     selectDay(originalCell, originalDateStr);
-                 }
-             }, 50); // Small delay
-        }
-
-         function updateDayDisplay(cell, dayInfo, tagessoll_minuten_full, runningBalanceStartOfDay_minuten, isFullHoliday, isHalfHoliday) {
+        function deselectDay() { const prevSelected = document.querySelector('#calendar td.selected'); if (prevSelected) prevSelected.classList.remove('selected'); selectedDate = null; dayActionsDiv.style.display = 'none'; selectedDaySpan.textContent = '--.--.----'; }
+        function selectDay(cell, dateStr) { if (cell.classList.contains('other-month')) return; deselectDay(); cell.classList.add('selected'); selectedDate = dateStr; selectedDaySpan.textContent = new Date(dateStr).toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' }); updateActionButtonsUI(dailyData[selectedDate]); dayActionsDiv.style.display = 'block'; setTimeout(() => { dayActionsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 50); }
+        function updateActionButtonsUI(dayInfo) { const currentShift = dayInfo?.shift; document.querySelectorAll('#day-actions button[data-shift]').forEach(btn => { btn.classList.toggle('active', btn.dataset.shift === currentShift); }); }
+        function assignShift(shiftType) { if (!selectedDate) return; const originalDateStr = selectedDate; if (shiftType === null) { delete dailyData[originalDateStr]; } else { if (!dailyData[originalDateStr]) { dailyData[originalDateStr] = {}; } dailyData[originalDateStr].shift = shiftType; } recalculateIfValid(); setTimeout(() => { const originalCell = document.querySelector(`#calendar td[data-date="${originalDateStr}"]`); if (!originalCell || originalCell.closest('tbody') !== calendarBody) { deselectDay(); return; } if (VALID_SHIFT_TYPES_FOR_JUMP.includes(shiftType)) { const currentDate = new Date(originalDateStr); currentDate.setDate(currentDate.getDate() + 1); const nextDateStr = formatDate(currentDate); const nextCell = document.querySelector(`#calendar td[data-date="${nextDateStr}"]`); if (nextCell && !nextCell.classList.contains('other-month')) { selectDay(nextCell, nextDateStr); } else { deselectDay(); } } else { selectDay(originalCell, originalDateStr); } }, 50); }
+        function updateDayDisplay(cell, dayInfo, tagessoll_minuten_full, runningBalanceStartOfDay_minuten, isFullHoliday, isHalfHoliday) {
              const shiftSpan = cell.querySelector('.day-shift'); const balanceSpan = cell.querySelector('.day-balance'); const runningBalanceSpan = cell.querySelector('.day-running-balance'); if (!shiftSpan || !balanceSpan || !runningBalanceSpan) return;
              const shiftType = dayInfo?.shift; shiftSpan.className = 'day-shift'; shiftSpan.textContent = '';
-             if (shiftType) { shiftSpan.classList.add(`shift-${shiftType}`); shiftSpan.textContent = getShiftText(shiftType); } // Use helper
-             cell.title = ''; if (isFullHoliday) cell.title = 'Feiertag'; if (isHalfHoliday) cell.title = 'Halber Feiertag'; // Simplified title
+             if (shiftType) { shiftSpan.classList.add(`shift-${shiftType}`); shiftSpan.textContent = getShiftText(shiftType); }
+             cell.title = ''; if (isFullHoliday) cell.title = 'Feiertag'; if (isHalfHoliday) cell.title = 'Halber Feiertag';
              balanceSpan.textContent = ''; balanceSpan.className = 'day-balance'; runningBalanceSpan.textContent = ''; runningBalanceSpan.className = 'day-running-balance';
-
              if (showDailyBalance) {
                   const dateStr = cell.dataset.date; const dayOfWeek = new Date(dateStr).getDay(); const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
-                  let dailyTarget_minuten = 0; const isWorkdayForSollCalculation = !isWeekend && !isFullHoliday;
-                  const isWorkday = dayOfWeek >= 1 && dayOfWeek <= 5; // Mo-Fr
-                   if (isWorkdayForSollCalculation) {
-                       dailyTarget_minuten = (isHalfHoliday && isWorkday) ? Math.round(tagessoll_minuten_full / 2) : tagessoll_minuten_full;
-                   }
+                  let dailyTarget_minuten = 0; const isWorkdayForSollCalculation = !isWeekend && !isFullHoliday; const isWorkday = dayOfWeek >= 1 && dayOfWeek <= 5;
+                   if (isWorkdayForSollCalculation) { dailyTarget_minuten = (isHalfHoliday && isWorkday) ? Math.round(tagessoll_minuten_full / 2) : tagessoll_minuten_full; }
                   let dailyCredit_minuten = 0;
                   if (shiftType === 'f' || shiftType === 's' || shiftType === 'm1') dailyCredit_minuten = MINUTEN_FS_DIENST;
                   else if (shiftType === 'n') dailyCredit_minuten = MINUTEN_NACHT_DIENST;
-                  else if (shiftType === 'urlaub' && isWorkdayForSollCalculation) { dailyCredit_minuten = tagessoll_minuten_full; } // Urlaubsgutschrift nur an Soll-Tagen
+                  else if (shiftType === 'urlaub' && isWorkdayForSollCalculation) { dailyCredit_minuten = tagessoll_minuten_full; }
+                  else if (shiftType === 'krank' && isWorkdayForSollCalculation) { dailyCredit_minuten = tagessoll_minuten_full; } // Krank Credit
                   const dailyBalance_minuten = dailyCredit_minuten - dailyTarget_minuten;
-                  if (dailyBalance_minuten !== 0 || shiftType) { // Show zero balance if a shift is assigned
-                      balanceSpan.textContent = "Δ " + minutesToHHMM(dailyBalance_minuten);
-                      balanceSpan.classList.add(dailyBalance_minuten >= 0 ? 'balance-positive' : 'balance-negative');
-                  }
+                  if (dailyBalance_minuten !== 0 || shiftType) { balanceSpan.textContent = "Δ " + minutesToHHMM(dailyBalance_minuten); balanceSpan.classList.add(dailyBalance_minuten >= 0 ? 'balance-positive' : 'balance-negative'); }
                   const runningBalanceEndOfDay_minuten = runningBalanceStartOfDay_minuten + dailyBalance_minuten;
                   runningBalanceSpan.textContent = "Σ " + minutesToHHMM(runningBalanceEndOfDay_minuten);
                   runningBalanceSpan.classList.add(runningBalanceEndOfDay_minuten >= 0 ? 'balance-positive' : 'balance-negative');
              }
          }
-         function toggleDailyBalanceDisplay() {
-               showDailyBalance = !showDailyBalance; toggleBalanceBtn.textContent = showDailyBalance ? 'Saldo Verbergen' : 'Saldo Anzeigen';
-               recalculateIfValid(); // Reload calendar to show/hide balances
-               // Re-select day if one was selected, to keep context
-                const previouslySelectedDate = selectedDate;
-                if (previouslySelectedDate) {
-                    setTimeout(() => {
-                        const cell = document.querySelector(`#calendar td[data-date="${previouslySelectedDate}"]`);
-                        if (cell && cell.closest('tbody') === calendarBody) {
-                           selectDay(cell, previouslySelectedDate); // Reselect to potentially scroll actions back into view
-                        } else {
-                           deselectDay();
-                        }
-                    }, 50);
-                }
-         }
+         function toggleDailyBalanceDisplay() { showDailyBalance = !showDailyBalance; toggleBalanceBtn.textContent = showDailyBalance ? 'Saldo Verbergen' : 'Saldo Anzeigen'; recalculateIfValid(); const previouslySelectedDate = selectedDate; if (previouslySelectedDate) { setTimeout(() => { const cell = document.querySelector(`#calendar td[data-date="${previouslySelectedDate}"]`); if (cell && cell.closest('tbody') === calendarBody) { selectDay(cell, previouslySelectedDate); } else { deselectDay(); } }, 50); } }
 
+        // --- Calculations & Display ---
         function calculateMonthlyBalance() {
              const startBalanceMinutes = parseHHMMToMinutes(azkVormonatInput.value); const prozent = parseFloat(prozentInput.value); if (isNaN(prozent)) return;
              const year = parseInt(yearSelect.value); const month = parseInt(monthSelect.value); const tagessoll_minuten_full = Math.round((prozent / 100.0) * (MINUTEN_BASIS_VOLLZEIT_WOCHE / TAGE_PRO_WOCHE)); const tagessoll_minuten_half = Math.round(tagessoll_minuten_full / 2);
-             let monatssoll_minuten = 0; let gutschrift_gesamt_minuten = 0; let urlaub_tage_anzahl = 0; let werktage_im_monat_fuer_soll_count = 0;
+             let monatssoll_minuten = 0; let gutschrift_gesamt_minuten = 0; let urlaub_tage_anzahl = 0; let krank_tage_anzahl = 0; /* NEU */ let werktage_im_monat_fuer_soll_count = 0;
              let gutschrift_wd_f = 0, gutschrift_wd_m1 = 0, gutschrift_wd_s = 0, gutschrift_wd_n = 0; let gutschrift_weft_f = 0, gutschrift_weft_m1 = 0, gutschrift_weft_s = 0, gutschrift_weft_n = 0;
              const daysInMonth = new Date(year, month + 1, 0).getDate();
              for (let day = 1; day <= daysInMonth; day++) {
                  const currentDateObj = new Date(year, month, day); const currentDateStr = formatDate(currentDateObj); const dayOfWeek = currentDateObj.getDay(); const isWeekend = dayOfWeek === 0 || dayOfWeek === 6; const isFullHoliday = isHoliday(currentDateStr); const isHalfHoliday = !isFullHoliday && isHalfDayHoliday(currentDateStr); const dayInfo = dailyData[currentDateStr]; const shift = dayInfo?.shift;
-                 let dailyTarget_minuten = 0; const isPotentialWorkday = !isWeekend && !isFullHoliday;
-                 const isWorkday = dayOfWeek >= 1 && dayOfWeek <= 5; // Mo-Fr
-
-                 if(isPotentialWorkday) {
-                     if(isHalfHoliday && isWorkday) { dailyTarget_minuten = tagessoll_minuten_half; werktage_im_monat_fuer_soll_count += 0.5; }
-                     else { dailyTarget_minuten = tagessoll_minuten_full; werktage_im_monat_fuer_soll_count += 1.0; }
-                 }
-                 monatssoll_minuten += dailyTarget_minuten;
-
-                 let dailyCredit_minuten = 0;
-                 let isWorkdayCredit = isPotentialWorkday && !(isHalfHoliday && isWorkday);
-                 let isWEFTHolidayCredit = isWeekend || isFullHoliday || (isHalfHoliday && isWorkday);
-
+                 let dailyTarget_minuten = 0; const isPotentialWorkday = !isWeekend && !isFullHoliday; const isWorkday = dayOfWeek >= 1 && dayOfWeek <= 5;
+                 if(isPotentialWorkday) { if(isHalfHoliday && isWorkday) { dailyTarget_minuten = tagessoll_minuten_half; werktage_im_monat_fuer_soll_count += 0.5; } else { dailyTarget_minuten = tagessoll_minuten_full; werktage_im_monat_fuer_soll_count += 1.0; } } monatssoll_minuten += dailyTarget_minuten;
+                 let dailyCredit_minuten = 0; let isWorkdayCredit = isPotentialWorkday && !(isHalfHoliday && isWorkday); let isWEFTHolidayCredit = isWeekend || isFullHoliday || (isHalfHoliday && isWorkday);
                  if (shift === 'f') { dailyCredit_minuten = MINUTEN_FS_DIENST; if (isWorkdayCredit) gutschrift_wd_f += dailyCredit_minuten; else if (isWEFTHolidayCredit) gutschrift_weft_f += dailyCredit_minuten; }
                  else if (shift === 'm1') { dailyCredit_minuten = MINUTEN_FS_DIENST; if (isWorkdayCredit) gutschrift_wd_m1 += dailyCredit_minuten; else if (isWEFTHolidayCredit) gutschrift_weft_m1 += dailyCredit_minuten; }
                  else if (shift === 's') { dailyCredit_minuten = MINUTEN_FS_DIENST; if (isWorkdayCredit) gutschrift_wd_s += dailyCredit_minuten; else if (isWEFTHolidayCredit) gutschrift_weft_s += dailyCredit_minuten; }
                  else if (shift === 'n') { dailyCredit_minuten = MINUTEN_NACHT_DIENST; if (isWorkdayCredit) gutschrift_wd_n += dailyCredit_minuten; else if (isWEFTHolidayCredit) gutschrift_weft_n += dailyCredit_minuten; }
                  else if (shift === 'urlaub') { if (isPotentialWorkday) { dailyCredit_minuten = tagessoll_minuten_full; urlaub_tage_anzahl++; } }
+                 else if (shift === 'krank') { if (isPotentialWorkday) { dailyCredit_minuten = tagessoll_minuten_full; krank_tage_anzahl++; } } /* NEU: Krank Logic */
                  gutschrift_gesamt_minuten += dailyCredit_minuten;
              }
-             const veraenderung_minuten = gutschrift_gesamt_minuten - monatssoll_minuten; const endstand_minuten = startBalanceMinutes + veraenderung_minuten;
-             const total_wd_credit = gutschrift_wd_f + gutschrift_wd_m1 + gutschrift_wd_s + gutschrift_wd_n; const total_weft_credit = gutschrift_weft_f + gutschrift_weft_m1 + gutschrift_weft_s + gutschrift_weft_n;
-             // Update Results Summary
+             const veraenderung_minuten = gutschrift_gesamt_minuten - monatssoll_minuten; const endstand_minuten = startBalanceMinutes + veraenderung_minuten; const total_wd_credit = gutschrift_wd_f + gutschrift_wd_m1 + gutschrift_wd_s + gutschrift_wd_n; const total_weft_credit = gutschrift_weft_f + gutschrift_weft_m1 + gutschrift_weft_s + gutschrift_weft_n;
              document.getElementById('res_monatssoll').textContent = minutesToHHMM(monatssoll_minuten); document.getElementById('res_werktage_anzahl').textContent = werktage_im_monat_fuer_soll_count.toFixed(1).replace('.0', ''); document.getElementById('res_gutschrift_gesamt').textContent = minutesToHHMM(gutschrift_gesamt_minuten); const veraenderungElement = document.getElementById('res_veraenderung'); veraenderungElement.textContent = minutesToHHMM(veraenderung_minuten); veraenderungElement.parentElement.className = 'veraenderung ' + (veraenderung_minuten >= 0 ? 'positive' : 'negative'); const endstandElement = document.getElementById('res_endstand'); endstandElement.textContent = minutesToHHMM(endstand_minuten); endstandElement.parentElement.className = 'endstand ' + (endstand_minuten >= 0 ? 'positive' : 'negative');
-             // Update Accordion Details
              document.getElementById('res_detail_month_year').textContent = `${monthNames[month]} ${year}`; document.getElementById('res_azk_vormonat_used').textContent = minutesToHHMM(startBalanceMinutes); document.getElementById('res_prozent').textContent = prozent.toFixed(1); document.getElementById('res_tagessoll').textContent = minutesToHHMM(tagessoll_minuten_full);
              document.getElementById('res_urlaub_tage').textContent = urlaub_tage_anzahl;
+             document.getElementById('res_krank_tage').textContent = krank_tage_anzahl; /* NEU: Update Krank Tage */
              document.getElementById('res_detail_wd_total').textContent = minutesToHHMM(total_wd_credit); document.getElementById('res_detail_wd_f').textContent = minutesToHHMM(gutschrift_wd_f); document.getElementById('res_detail_wd_m1').textContent = minutesToHHMM(gutschrift_wd_m1); document.getElementById('res_detail_wd_s').textContent = minutesToHHMM(gutschrift_wd_s); document.getElementById('res_detail_wd_n').textContent = minutesToHHMM(gutschrift_wd_n);
              document.getElementById('res_detail_weft_total').textContent = minutesToHHMM(total_weft_credit); document.getElementById('res_detail_weft_f').textContent = minutesToHHMM(gutschrift_weft_f); document.getElementById('res_detail_weft_m1').textContent = minutesToHHMM(gutschrift_weft_m1); document.getElementById('res_detail_weft_s').textContent = minutesToHHMM(gutschrift_weft_s); document.getElementById('res_detail_weft_n').textContent = minutesToHHMM(gutschrift_weft_n);
-             resultsDiv.style.display = 'block'; // Show results section
+             resultsDiv.style.display = 'block';
          }
-
-        // --- Accordion Funktion ---
         function toggleAccordion(toggleElement) { const content = accordionContent; const isOpen = content.style.display === "block"; content.style.display = isOpen ? "none" : "block"; toggleElement.textContent = isOpen ? 'Details verbergen' : 'Details anzeigen'; toggleElement.classList.toggle('open', !isOpen); }
 
-        // --- PDF Export Funktion ---
+        // --- PDF Export ---
         function exportToPDF() {
             if (typeof jspdf === 'undefined' || typeof jspdf.jsPDF === 'undefined') { alert("jsPDF konnte nicht geladen werden. Bitte Seite neu laden."); return; }
-            const { jsPDF } = jspdf; const doc = new jsPDF();
-            if (typeof doc.autoTable !== 'function') { alert("jsPDF-AutoTable konnte nicht geladen werden. Bitte Seite neu laden."); console.error("Fehler: doc.autoTable ist keine Funktion."); return; }
-
+            const { jsPDF } = jspdf; const doc = new jsPDF(); if (typeof doc.autoTable !== 'function') { alert("jsPDF-AutoTable konnte nicht geladen werden. Bitte Seite neu laden."); console.error("Fehler: doc.autoTable ist keine Funktion."); return; }
             const startBalanceMinutes = parseHHMMToMinutes(azkVormonatInput.value); const prozent = parseFloat(prozentInput.value); if (isNaN(prozent)) { alert("Ungültiger Prozentwert."); return; }
             const year = parseInt(yearSelect.value); const month = parseInt(monthSelect.value); const tagessoll_minuten_full = Math.round((prozent / 100.0) * (MINUTEN_BASIS_VOLLZEIT_WOCHE / TAGE_PRO_WOCHE)); const tagessoll_minuten_half = Math.round(tagessoll_minuten_full / 2);
-            let monatssoll_minuten = 0; let gutschrift_gesamt_minuten = 0; let urlaub_tage_anzahl = 0; let werktage_im_monat_fuer_soll_count = 0; let gutschrift_wd_f = 0, gutschrift_wd_m1 = 0, gutschrift_wd_s = 0, gutschrift_wd_n = 0; let gutschrift_weft_f = 0, gutschrift_weft_m1 = 0, gutschrift_weft_s = 0, gutschrift_weft_n = 0; const daysInMonth = new Date(year, month + 1, 0).getDate();
-            let dailyDetailsForPDF = []; let runningBalancePDF = startBalanceMinutes;
-
+            let monatssoll_minuten = 0; let gutschrift_gesamt_minuten = 0; let urlaub_tage_anzahl = 0; let krank_tage_anzahl = 0; /* NEU */ let werktage_im_monat_fuer_soll_count = 0; let gutschrift_wd_f = 0, gutschrift_wd_m1 = 0, gutschrift_wd_s = 0, gutschrift_wd_n = 0; let gutschrift_weft_f = 0, gutschrift_weft_m1 = 0, gutschrift_weft_s = 0, gutschrift_weft_n = 0; const daysInMonth = new Date(year, month + 1, 0).getDate(); let dailyDetailsForPDF = []; let runningBalancePDF = startBalanceMinutes;
             for (let day = 1; day <= daysInMonth; day++) {
                 const currentDateObj = new Date(year, month, day); const currentDateStr = formatDate(currentDateObj); const dayOfWeek = currentDateObj.getDay(); const isWeekend = dayOfWeek === 0 || dayOfWeek === 6; const isFullHoliday = isHoliday(currentDateStr); const isHalfHoliday = !isFullHoliday && isHalfDayHoliday(currentDateStr); const dayInfo = dailyData[currentDateStr]; const shift = dayInfo?.shift;
                 let dailyTarget_minuten = 0; const isPotentialWorkday = !isWeekend && !isFullHoliday; const isWorkday = dayOfWeek >= 1 && dayOfWeek <= 5;
@@ -820,50 +535,29 @@
                 else if (shift === 's') { dailyCredit_minuten = MINUTEN_FS_DIENST; if (isWorkdayCredit) gutschrift_wd_s += dailyCredit_minuten; else if (isWEFTHolidayCredit) gutschrift_weft_s += dailyCredit_minuten; }
                 else if (shift === 'n') { dailyCredit_minuten = MINUTEN_NACHT_DIENST; if (isWorkdayCredit) gutschrift_wd_n += dailyCredit_minuten; else if (isWEFTHolidayCredit) gutschrift_weft_n += dailyCredit_minuten; }
                 else if (shift === 'urlaub') { if (isPotentialWorkday) { dailyCredit_minuten = tagessoll_minuten_full; urlaub_tage_anzahl++; } }
-                gutschrift_gesamt_minuten += dailyCredit_minuten;
-                const dailyBalance_minuten = dailyCredit_minuten - dailyTarget_minuten; runningBalancePDF += dailyBalance_minuten;
-                const dayFormatted = ('0' + day).slice(-2); const dayName = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"][dayOfWeek]; let holidayMarker = ""; if (isFullHoliday) holidayMarker = "(FT)"; else if (isHalfHoliday && isWorkday) holidayMarker = "(HFT)";
-                 dailyDetailsForPDF.push([ `${dayFormatted}. ${dayName} ${holidayMarker}`, shiftText, minutesToHHMM(dailyBalance_minuten), minutesToHHMM(runningBalancePDF) ]);
+                else if (shift === 'krank') { if (isPotentialWorkday) { dailyCredit_minuten = tagessoll_minuten_full; krank_tage_anzahl++; } } /* NEU: Krank Logic */
+                gutschrift_gesamt_minuten += dailyCredit_minuten; const dailyBalance_minuten = dailyCredit_minuten - dailyTarget_minuten; runningBalancePDF += dailyBalance_minuten; const dayFormatted = ('0' + day).slice(-2); const dayName = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"][dayOfWeek]; let holidayMarker = ""; if (isFullHoliday) holidayMarker = "(FT)"; else if (isHalfHoliday && isWorkday) holidayMarker = "(HFT)"; dailyDetailsForPDF.push([ `${dayFormatted}. ${dayName} ${holidayMarker}`, shiftText, minutesToHHMM(dailyBalance_minuten), minutesToHHMM(runningBalancePDF) ]);
             }
             const veraenderung_minuten = gutschrift_gesamt_minuten - monatssoll_minuten; const endstand_minuten = startBalanceMinutes + veraenderung_minuten; const total_wd_credit = gutschrift_wd_f + gutschrift_wd_m1 + gutschrift_wd_s + gutschrift_wd_n; const total_weft_credit = gutschrift_weft_f + gutschrift_weft_m1 + gutschrift_weft_s + gutschrift_weft_n;
             const pageHeight = doc.internal.pageSize.height; const pageWidth = doc.internal.pageSize.width; const margin = 15; let yPos = margin;
-
             function addText(text, x = margin, isBold = false, fontSize = 10, align = 'left') { if (yPos + (fontSize * 0.35) > pageHeight - margin) { doc.addPage(); yPos = margin; addHeaderFooter(); } doc.setFontSize(fontSize); doc.setFont(undefined, isBold ? 'bold' : 'normal'); doc.text(text, x, yPos, { align: align }); yPos += (fontSize * 0.45); }
             function addLine(x1 = margin, x2 = pageWidth - margin) { if (yPos + 2 > pageHeight - margin) { doc.addPage(); yPos = margin; addHeaderFooter(); } doc.setDrawColor(200); doc.line(x1, yPos, x2, yPos); yPos += 3; }
             function addHeaderFooter() { const pageNum = doc.internal.getNumberOfPages(); doc.setFontSize(8); doc.setTextColor(150); doc.text(`Seite ${pageNum}`, pageWidth - margin, pageHeight - 10, { align: 'right' }); doc.text(`Stundenkonto ${monthNames[month]} ${year}${pageNum > 1 ? ' (Fortsetzung)' : ''}`, margin, 10); doc.setTextColor(0); }
-
-            addHeaderFooter(); yPos = margin + 5;
-            doc.setFontSize(16); doc.setFont(undefined, 'bold'); doc.text(`Stundenkonto Übersicht: ${monthNames[month]} ${year}`, pageWidth / 2, yPos, { align: 'center' }); yPos += 10;
-            addText("Monatsbilanz", margin, true, 12); yPos += 2;
-            addText(`Monatliches Soll: ${minutesToHHMM(monatssoll_minuten)} (${werktage_im_monat_fuer_soll_count.toFixed(1).replace('.0', '')} Tage)`); addText(`Monatliches Haben: ${minutesToHHMM(gutschrift_gesamt_minuten)}`); addText(`Veränderung Monat: ${minutesToHHMM(veraenderung_minuten)}`); yPos += 1; addText(`Neuer Kontostand: ${minutesToHHMM(endstand_minuten)}`, margin, true); yPos += 6; addLine();
-            addText("Details", margin, true, 12); yPos += 2;
-            addText(`AZK Vormonat: ${minutesToHHMM(startBalanceMinutes)}`); addText(`Arbeitspensum: ${prozent.toFixed(1)}%`); addText(`Persönliches Tagessoll: ${minutesToHHMM(tagessoll_minuten_full)}`); addText(`Urlaubstage (an Soll-Tagen): ${urlaub_tage_anzahl}`); yPos += 3;
+            addHeaderFooter(); yPos = margin + 5; doc.setFontSize(16); doc.setFont(undefined, 'bold'); doc.text(`Stundenkonto Übersicht: ${monthNames[month]} ${year}`, pageWidth / 2, yPos, { align: 'center' }); yPos += 10;
+            addText("Monatsbilanz", margin, true, 12); yPos += 2; addText(`Monatliches Soll: ${minutesToHHMM(monatssoll_minuten)} (${werktage_im_monat_fuer_soll_count.toFixed(1).replace('.0', '')} Tage)`); addText(`Monatliches Haben: ${minutesToHHMM(gutschrift_gesamt_minuten)}`); addText(`Veränderung Monat: ${minutesToHHMM(veraenderung_minuten)}`); yPos += 1; addText(`Neuer Kontostand: ${minutesToHHMM(endstand_minuten)}`, margin, true); yPos += 6; addLine();
+            addText("Details", margin, true, 12); yPos += 2; addText(`AZK Vormonat: ${minutesToHHMM(startBalanceMinutes)}`); addText(`Arbeitspensum: ${prozent.toFixed(1)}%`); addText(`Persönliches Tagessoll: ${minutesToHHMM(tagessoll_minuten_full)}`); addText(`Urlaubstage (an Soll-Tagen): ${urlaub_tage_anzahl}`); addText(`Krankheitstage (an Soll-Tagen): ${krank_tage_anzahl}`); /* NEU */ yPos += 3;
             addText(`Stundengutschrift Werktage (Mo-Fr, kein FT): ${minutesToHHMM(total_wd_credit)}`, margin, true); addText(`  Frühdienste: ${minutesToHHMM(gutschrift_wd_f)}`, margin + 5); addText(`  M1-Dienste: ${minutesToHHMM(gutschrift_wd_m1)}`, margin + 5); addText(`  Spätdienste: ${minutesToHHMM(gutschrift_wd_s)}`, margin + 5); addText(`  Nachtdienste: ${minutesToHHMM(gutschrift_wd_n)}`, margin + 5); yPos += 3;
             addText(`Stundengutschrift Feiertage & Wochenende: ${minutesToHHMM(total_weft_credit)}`, margin, true); addText(`  Frühdienste: ${minutesToHHMM(gutschrift_weft_f)}`, margin + 5); addText(`  M1-Dienste: ${minutesToHHMM(gutschrift_weft_m1)}`, margin + 5); addText(`  Spätdienste: ${minutesToHHMM(gutschrift_weft_s)}`, margin + 5); addText(`  Nachtdienste: ${minutesToHHMM(gutschrift_weft_n)}`, margin + 5); yPos += 8; addLine();
             addText("Tagesübersicht", margin, true, 12); yPos += 4;
-
             doc.autoTable({ head: [['Tag', 'Schicht', 'Tagessaldo (Δ)', 'Laufender Saldo (Σ)']], body: dailyDetailsForPDF, startY: yPos, theme: 'grid', headStyles: { fillColor: [220, 220, 220], textColor: 40, fontStyle: 'bold' }, styles: { fontSize: 9, cellPadding: 1.5 }, columnStyles: { 0: { cellWidth: 'auto' }, 1: { cellWidth: 'auto' }, 2: { cellWidth: 'auto', halign: 'right' }, 3: { cellWidth: 'auto', halign: 'right' } }, didDrawPage: (data) => { addHeaderFooter(); yPos = margin + 5; } });
-            if (doc.lastAutoTable) { yPos = doc.lastAutoTable.finalY + 10; }
-            if (yPos < pageHeight - 20) { addHeaderFooter(); }
+            if (doc.lastAutoTable) { yPos = doc.lastAutoTable.finalY + 10; } if (yPos < pageHeight - 20) { addHeaderFooter(); }
             doc.save(`Stundenkonto_${year}_${('0' + (month + 1)).slice(-2)}.pdf`);
         }
-        // Helper Function to get shift text
-        function getShiftText(shiftType) { switch(shiftType) { case 'f': return 'Früh'; case 'm1': return 'M1'; case 's': return 'Spät'; case 'n': return 'Nacht'; case 'urlaub': return 'Urlaub'; case 'frei': return 'Frei'; default: return '-'; } }
+        // --- Shift Text Helper ---
+        function getShiftText(shiftType) { switch(shiftType) { case 'f': return 'Früh'; case 'm1': return 'M1'; case 's': return 'Spät'; case 'n': return 'Nacht'; case 'urlaub': return 'Urlaub'; case 'frei': return 'Frei'; case 'krank': return 'Krank'; /* NEU */ default: return '-'; } }
 
-        // --- Monatseinträge löschen ---
-        function clearMonthEntries() {
-             const year = parseInt(yearSelect.value);
-             const month = parseInt(monthSelect.value);
-             const monthName = monthNames[month];
-             if (!confirm(`Sind Sie sicher, dass Sie alle Einträge für ${monthName} ${year} löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.`)) { return; }
-             const daysInMonth = new Date(year, month + 1, 0).getDate(); let entriesCleared = false;
-             for (let day = 1; day <= daysInMonth; day++) {
-                 const dateStr = formatDate(new Date(year, month, day));
-                 if (dailyData.hasOwnProperty(dateStr)) { delete dailyData[dateStr]; entriesCleared = true; }
-             }
-             if (entriesCleared) { console.log(`Alle Einträge für ${monthName} ${year} gelöscht.`); recalculateIfValid(); }
-             else { console.log(`Keine Einträge für ${monthName} ${year} zum Löschen gefunden.`); }
-         }
+        // --- Clear Month ---
+        function clearMonthEntries() { const year = parseInt(yearSelect.value); const month = parseInt(monthSelect.value); const monthName = monthNames[month]; if (!confirm(`Sind Sie sicher, dass Sie alle Einträge für ${monthName} ${year} löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.`)) { return; } const daysInMonth = new Date(year, month + 1, 0).getDate(); let entriesCleared = false; for (let day = 1; day <= daysInMonth; day++) { const dateStr = formatDate(new Date(year, month, day)); if (dailyData.hasOwnProperty(dateStr)) { delete dailyData[dateStr]; entriesCleared = true; } } if (entriesCleared) { console.log(`Alle Einträge für ${monthName} ${year} gelöscht.`); recalculateIfValid(); } else { console.log(`Keine Einträge für ${monthName} ${year} zum Löschen gefunden.`); } }
 
         // --- Start ---
         init();
