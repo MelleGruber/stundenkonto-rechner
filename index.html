@@ -493,7 +493,7 @@
     <script>
         // --- Konstanten ---
         const MINUTEN_FS_DIENST = 450; // 7h 30m (Früh, Spät, M1)
-        const MINUTEN_NACHT_DIENST = 573; // 9h 33m
+        const MINUTEN_NACHT_DIENST = 563; // 9h 23m  <-- *** HIER GEÄNDERT ***
         const MINUTEN_BASIS_VOLLZEIT_WOCHE = 2310; // 38.5 * 60
         const TAGE_PRO_WOCHE = 5.0;
         const monthNames = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
@@ -868,7 +868,7 @@
         function toggleDailyBalanceDisplay() { /* ... (no changes needed) ... */ showDailyBalance = !showDailyBalance; toggleBalanceBtn.textContent = showDailyBalance ? 'Saldo Verbergen' : 'Saldo Anzeigen'; recalculateIfValid(); const previouslySelectedDate = selectedDate; if (previouslySelectedDate) { setTimeout(() => { const cell = document.querySelector(`#calendar td[data-date="${previouslySelectedDate}"]`); if (cell && cell.closest('tbody') === calendarBody) { selectDay(cell, previouslySelectedDate); } else { deselectDay(); } }, 50); } }
 
         // --- Calculations & Display ---
-        function calculateMonthlyBalance() { /* ... (no changes, but uses prozentInput.value) ... */
+        function calculateMonthlyBalance() { /* ... (no changes, but uses updated MINUTEN_NACHT_DIENST) ... */
              const startBalanceMinutes = parseHHMMToMinutes(azkVormonatInput.value);
              const prozent = parseFloat(prozentInput.value); // Use the number input value here
              if (isNaN(prozent)) {
@@ -907,7 +907,7 @@
         // --- PDF Export ---
         // NOTE: PDF Export currently DOES NOT use the custom colors.
         // It would require significant changes to pass color info into jsPDF styles.
-        function exportToPDF() { /* ... (no changes needed in basic functionality, but does NOT use custom colors) ... */
+        function exportToPDF() { /* ... (no changes in basic functionality, but uses updated MINUTEN_NACHT_DIENST) ... */
             if (typeof jspdf === 'undefined' || typeof jspdf.jsPDF === 'undefined') { alert("jsPDF konnte nicht geladen werden. Bitte Seite neu laden."); return; }
             const { jsPDF } = jspdf; const doc = new jsPDF(); if (typeof doc.autoTable !== 'function') { alert("jsPDF-AutoTable konnte nicht geladen werden. Bitte Seite neu laden."); console.error("Fehler: doc.autoTable ist keine Funktion."); return; }
             const startBalanceMinutes = parseHHMMToMinutes(azkVormonatInput.value); const prozent = parseFloat(prozentInput.value); if (isNaN(prozent)) { alert("Ungültiger Prozentwert."); return; }
